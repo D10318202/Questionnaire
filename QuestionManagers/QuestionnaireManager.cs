@@ -297,38 +297,6 @@ namespace QuestionManagers
             }
         }
 
-        public void CreateQuestionDetail2(QuestionDetail2Model questionDetail2)
-        {
-            string connStr = ConfigHelper.GetConnectionString();
-            string commandText =
-                @"  INSERT INTO [QuestionsDetail2]
-                        (quesID, quesDetailID, quesDetail2ID, answer)
-                    VALUES 
-                        (@quesID, @quesDetailID, @quesDetail2ID, @answer)";
-
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connStr))
-                {
-                    using (SqlCommand command = new SqlCommand(commandText, conn))
-                    {
-                        command.Parameters.AddWithValue("@quesID", questionDetail2.quesID);
-                        command.Parameters.AddWithValue("@quesDetailID", questionDetail2.quesDetailID);
-                        command.Parameters.AddWithValue("@quesDetail2ID", questionDetail2.quesDetail2ID);
-                        command.Parameters.AddWithValue("@answer", questionDetail2.answer);
-
-                        conn.Open();
-                        command.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.WriteLog("QuestionnaireManager.CreateQuestionDetail", ex);
-                throw;
-            }
-        }
-
         /// <summary>
         /// 編輯問題
         /// </summary>

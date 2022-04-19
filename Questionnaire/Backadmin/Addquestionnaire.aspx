@@ -86,7 +86,7 @@
 
     <asp:Panel ID="panFillQuestions" runat="server" Visible="false" BorderStyle="Solid">
         <asp:Button ID="btnsavefile" runat="server" Text="匯出" OnClick="btnsavefile_Click" />
-        <table border="1">
+        <table class="table table-success">
             <tr>
                 <th>#</th>
                 <th>姓名</th>

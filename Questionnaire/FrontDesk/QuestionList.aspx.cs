@@ -14,7 +14,7 @@ namespace Questionnaire.FrontDesk
         List<QuestionDetailModel> quesDetaillist = new List<QuestionDetailModel>();
         private static QuestionnaireManager _quesMgr;
         private QuestionDetailModel questionDetail = new QuestionDetailModel();
-        private AccountInfoModel accountinfo = new AccountInfoModel();
+        private QuestionAnswer quesAnswer = new QuestionAnswer();
         int a;
         int b;
         int c;
@@ -34,7 +34,7 @@ namespace Questionnaire.FrontDesk
                     if (item.answer.Contains(","))
                     {
                         this.Form.Controls.Add(new Literal() { ID = "ltl" + k, Text = "<br/>" + item.quesDetailTitle + ":" });
-                        this.accountinfo.QuestionOfRadio[k] = item.quesDetailTitle;
+                        //this.quesAnswer.QuestionOfRadio[k] = item.quesDetailTitle;
                         string[] array = item.answer.Split(',');
                         foreach (var item2 in array)
                         {
@@ -56,7 +56,7 @@ namespace Questionnaire.FrontDesk
                     if (item.answer.Contains(","))
                     {
                         this.Form.Controls.Add(new Literal() { ID = "ltl" + j, Text = "<br/>" + item.quesDetailTitle + ":" + "<br/>" });
-                        this.accountinfo.QuestionOfCheck[j] = item.quesDetailTitle;
+                        //this.quesAnswer.QuestionOfCheck[j] = item.quesDetailTitle;
                         string[] array = item.answer.Split(',');
                         foreach (var item2 in array)
                         {
@@ -75,7 +75,7 @@ namespace Questionnaire.FrontDesk
                 }
                 if (item.quesDetailType == QuestionType.文字方塊)
                 {
-                    this.accountinfo.QuestionOfText[i] = item.quesDetailTitle;
+                    //this.quesAnswer.QuestionOfText[i] = item.quesDetailTitle;
                     BuildTextBox(i, item.answer, item.quesDetailTitle);
                     i++;
                     c++;

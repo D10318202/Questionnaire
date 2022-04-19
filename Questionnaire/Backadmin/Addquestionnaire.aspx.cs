@@ -13,7 +13,6 @@ namespace Questionnaire.Backadmin
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private QuestionDetailModel questionDetail = new QuestionDetailModel();
-        private QuestionDetail2Model questionDetail2 = new QuestionDetail2Model();
         private QuestionModel question = new QuestionModel();
         private static List<QuestionDetailModel> _questionDetail = new List<QuestionDetailModel>();
         private static Guid _questionID;
@@ -158,8 +157,36 @@ namespace Questionnaire.Backadmin
             }
             _questionDetail.Add(questionDetail);
             HttpContext.Current.Session["qusetionModel"] = _questionDetail;
+            InitQues(_questionDetail);
+            InitTextbox();
         }
 
+        private void InitQues(List<QuestionDetailModel> questionList)
+        {
+            if(questionList != null || questionList.Count > 0)
+            {
+                int i = 1;
+                this.repQuestions.Visible = true;
+                this.repQuestions.DataSource = questionList;
+                this.repQuestions.DataBind();
+                foreach(RepeaterItem repeaterItem in this.repQuestions.Items)
+                {
+                    Label lblNumber = repeaterItem.FindControl("lblNumber") as Label;
+                    lblNumber.Text = i.ToString();
+                    i++;
+                }
+            }
+            else
+                this.repQuestions.Visible = false;
+        }
+
+        private void InitTextbox()
+        {
+            this.txtTitle1.Text = "";
+            this.droptype.SelectedIndex = 0;
+            this.checMust.Checked = false;
+            this.txtAnswer.Text = "";
+        }
         protected void btnDelete_Click(object sender, EventArgs e)
         {
 
@@ -188,18 +215,11 @@ namespace Questionnaire.Backadmin
             {
                 if (e.CommandName == "LinkEdit" && Guid.TryParse(e.CommandArgument.ToString(), out Guid quesDetailID))
                 {
-                    QuestionDetailModel question = _questionDetail.Find(x => x.quesDetailID == quesDetailID);
+                    QuestionDetailModel questionDetail = _questionDetail.Find(x => x.quesDetailID == quesDetailID);
                     this.txtTitle1.Text = questionDetail.quesDetailTitle;
                     this.droptype.SelectedIndex = (int)questionDetail.quesDetailType;
-                    if (this.checMust.Checked == false)
-                    {
-                        questionDetail.quesDetailMustKeyIn = QuestionMustFill.不是必填;
-                    }
-                    else
-                    {
-                        questionDetail.quesDetailMustKeyIn = QuestionMustFill.必填;
-                    }
-                    this.txtAnswer.Text = questionDetail2.answer;
+                    this.checMust.Checked = questionDetail.quesDetailMustKeyIn;
+                    this.txtAnswer.Text = questionDetail.quesDetailBody;
                 }
             }
         }
