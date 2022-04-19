@@ -1,5 +1,7 @@
 ﻿<%@ Page Title="後台-問卷建立" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="Addquestionnaire.aspx.cs" Inherits="Questionnaire.Backadmin.Addquestionnaire" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
+    <script src="../JS/bootstrap.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:LinkButton ID="LinkQuestionnaire" runat="server" OnClick="LinkQuestionnaire_Click">問卷</asp:LinkButton>
@@ -8,7 +10,7 @@
     <asp:LinkButton ID="LinkTotal" runat="server" OnClick="LinkTotal_Click">統計</asp:LinkButton>
     <br />
 
-    <asp:Panel ID="panQuestionnaire" runat="server" BorderStyle="Double">
+    <asp:Panel ID="panQuestionnaire" runat="server" BorderStyle="Solid">
         問卷名稱:
         <asp:TextBox ID="txtTitle" runat="server"></asp:TextBox><br />
         描述內容:
@@ -22,7 +24,7 @@
         <asp:Button ID="Save" runat="server" Text="送出" onclick="Save_Click"/>
     </asp:Panel>
 
-    <asp:Panel ID="panQuestions" runat="server" Visible="false" BorderStyle="Double">
+    <asp:Panel ID="panQuestions" runat="server" Visible="false" BorderStyle="Solid">
         種類:
         <asp:DropDownList ID="dropclass" runat="server">
             <asp:ListItem Selected="True" Value="createquestion">自訂問題</asp:ListItem>
@@ -82,7 +84,7 @@
         <asp:Button ID="btnquessave" runat="server" Text="送出" onclick="btnquessave_Click"/>
     </asp:Panel>
 
-    <asp:Panel ID="panFillQuestions" runat="server" Visible="false" BorderStyle="Double">
+    <asp:Panel ID="panFillQuestions" runat="server" Visible="false" BorderStyle="Solid">
         <asp:Button ID="btnsavefile" runat="server" Text="匯出" OnClick="btnsavefile_Click" />
         <table border="1">
             <tr>
@@ -112,6 +114,6 @@
         </table>
     </asp:Panel>
 
-    <asp:Panel ID="panTotal" runat="server" Visible="false" BorderStyle="Double">
+    <asp:Panel ID="panTotal" runat="server" Visible="false" BorderStyle="Solid">
     </asp:Panel>
 </asp:Content>
