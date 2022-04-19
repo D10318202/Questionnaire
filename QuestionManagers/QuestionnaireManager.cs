@@ -142,12 +142,13 @@ namespace QuestionManagers
         }
 
 
+        
         #region /*問卷*/
-
         /// <summary>
         /// 創建問卷
         /// </summary>
         /// <param name="question"></param>
+        /// 
         public void CreateQuestionnaire(QuestionModel question)
         {
             string connStr = ConfigHelper.GetConnectionString();
@@ -167,7 +168,7 @@ namespace QuestionManagers
                         command.Parameters.AddWithValue("@quesBody", question.quesBody);
                         command.Parameters.AddWithValue("@quesstart", question.quesstart);
                         command.Parameters.AddWithValue("@quesend", question.quesend);
-                        command.Parameters.AddWithValue("@quesstates", question.Type);
+                        command.Parameters.AddWithValue("@quesstates", question.stateType);
 
                         conn.Open();
                         command.ExecuteNonQuery();
@@ -207,7 +208,7 @@ namespace QuestionManagers
                         command.Parameters.AddWithValue("@quesBody", question.quesBody);
                         command.Parameters.AddWithValue("@quesstart", question.quesstart);
                         command.Parameters.AddWithValue("@quesend", question.quesend);
-                        command.Parameters.AddWithValue("@quesstates", question.Type);
+                        command.Parameters.AddWithValue("@quesstates", question.stateType);
 
                         conn.Open();
                         command.ExecuteNonQuery();
@@ -265,7 +266,67 @@ namespace QuestionManagers
         /// <param name="questionDetail"></param>
         public void CreateQuestionDetail(QuestionDetailModel questionDetail)
         {
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                @"  INSERT INTO [QuestionsDetail] 
+                        (quesID, quesDetailID, quesDetailTitle, quesDetailBody, quesDetailType, quesDetailMustKeyIn)
+                    VALUES 
+                        (@quesID, @quesDetailID, @quesDetailTitle, @quesDetailBody, @quesDetailType, @quesDetailMustKeyIn) ";
 
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        command.Parameters.AddWithValue("@quesID", questionDetail.quesID);
+                        command.Parameters.AddWithValue("@quesDetailTitle", questionDetail.quesDetailType);
+                        command.Parameters.AddWithValue("@quesDetailBody", questionDetail.quesDetailBody);
+                        command.Parameters.AddWithValue("@quesDetailType", questionDetail.quesDetailType);
+                        command.Parameters.AddWithValue("@quesDetailMustKeyIn", questionDetail.quesDetailMustKeyIn);
+
+                        conn.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("QuestionnaireManager.CreateQuestionDetail", ex);
+                throw;
+            }
+        }
+
+        public void CreateQuestionDetail2(QuestionDetail2Model questionDetail2)
+        {
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                @"  INSERT INTO [QuestionsDetail2]
+                        (quesID, quesDetailID, quesDetail2ID, answer)
+                    VALUES 
+                        (@quesID, @quesDetailID, @quesDetail2ID, @answer)";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        command.Parameters.AddWithValue("@quesID", questionDetail2.quesID);
+                        command.Parameters.AddWithValue("@quesDetailID", questionDetail2.quesDetailID);
+                        command.Parameters.AddWithValue("@quesDetail2ID", questionDetail2.quesDetail2ID);
+                        command.Parameters.AddWithValue("@answer", questionDetail2.answer);
+
+                        conn.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("QuestionnaireManager.CreateQuestionDetail", ex);
+                throw;
+            }
         }
 
         /// <summary>

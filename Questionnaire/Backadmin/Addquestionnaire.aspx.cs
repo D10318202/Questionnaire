@@ -13,6 +13,7 @@ namespace Questionnaire.Backadmin
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private QuestionDetailModel questionDetail = new QuestionDetailModel();
+        private QuestionDetail2Model questionDetail2 = new QuestionDetail2Model();
         private QuestionModel question = new QuestionModel();
         private static List<QuestionDetailModel> _questionDetail = new List<QuestionDetailModel>();
         private static Guid _questionID;
@@ -34,7 +35,13 @@ namespace Questionnaire.Backadmin
             else
                 Response.Redirect("Allquestionnaire.aspx");
         }
-        #region /*分頁切換*/
+
+        /// <summary>
+        /// 分頁切換
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        #region
         protected void LinkQuestionnaire_Click(object sender, EventArgs e)
         {
             this.ChangeStatus(PageStatus.Questionnaire);
@@ -76,7 +83,10 @@ namespace Questionnaire.Backadmin
         }
         #endregion
 
-        #region /*問卷Questionnaire*/
+        /// <summary>
+        /// 問卷Questionnaire
+        /// </summary>
+        /// <param name="quesID"></param>
         private void initEditMode(Guid quesID)
         {
             QuestionModel question = _quesMgr.GetQuestionnaire(quesID);
@@ -101,11 +111,11 @@ namespace Questionnaire.Backadmin
             };
             if (this.checUse.Checked == false)
             {
-                question.Type = StateType.關閉;
+                question.stateType = StateType.關閉;
             }
             else
             {
-                question.Type = StateType.已啟用;
+                question.stateType = StateType.已啟用;
             }
 
             if (isCreateMode)
@@ -122,9 +132,12 @@ namespace Questionnaire.Backadmin
             this.panQuestionnaire.Visible = false;
             this.panQuestions.Visible = true;
         }
-        #endregion
 
-        #region /*問題Questions*/
+        /// <summary>
+        /// 問題Questions
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void BtnAdd_Click(object sender, EventArgs e)
         {
             QuestionDetailModel questionDetail = new QuestionDetailModel()
@@ -154,6 +167,7 @@ namespace Questionnaire.Backadmin
 
         protected void btnquescancle_Click(object sender, EventArgs e)
         {
+            Response.Redirect("Allquestionnaire.aspx");
         }
 
         protected void btnquessave_Click(object sender, EventArgs e)
@@ -166,9 +180,29 @@ namespace Questionnaire.Backadmin
 
                 questionNumber++;
             }
-            Response.Redirect("allquestionnaire.aspx");
+            Response.Redirect("Allquestionnaire.aspx");
+        }        
+        public void repQuestions_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                if (e.CommandName == "LinkEdit" && Guid.TryParse(e.CommandArgument.ToString(), out Guid quesDetailID))
+                {
+                    QuestionDetailModel question = _questionDetail.Find(x => x.quesDetailID == quesDetailID);
+                    this.txtTitle1.Text = questionDetail.quesDetailTitle;
+                    this.droptype.SelectedIndex = (int)questionDetail.quesDetailType;
+                    if (this.checMust.Checked == false)
+                    {
+                        questionDetail.quesDetailMustKeyIn = QuestionMustFill.不是必填;
+                    }
+                    else
+                    {
+                        questionDetail.quesDetailMustKeyIn = QuestionMustFill.必填;
+                    }
+                    this.txtAnswer.Text = questionDetail2.answer;
+                }
+            }
         }
-        #endregion
 
         #region /*填寫資料FillQuestions*/
         protected void btnsavefile_Click(object sender, EventArgs e)
@@ -176,5 +210,7 @@ namespace Questionnaire.Backadmin
 
         }
         #endregion
+
+
     }
 }

@@ -12,7 +12,7 @@ namespace QuestionModels
        public Guid quesID { get; set;}
        public string quesTitle { get; set;}
        public string quesBody{ get; set; }
-       public StateType Type { get; set; }
+       public StateType stateType { get; set; }
     }
 
     public enum StateType

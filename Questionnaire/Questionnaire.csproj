@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CSS\bootstrap.min.css" />
     <Content Include="FrontDesk\Allquestionnaire.aspx" />
     <Content Include="Backadmin\Addquestionnaire.aspx" />
     <Content Include="Backadmin\Allquestionnaires.aspx" />

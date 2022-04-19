@@ -43,24 +43,41 @@
         <asp:Button ID="BtnAdd" runat="server" Text="加入" OnClick="BtnAdd_Click" />
         <br />
         <asp:Button ID="btnDelete" runat="server" Text="刪除" OnClick="btnDelete_Click" />
-        <asp:GridView ID="gvList" runat="server" AutoGenerateColumns="false">
-            <Columns>
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:CheckBox ID="chkdel" runat="server" />
-                        <asp:HiddenField ID="hfID" runat="server" Value='<%# Eval("quesDetailID")%>' />
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:BoundField DataField="quesDetailTitle" HeaderText="問題" />
-                <asp:BoundField DataField="quesDetailType" HeaderText="種類" />
-                <asp:BoundField DataField="quesDetailMustKeyIn" HeaderText="必填" />
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <a href="Addquestionnaire.aspx?ID=<%# Eval("quesDetailID") %>">編輯</a>
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-        </asp:GridView>
+        <table class="table table-striped">
+        <tr>
+            <th></th>
+            <th>#</th>
+            <th>問題</th>
+            <th>種類</th>
+            <th>必填</th>
+            <th></th>
+        </tr>
+        <asp:Repeater ID="repQuestions" runat="server" OnItemCommand="repQuestions_ItemCommand">
+            <ItemTemplate>
+                <asp:HiddenField ID="hfquesDetailID" runat="server" Value='<%#Eval("quesDetailID") %>' />
+                <tr>
+                    <td>
+                        <asp:CheckBox ID="ckbDel" runat="server" />
+                    </td>
+                    <td>
+                        <asp:Label ID="lblNumber" runat="server"></asp:Label>
+                    </td>
+                    <td>
+                        <asp:Label ID="lblquesDetailTitle" runat="server" Text='<%#Eval("quesDetailTitle") %>'></asp:Label>
+                    </td>
+                    <td>
+                        <asp:Label ID="lblquesDetailType" runat="server" Text='<%#Eval("quesDetailType") %>'></asp:Label>
+                    </td>
+                    <td>
+                        <asp:CheckBox ID="ckbListUse" runat="server" Checked='<%#Eval("quesDetailMustKeyIn") %>' Enabled="false" />
+                    </td>
+                    <td>
+                        <asp:LinkButton ID="LinkEdit" runat="server" CommandArgument='<%#Eval("quesDetailID") %>' CommandName="lkbEdit">編輯</asp:LinkButton>
+                    </td>
+                </tr>
+            </ItemTemplate>
+        </asp:Repeater>
+    </table>
         <asp:Button ID="btnquescancle" runat="server" Text="取消" OnClick="btnquescancle_Click" />
         <asp:Button ID="btnquessave" runat="server" Text="送出" onclick="btnquessave_Click"/>
     </asp:Panel>
