@@ -25,7 +25,8 @@
         <br />
         <asp:PlaceHolder ID="plcquestion" runat="server"></asp:PlaceHolder>
         <br />
-        <asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" />
+        <input type="button" id="btnSave" value="送出" />
+        <%--<asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" />--%>
         <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" /><br />
     </div>
 </asp:Content>
