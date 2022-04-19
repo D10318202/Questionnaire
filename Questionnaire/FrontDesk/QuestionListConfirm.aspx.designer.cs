@@ -11,7 +11,7 @@ namespace Questionnaire.FrontDesk
 {
 
 
-    public partial class QuestionList
+    public partial class QuestionListConfirm
     {
 
         /// <summary>

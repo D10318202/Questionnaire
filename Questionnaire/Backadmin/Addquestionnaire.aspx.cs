@@ -32,7 +32,7 @@ namespace Questionnaire.Backadmin
                 HttpContext.Current.Session["quesID"] = _questionID;
             }
             else
-                Response.Redirect("List.aspx");
+                Response.Redirect("Allquestionnaire.aspx");
         }
         #region /*分頁切換*/
         protected void LinkQuestionnaire_Click(object sender, EventArgs e)
