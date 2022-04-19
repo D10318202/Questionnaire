@@ -1,0 +1,43 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="FrontDesk.master.cs" Inherits="Questionnaire.FrontDesk.FrontDesk" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <style>
+        body {
+            background-color:aliceblue;
+        }
+        .auto-style1 {
+            width: 79px;
+            height: 73px;
+        }
+        .auto-style2 {
+            width: 91px;
+        }
+    </style>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <table width="100%">
+            <tr>
+                <td class="auto-style2"><img src="../Pictures/75470.png" class="auto-style1"/></td>
+                <td>
+                    <a href="Index.aspx">首頁</a>
+                    <a href="Allquestionnaire.aspx">問卷總覽</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
