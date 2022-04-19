@@ -5,7 +5,7 @@ using System.Web;
 
 namespace QuestionModels
 {
-    public class QuestionAnswer
+    public class QuestionAnswerModel
     {
         public Guid AnswerID { get; set; }
         public Guid quesID { get; set; }

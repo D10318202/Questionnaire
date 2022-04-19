@@ -14,7 +14,7 @@ namespace Questionnaire.FrontDesk
         List<QuestionDetailModel> quesDetaillist = new List<QuestionDetailModel>();
         private static QuestionnaireManager _quesMgr;
         private QuestionDetailModel questionDetail = new QuestionDetailModel();
-        private QuestionAnswer quesAnswer = new QuestionAnswer();
+        private QuestionAnswerModel quesAnswer = new QuestionAnswerModel();
         int a;
         int b;
         int c;
