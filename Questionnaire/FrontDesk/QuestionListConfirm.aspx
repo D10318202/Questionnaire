@@ -1,9 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/FrontDesk/FrontDesk.Master" AutoEventWireup="true" CodeBehind="QuestionList.aspx.cs" Inherits="Questionnaire.FrontDesk.QuestionList" %>
-
+﻿<%@ Page Title="問卷填寫內容-確認頁" Language="C#" MasterPageFile="~/FrontDesk/FrontDesk.Master" AutoEventWireup="true" CodeBehind="QuestionListConfirm.aspx.cs" Inherits="Questionnaire.FrontDesk.QuestionListConfirm" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div align="center">
+     <div align="center">
         <h3>
             <asp:Literal ID="ltltitle" runat="server"></asp:Literal></h3>
         <br />
@@ -25,8 +24,7 @@
         <br />
         <asp:PlaceHolder ID="plcquestion" runat="server"></asp:PlaceHolder>
         <br />
-        <input type="button" id="btnSave" value="送出" />
-        <%--<asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" />--%>
+        <asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" />
         <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" /><br />
     </div>
 </asp:Content>

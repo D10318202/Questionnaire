@@ -1,4 +1,5 @@
 ﻿using QuestionManagers;
+using QuestionModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,10 @@ namespace Questionnaire
         private QuestionnaireManager _quesMgr = new QuestionnaireManager();
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                List<QuestionModel> questionnaireList = _quesMgr.GetQuestionnaireList();
+            }
 
         }
     }

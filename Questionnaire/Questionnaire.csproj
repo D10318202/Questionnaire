@@ -67,12 +67,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FrontDesk\TotalAnswer.aspx" />
     <Content Include="FrontDesk\Allquestionnaire.aspx" />
     <Content Include="Backadmin\Addquestionnaire.aspx" />
     <Content Include="Backadmin\Allquestionnaires.aspx" />
     <Content Include="Backadmin\Oftenusequest.aspx" />
     <Content Include="FrontDesk\Index.aspx" />
     <Content Include="FrontDesk\QuestionList.aspx" />
+    <Content Include="FrontDesk\QuestionListConfirm.aspx" />
     <Content Include="Global.asax" />
     <Content Include="JS\bootstrap.min.js" />
     <Content Include="JS\jquery.min.js" />
@@ -81,6 +83,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrontDesk\TotalAnswer.aspx.cs">
+      <DependentUpon>TotalAnswer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FrontDesk\TotalAnswer.aspx.designer.cs">
+      <DependentUpon>TotalAnswer.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FrontDesk\Allquestionnaire.aspx.cs">
       <DependentUpon>Allquestionnaire.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -136,6 +145,13 @@
     </Compile>
     <Compile Include="FrontDesk\QuestionList.aspx.designer.cs">
       <DependentUpon>QuestionList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FrontDesk\QuestionListConfirm.aspx.cs">
+      <DependentUpon>QuestionListConfirm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FrontDesk\QuestionListConfirm.aspx.designer.cs">
+      <DependentUpon>QuestionListConfirm.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
