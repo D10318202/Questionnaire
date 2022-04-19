@@ -53,35 +53,6 @@ namespace QuestionManagers
             }
         }  //尚未完成
 
-        public List<QuestionModel> GetQuestionnaireList()
-        {
-            string connStr = ConfigHelper.GetConnectionString();
-            string commandText =
-                $@"  SELECT *
-                     FROM [MainQues]
-                     ORDER BY CreateTime DESC ";
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connStr))
-                {
-                    using (SqlCommand command = new SqlCommand(commandText, conn))
-                    {
-                        conn.Open();
-                        SqlDataReader reader = command.ExecuteReader();
-                        while (reader.Read())
-                        {
-                        }
-                        return null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.WriteLog(" QuestionnaireManager.GetQuestionnaireList", ex);
-                return null;
-            }
-        }
-
         /// <summary>
         /// 列出問卷詳細內容
         /// </summary>
