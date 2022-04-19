@@ -31,11 +31,11 @@ namespace Questionnaire.FrontDesk
             {
                 if (item.quesDetailType == QuestionType.單選方塊)
                 {
-                    if (item.answer.Contains(","))
+                    if (quesAnswer.Answer.Contains(","))
                     {
                         this.Form.Controls.Add(new Literal() { ID = "ltl" + k, Text = "<br/>" + item.quesDetailTitle + ":" });
                         //this.quesAnswer.QuestionOfRadio[k] = item.quesDetailTitle;
-                        string[] array = item.answer.Split(',');
+                        string[] array = quesAnswer.Answer.Split(',');
                         foreach (var item2 in array)
                         {
                             this.Form.Controls.Add(new RadioButton() { ID = "radio" + k, Text = item2 });
@@ -46,18 +46,18 @@ namespace Questionnaire.FrontDesk
                     }
                     else
                     {
-                        BuildRadioBox(k, item.answer, item.quesDetailTitle);
+                        BuildRadioBox(k, quesAnswer.Answer, item.quesDetailTitle);
                         a++;
                         k++;
                     }
                 }
                 if (item.quesDetailType == QuestionType.複選方塊)
                 {
-                    if (item.answer.Contains(","))
+                    if (quesAnswer.Answer.Contains(","))
                     {
                         this.Form.Controls.Add(new Literal() { ID = "ltl" + j, Text = "<br/>" + item.quesDetailTitle + ":" + "<br/>" });
                         //this.quesAnswer.QuestionOfCheck[j] = item.quesDetailTitle;
-                        string[] array = item.answer.Split(',');
+                        string[] array = quesAnswer.Answer.Split(',');
                         foreach (var item2 in array)
                         {
                             this.Form.Controls.Add(new CheckBox() { ID = "check" + j, Text = item2 });
@@ -68,7 +68,7 @@ namespace Questionnaire.FrontDesk
                     }
                     else
                     {
-                        BuildCheckBox(j, item.answer, item.quesDetailTitle);
+                        BuildCheckBox(j, quesAnswer.Answer, item.quesDetailTitle);
                         b++;
                         j++;
                     }
@@ -76,7 +76,7 @@ namespace Questionnaire.FrontDesk
                 if (item.quesDetailType == QuestionType.文字方塊)
                 {
                     //this.quesAnswer.QuestionOfText[i] = item.quesDetailTitle;
-                    BuildTextBox(i, item.answer, item.quesDetailTitle);
+                    BuildTextBox(i, quesAnswer.Answer, item.quesDetailTitle);
                     i++;
                     c++;
                 }

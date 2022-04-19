@@ -218,7 +218,7 @@ namespace Questionnaire.Backadmin
                     QuestionDetailModel questionDetail = _questionDetail.Find(x => x.quesDetailID == quesDetailID);
                     this.txtTitle1.Text = questionDetail.quesDetailTitle;
                     this.droptype.SelectedIndex = (int)questionDetail.quesDetailType;
-                    this.checMust.Checked = questionDetail.quesDetailMustKeyIn;
+                    this.questionDetail.quesDetailMustKeyIn = questionDetail.quesDetailMustKeyIn;
                     this.txtAnswer.Text = questionDetail.quesDetailBody;
                 }
             }

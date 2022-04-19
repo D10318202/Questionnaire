@@ -14,7 +14,6 @@ namespace QuestionModels
         public string quesDetailBody {get; set;}
         public QuestionType quesDetailType {get; set;}
         public QuestionMustFill quesDetailMustKeyIn { get; set; }
-        public string answer { get; set; }
     }
     public enum QuestionType
     {
