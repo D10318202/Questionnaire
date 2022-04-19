@@ -15,14 +15,10 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <a href="Index.aspx">首頁</a>
-        <a href="Allquestionnaire.aspx">問卷總覽</a>
         <div align="center">
-            <img src="../Pictures/75470.png" class="auto-style1" /><br />
-            <asp:TextBox ID="txtkeyword" runat="server" placeHolder="請輸入搜尋文字" Width="567px" Height="47px"></asp:TextBox>&nbsp;
-            <asp:Button ID="btnSearch" runat="server" Text="搜尋" Height="40px" Width="81px" onclick="btnSearch_Click"/>
+            <img src="../Pictures/75470.png" class="auto-style1" />
+
         </div>
     </form>
 </body>
-<script src="../JS/SearchkeyWord.js"></script>
 </html>

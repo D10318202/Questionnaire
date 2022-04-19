@@ -119,7 +119,6 @@ namespace Questionnaire.Backadmin
                 _quesMgr.UpdateQuestionnaire(question);
             }
             HttpContext.Current.Session["quesID"] = question.quesID;
-            
         }
         #endregion
 

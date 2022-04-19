@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="後台-問卷建立" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="Addquestionnaire.aspx.cs" Inherits="Questionnaire.Backadmin.Addquestionnaire" %>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -15,12 +14,12 @@
         描述內容:
         <asp:TextBox ID="txtBody" runat="server"></asp:TextBox><br />
         開始時間:
-        <asp:TextBox ID="txtStart" runat="server" TextMode="DateTimeLocal"></asp:TextBox><br />
+        <asp:TextBox ID="txtStart" runat="server" TextMode="DateTime"></asp:TextBox><br />
         結束時間:
-        <asp:TextBox ID="txtEnd" runat="server" TextMode="DateTimeLocal"></asp:TextBox><br />
-        已啟用<asp:CheckBox ID="checUse" runat="server" Checked="true" /><br />
-        <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" />
-        <asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" />
+        <asp:TextBox ID="txtEnd" runat="server" TextMode="DateTime"></asp:TextBox><br />
+        已啟用<asp:CheckBox ID="checUse" runat="server" checked="true"/><br />
+        <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click"/>
+        <asp:Button ID="Save" runat="server" Text="送出" onclick="Save_Click"/>
     </asp:Panel>
 
     <asp:Panel ID="panQuestions" runat="server" Visible="false" BorderStyle="Double">
@@ -63,7 +62,7 @@
             </Columns>
         </asp:GridView>
         <asp:Button ID="btnquescancle" runat="server" Text="取消" OnClick="btnquescancle_Click" />
-        <asp:Button ID="btnquessave" runat="server" Text="送出" OnClick="btnquessave_Click" />
+        <asp:Button ID="btnquessave" runat="server" Text="送出" onclick="btnquessave_Click"/>
     </asp:Panel>
 
     <asp:Panel ID="panFillQuestions" runat="server" Visible="false" BorderStyle="Double">

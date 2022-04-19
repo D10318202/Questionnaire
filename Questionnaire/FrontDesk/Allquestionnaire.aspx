@@ -7,47 +7,22 @@
     問卷標題:
         <asp:TextBox ID="txtquestitle" runat="server" placeholder="輸入關鍵字"></asp:TextBox><br />
     開始/結束:
-        <asp:TextBox ID="txtstart" runat="server" TextMode="DateTimeLocal"></asp:TextBox>
-    <asp:TextBox ID="txtend" runat="server" TextMode="DateTimeLocal"></asp:TextBox>
+        <asp:TextBox ID="txtstart" runat="server" TextMode="DateTime" placeholder="輸入開始時間"></asp:TextBox>
+    <asp:TextBox ID="txtend" runat="server" TextMode="DateTime" placeholder="輸入結束時間"></asp:TextBox>
     <asp:Button ID="btnSearch" runat="server" Text="搜尋" /><br />
-    <table border="1">
-        <tr>
-            <th></th>
-            <th>#</th>
-            <th>問卷</th>
-            <th>狀態</th>
-            <th>開始時間</th>
-            <th>結束時間</th>
-            <th>觀看統計</th>
-        </tr>
-        <asp:Repeater ID="rptList" runat="server">
-            <ItemTemplate>
-                <tr>
-                    <td>
-                        <asp:CheckBox ID="ckbDel" runat="server" />
-                    </td>
-                    <td>
-                        <asp:Label ID="lblNumber" runat="server"></asp:Label>
-                    </td>
-                    <td>
-                        <a href="Addquestioonaire.aspx?ID=<%#Eval("quesID") %>">
-                        <asp:Literal ID="ltlName" runat="server" Text='<%#Eval("quesTitle") %>'></asp:Literal>
-                    </td>
-                    <td>
-                        <asp:Literal ID="ltlstate" runat="server" Text='<%#Eval("quesstates") %>'></asp:Literal>
-                    </td>
-                    <td>
-                        <asp:Literal ID="ltlStart" runat="server" Text='<%#Eval("quesstart") %>'></asp:Literal>
-                    </td>
-                    <td>
-                        <asp:Literal ID="ltlEnd" runat="server" Text='<%#Eval("quesend") %>'></asp:Literal>
-                    </td>
-                    <td>
-                        <a href="TotalAnswer.aspx?AccountID=<%#Eval("AccountID") %>">前往</a>
-                    </td>
-                </tr>
-            </ItemTemplate>
-        </asp:Repeater>
-    </table>
+    <asp:GridView ID="gvList" runat="server" AutoGenerateColumns="false">
+        <Columns>
+            <asp:BoundField DataField="quesID" HeaderText="問卷代號" />
+            <asp:BoundField DataField="quesTitle" HeaderText="問卷標題" />
+            <asp:BoundField DataField="quesstates" HeaderText="狀態" />
+            <asp:BoundField DataField="quesstart" HeaderText="開始時間" />
+            <asp:BoundField DataField="quesend" HeaderText="結束時間" />
+            <asp:TemplateField>
+                <ItemTemplate>
+                    <a href="Addquestionnaire.aspx?ID=<%# Eval("quesID") %>">觀看統計</a>
+                </ItemTemplate>
+            </asp:TemplateField>
+        </Columns>
+    </asp:GridView>
     <script src="js/SearchkeyWord.js"></script>
 </asp:Content>
