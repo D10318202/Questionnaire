@@ -2,7 +2,9 @@
 using QuestionModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -145,7 +147,7 @@ namespace Questionnaire.Backadmin
                 quesDetailID = Guid.NewGuid(),
                 quesDetailTitle = this.txtTitle1.Text.Trim(),
                 quesDetailBody = this.txtAnswer.Text.Trim(),
-                quesDetailType = (QuestionType)Convert.ToInt32(this.droptype.SelectedValue)
+                quesDetailType = (QuestionType)Convert.ToInt32(this.droptype.SelectedValue),
             };
             if (this.checMust.Checked == false)
             {
@@ -227,9 +229,45 @@ namespace Questionnaire.Backadmin
         #region /*填寫資料FillQuestions*/
         protected void btnsavefile_Click(object sender, EventArgs e)
         {
+            QuestionModel questionModel = _quesMgr.GetQuestionnaire(_questionID);
+            string FileName = questionModel.quesTitle + ".csv";
+            string DownFile = "C:\\Users\\YUKI\\Desktop\\Questionnaire\\Download";
+            if (!Directory.Exists(DownFile))
+            {
+                Directory.CreateDirectory(DownFile);
+            }
+            try
+            {
+                Response.Clear();
+                Response.Buffer = true;
 
+                #region 匯出csv
+                HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment; filename=" + FileName);
+                HttpContext.Current.Response.ContentType = "application/vnd.ms-excel";
+                HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
+                using(MemoryStream mystream = new MemoryStream())
+                {
+                    StreamWriter sw = new StreamWriter(mystream, Encoding.UTF8);
+                    StringBuilder sbcsvContent = new StringBuilder();
+                    List<QuestionDetailModel> questionDetailModels = new List<QuestionDetailModel>();
+
+
+                }
+
+
+                HttpContext.Current.Response.Flush();
+                HttpContext.Current.Response.End();
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>匯出失敗</script>");
+            }
         }
         #endregion
+
+        
 
 
     }
