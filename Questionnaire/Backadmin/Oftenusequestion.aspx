@@ -1,4 +1,4 @@
-﻿<%@ Page Title="後台-常用問題管理" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="Oftenusequest.aspx.cs" Inherits="Questionnaire.Backadmin.Oftenusequest" %>
+﻿<%@ Page Title="後台-常用問題管理" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="Oftenusequestion.aspx.cs" Inherits="Questionnaire.Backadmin.Oftenusequestion"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -17,11 +17,10 @@
                     <tr>
                         <td>問卷標題</td>
                         <td>
-                            <asp:TextBox ID="txtTitle" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtkeyword" runat="server"></asp:TextBox>
                         </td>
                         <td>
                             <asp:Button ID="btnSearch" runat="server" Text="搜尋" OnClick="btnSearch_Click" />
-
                         </td>
                     </tr>
                     <tr>
@@ -59,8 +58,9 @@
                         </ItemTemplate>
                     </asp:Repeater>
                 </table>
-                <asp:Button ID="btnDelete" runat="server" Text="刪除" OnClick="btnDelete_Click" />
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" />
             </div>
         </div>
     </div>
+    <script src="../JS/SearchkeyWord.js"></script>
 </asp:Content>

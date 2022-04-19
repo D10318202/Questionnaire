@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Questionnaire.Backadmin
+namespace Questionnaire.FrontDesk
 {
-    public partial class Oftenusequest : System.Web.UI.Page
+    public partial class TotalAnswer : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

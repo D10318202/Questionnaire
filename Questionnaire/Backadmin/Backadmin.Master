@@ -21,7 +21,7 @@
                 <td>logo</td>
                 <td>
                     <a href="Allquestionnaires.aspx">問卷管理</a>
-                    <a href="Oftenusequest.aspx">常用問題管理</a>
+                    <a href="Oftenusequestion.aspx">常用問題管理</a>
                 </td>
             </tr>
             <tr>

@@ -82,11 +82,6 @@ namespace Questionnaire.FrontDesk
                 }
             }
         }
-
-        protected void Save_Click(object sender, EventArgs e)
-        {
-
-        }
         private void BuildTextBox(int i, string answer, string quesDetailTitle)
         {
 

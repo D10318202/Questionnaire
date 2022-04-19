@@ -70,10 +70,11 @@
     <Content Include="FrontDesk\Allquestionnaire.aspx" />
     <Content Include="Backadmin\Addquestionnaire.aspx" />
     <Content Include="Backadmin\Allquestionnaires.aspx" />
-    <Content Include="Backadmin\Oftenusequest.aspx" />
+    <Content Include="Backadmin\Oftenusequestion.aspx" />
     <Content Include="FrontDesk\Index.aspx" />
     <Content Include="FrontDesk\QuestionListConfirm.aspx" />
     <Content Include="FrontDesk\QuestionList.aspx" />
+    <Content Include="FrontDesk\TotalAnswer.aspx" />
     <Content Include="Global.asax" />
     <Content Include="JS\bootstrap.min.js" />
     <Content Include="JS\jquery.min.js" />
@@ -110,12 +111,12 @@
     <Compile Include="Backadmin\Backadmin.Master.designer.cs">
       <DependentUpon>Backadmin.Master</DependentUpon>
     </Compile>
-    <Compile Include="Backadmin\Oftenusequest.aspx.cs">
-      <DependentUpon>Oftenusequest.aspx</DependentUpon>
+    <Compile Include="Backadmin\Oftenusequestion.aspx.cs">
+      <DependentUpon>Oftenusequestion.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Backadmin\Oftenusequest.aspx.designer.cs">
-      <DependentUpon>Oftenusequest.aspx</DependentUpon>
+    <Compile Include="Backadmin\Oftenusequestion.aspx.designer.cs">
+      <DependentUpon>Oftenusequestion.aspx</DependentUpon>
     </Compile>
     <Compile Include="FrontDesk\FrontDesk.Master.cs">
       <DependentUpon>FrontDesk.Master</DependentUpon>
@@ -144,6 +145,13 @@
     </Compile>
     <Compile Include="FrontDesk\QuestionList.aspx.designer.cs">
       <DependentUpon>QuestionList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FrontDesk\TotalAnswer.aspx.cs">
+      <DependentUpon>TotalAnswer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FrontDesk\TotalAnswer.aspx.designer.cs">
+      <DependentUpon>TotalAnswer.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
