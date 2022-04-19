@@ -14,9 +14,9 @@
         描述內容:
         <asp:TextBox ID="txtBody" runat="server"></asp:TextBox><br />
         開始時間:
-        <asp:TextBox ID="txtStart" runat="server" TextMode="DateTime"></asp:TextBox><br />
+        <asp:TextBox ID="txtStart" runat="server" TextMode="DateTimeLocal"></asp:TextBox><br />
         結束時間:
-        <asp:TextBox ID="txtEnd" runat="server" TextMode="DateTime"></asp:TextBox><br />
+        <asp:TextBox ID="txtEnd" runat="server" TextMode="DateTimeLocal"></asp:TextBox><br />
         已啟用<asp:CheckBox ID="checUse" runat="server" checked="true"/><br />
         <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click"/>
         <asp:Button ID="Save" runat="server" Text="送出" onclick="Save_Click"/>
