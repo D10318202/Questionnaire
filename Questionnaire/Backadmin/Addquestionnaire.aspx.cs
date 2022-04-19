@@ -14,7 +14,7 @@ namespace Questionnaire.Backadmin
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private QuestionDetailModel questionDetail = new QuestionDetailModel();
         private QuestionModel question = new QuestionModel();
-        private static List<QuestionDetailModel> _questionDetail;
+        private static List<QuestionDetailModel> _questionDetail = new List<QuestionDetailModel>();
         private static Guid _questionID;
         private bool isCreateMode;
         protected void Page_Load(object sender, EventArgs e)
@@ -119,6 +119,8 @@ namespace Questionnaire.Backadmin
                 _quesMgr.UpdateQuestionnaire(question);
             }
             HttpContext.Current.Session["quesID"] = question.quesID;
+            this.panQuestionnaire.Visible = false;
+            this.panQuestions.Visible = true;
         }
         #endregion
 
@@ -141,6 +143,8 @@ namespace Questionnaire.Backadmin
             {
                 questionDetail.quesDetailMustKeyIn = QuestionMustFill.必填;
             }
+            _questionDetail.Add(questionDetail);
+            HttpContext.Current.Session["qusetionModel"] = _questionDetail;
         }
 
         protected void btnDelete_Click(object sender, EventArgs e)
