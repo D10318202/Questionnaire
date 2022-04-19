@@ -7,8 +7,8 @@
     問卷標題:
         <asp:TextBox ID="txtquestitle" runat="server" placeholder="輸入關鍵字"></asp:TextBox><br />
     開始/結束:
-        <asp:TextBox ID="txtstart" runat="server" TextMode="DateTime" placeholder="輸入開始時間"></asp:TextBox>
-    <asp:TextBox ID="txtend" runat="server" TextMode="DateTime" placeholder="輸入結束時間"></asp:TextBox>
+        <asp:TextBox ID="txtstart" runat="server" TextMode="DateTimeLocal"></asp:TextBox>
+    <asp:TextBox ID="txtend" runat="server" TextMode="DateTimeLocal"></asp:TextBox>
     <asp:Button ID="btnSearch" runat="server" Text="搜尋" /><br />
     <asp:GridView ID="gvList" runat="server" AutoGenerateColumns="false">
         <Columns>
