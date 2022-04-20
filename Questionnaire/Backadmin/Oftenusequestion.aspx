@@ -7,7 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
         <div class="row">
-            <h2>後台-常用問題管理</h2>
+            <h2>常用問題管理</h2>
         </div>
         <div class="row">
             <div class="col-lg-8">
