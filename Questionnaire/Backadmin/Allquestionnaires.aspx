@@ -5,12 +5,13 @@
     <script src="../JS/bootstrap.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:PlaceHolder ID="plcsearch" runat="server">問卷標題:
+    <asp:PlaceHolder ID="plcsearch" runat="server">
+        問卷標題:
         <asp:TextBox ID="txtquestitle" runat="server"></asp:TextBox><br />
         開始/結束:
-        <asp:TextBox ID="txtstart" runat="server" TextMode="DateTime"></asp:TextBox>
-        <asp:TextBox ID="txtend" runat="server" TextMode="DateTime"></asp:TextBox>
-        <asp:Button ID="btnSearch" runat="server" Text="搜尋" />
+        <asp:TextBox ID="txtstart" runat="server" TextMode="Date"></asp:TextBox>
+        <asp:TextBox ID="txtend" runat="server" TextMode="Date"></asp:TextBox>
+        <asp:Button ID="btnSearch" runat="server" Text="搜尋" OnClick="btnSearch_Click" />
     </asp:PlaceHolder>
     <br />
     <br />
@@ -57,4 +58,5 @@
             </ItemTemplate>
         </asp:Repeater>
     </table>
+    <script src="../JS/SearchkeyWord.js"></script>
 </asp:Content>

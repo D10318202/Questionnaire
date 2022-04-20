@@ -11,7 +11,7 @@
     開始/結束:
         <asp:TextBox ID="txtstart" runat="server" TextMode="DateTimeLocal"></asp:TextBox>
     <asp:TextBox ID="txtend" runat="server" TextMode="DateTimeLocal"></asp:TextBox>
-    <asp:Button ID="btnSearch" runat="server" Text="搜尋" /><br />
+    <asp:Button ID="btnSearch" runat="server" Text="搜尋" onclick="btnSearch_Click"/><br />
     <table class="table table-striped">
         <tr>
             <th>#</th>

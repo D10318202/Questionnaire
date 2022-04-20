@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Backadmin\OftenQuestionDesign.aspx" />
     <Content Include="CSS\bootstrap.min.css" />
     <Content Include="FrontDesk\Allquestionnaire.aspx" />
     <Content Include="Backadmin\Addquestionnaire.aspx" />
@@ -84,6 +85,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backadmin\OftenQuestionDesign.aspx.cs">
+      <DependentUpon>OftenQuestionDesign.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backadmin\OftenQuestionDesign.aspx.designer.cs">
+      <DependentUpon>OftenQuestionDesign.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FrontDesk\Allquestionnaire.aspx.cs">
       <DependentUpon>Allquestionnaire.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -15,7 +15,7 @@ namespace Questionnaire.Backadmin
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (!this.IsPostBack)
             {
                 List<QuestionModel> questionnaireList = _quesMgr.GetQuestionnaireList();
                 InitQuestionnaire(questionnaireList);
@@ -23,17 +23,14 @@ namespace Questionnaire.Backadmin
         }
         private void InitQuestionnaire(List<QuestionModel> questionnaireList)
         {
-            if (questionnaireList != null || questionnaireList.Count > 0)
+            this.repQuestionnaire.DataSource = questionnaireList;
+            this.repQuestionnaire.DataBind();
+            int i = questionnaireList.Count;
+            foreach (RepeaterItem repeaterItem in this.repQuestionnaire.Items)
             {
-                this.repQuestionnaire.DataSource = questionnaireList;
-                this.repQuestionnaire.DataBind();
-                int i = questionnaireList.Count;
-                foreach (RepeaterItem repeaterItem in this.repQuestionnaire.Items)
-                {
-                    Label lblNumber = repeaterItem.FindControl("lblNumber") as Label;
-                    lblNumber.Text = i.ToString();
-                    i--;
-                }
+                Label lblNumber = repeaterItem.FindControl("lblNumber") as Label;
+                lblNumber.Text = i.ToString();
+                i--;
             }
         }
         protected void add_Click(object sender, EventArgs e)
@@ -43,6 +40,36 @@ namespace Questionnaire.Backadmin
 
         protected void repQuestionnaire_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string keyword = this.txtquestitle.Text.Trim();
+            List<QuestionModel> questionmosear = new List<QuestionModel>();
+            List<QuestionModel> questionmodata =
+                                        (string.IsNullOrWhiteSpace(keyword))
+                                         ? _quesMgr.GetQuestionnaireList()
+                                         : _quesMgr.GetQuestionnaireList(keyword);
+
+            foreach (QuestionModel result in questionmodata)
+            {
+                if (DateTime.TryParse(this.txtstart.Text, out DateTime startTime) &&
+                    result.quesstart < startTime)
+                    return;
+                else if (DateTime.TryParse(this.txtend.Text, out DateTime endTime) &&
+                   result.quesend > endTime)
+                    return;
+                questionmosear.Add(result);
+            }
+            InitQuestionnaire(questionmosear);
+
+            //if (string.IsNullOrWhiteSpace(keyword))
+            //    _quesMgr.GetQuestionnaireList();                
+            //else if(!string.IsNullOrWhiteSpace(keyword))
+            //{
+            //     _quesMgr.GetQuestionnaireList(keyword);
+            //}
+
         }
     }
 }

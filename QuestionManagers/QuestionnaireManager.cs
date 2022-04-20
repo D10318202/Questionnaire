@@ -54,11 +54,10 @@ namespace QuestionManagers
         }
 
         /// <summary>
-        /// 列出問卷詳細內容
+        /// 列出問卷詳細內容(列出題目內容資訊)
         /// </summary>
         /// <param name="quesID"></param>
         /// <returns></returns>
-        //列出題目內容資訊
         public List<QuestionDetailModel> GetQuestionModel(Guid quesID)
         {
             List<QuestionDetailModel> list = new List<QuestionDetailModel>();
@@ -99,7 +98,11 @@ namespace QuestionManagers
                 return null;
             }
         }
-        //列出問卷內容資訊
+
+        /// <summary>
+        /// 列出問卷內容資訊
+        /// </summary>
+        /// <returns></returns>
         public List<QuestionModel> GetQuestionnaireList()
         {
             string connStr = ConfigHelper.GetConnectionString();
@@ -143,13 +146,18 @@ namespace QuestionManagers
             }
         }
 
+        /// <summary>
+        /// 列出問卷內容資訊(搜尋功能)
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
         public List<QuestionModel> GetQuestionnaireList(string keyword)
         {
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
                 $@"  SELECT *
                      FROM [MainQues]
-                     WHERE quesID = @quesID 
+                     WHERE quesTitle LIKE '%'+ @keyword+ '%' AND quesstates = 1
                      ORDER BY CreateTime DESC ";
             try
             {
@@ -157,11 +165,15 @@ namespace QuestionManagers
                 {
                     using (SqlCommand command = new SqlCommand(commandText, conn))
                     {
+                        if (!string.IsNullOrWhiteSpace(keyword))
+                            command.Parameters.AddWithValue("@keyword", keyword);
+
                         conn.Open();
                         SqlDataReader reader = command.ExecuteReader();
+                        List<QuestionModel> question = new List<QuestionModel>();
                         while (reader.Read())
                         {
-                            QuestionModel question = new QuestionModel()
+                            QuestionModel questionmo = new QuestionModel()
                             {
                                 quesID = (Guid)reader["quesID"],
                                 quesTitle = reader["quesTitle"] as string,
@@ -169,9 +181,10 @@ namespace QuestionManagers
                                 quesstart = (DateTime)reader["quesstart"],
                                 quesend = (DateTime)reader["quesend"]
                             };
-                            //return question;
+                            questionmo.stateType = (questionmo.quesend < DateTime.Now) ? StateType.關閉 : StateType.已啟用;
+                            question.Add(questionmo);
                         }
-                        return null;
+                        return question;
                     }
                 }
             }
@@ -344,6 +357,15 @@ namespace QuestionManagers
         /// </summary>
         /// <param name="questionDetail"></param>
         public void UpdateQuestionDetail(QuestionDetailModel questionDetail)
+        {
+
+        }
+
+        /// <summary>
+        /// 刪除問題
+        /// </summary>
+        /// <param name="questionDetail"></param>
+        public void DeleteQuestionDetail(QuestionDetailModel questionDetail)
         {
 
         }

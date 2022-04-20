@@ -36,5 +36,27 @@ namespace Questionnaire
                 }
             }
         }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string keyword = this.txtquestitle.Text.Trim();
+            List<QuestionModel> questionmosear = new List<QuestionModel>();
+            List<QuestionModel> questionmodata =
+                                        (string.IsNullOrWhiteSpace(keyword))
+                                         ? _quesMgr.GetQuestionnaireList()
+                                         : _quesMgr.GetQuestionnaireList(keyword);
+
+            foreach (QuestionModel result in questionmodata)
+            {
+                if (DateTime.TryParse(this.txtstart.Text, out DateTime startTime) &&
+                    result.quesstart < startTime)
+                    return;
+                else if (DateTime.TryParse(this.txtend.Text, out DateTime endTime) &&
+                   result.quesend > endTime)
+                    return;
+                questionmosear.Add(result);
+            }
+            InitQuestionnaire(questionmosear);
+        }
     }
 }
