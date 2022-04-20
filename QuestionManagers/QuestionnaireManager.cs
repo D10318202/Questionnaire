@@ -195,9 +195,9 @@ namespace QuestionManagers
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
                 @"  INSERT INTO [MainQues] 
-                        (quesID, quesTitle, quesBody, CreateTime, quesstart, quesend,quesstates)
+                        (quesID, quesTitle, quesBody, quesstart, quesend,quesstates)
                     VALUES 
-                        (@quesID, @quesTitle, @quesBody, @CreateTime, @quesstart, @quesend, @quesstates) ";
+                        (@quesID, @quesTitle, @quesBody, @quesstart, @quesend, @quesstates) ";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
@@ -207,7 +207,6 @@ namespace QuestionManagers
                         command.Parameters.AddWithValue("@quesID", question.quesID);
                         command.Parameters.AddWithValue("@quesTitle", question.quesTitle);
                         command.Parameters.AddWithValue("@quesBody", question.quesBody);
-                        command.Parameters.AddWithValue("@CreateTime", question.CreateTime);
                         command.Parameters.AddWithValue("@quesstart", question.quesstart);
                         command.Parameters.AddWithValue("@quesend", question.quesend);
                         command.Parameters.AddWithValue("@quesstates", question.stateType);

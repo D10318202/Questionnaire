@@ -1,6 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/FrontDesk/FrontDesk.Master" AutoEventWireup="true" CodeBehind="Allquestionnaire.aspx.cs" Inherits="Questionnaire.Allquestionnaire" %>
+﻿<%@ Page Title="問卷總覽" Language="C#" MasterPageFile="~/FrontDesk/FrontDesk.Master" AutoEventWireup="true" CodeBehind="Allquestionnaire.aspx.cs" Inherits="Questionnaire.Allquestionnaire" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
+    <script src="../JS/bootstrap.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h1>問卷總覽</h1>
@@ -10,19 +12,40 @@
         <asp:TextBox ID="txtstart" runat="server" TextMode="DateTimeLocal"></asp:TextBox>
     <asp:TextBox ID="txtend" runat="server" TextMode="DateTimeLocal"></asp:TextBox>
     <asp:Button ID="btnSearch" runat="server" Text="搜尋" /><br />
-    <asp:GridView ID="gvList" runat="server" AutoGenerateColumns="false">
-        <Columns>
-            <asp:BoundField DataField="quesID" HeaderText="問卷代號" />
-            <asp:BoundField DataField="quesTitle" HeaderText="問卷標題" />
-            <asp:BoundField DataField="quesstates" HeaderText="狀態" />
-            <asp:BoundField DataField="quesstart" HeaderText="開始時間" />
-            <asp:BoundField DataField="quesend" HeaderText="結束時間" />
-            <asp:TemplateField>
-                <ItemTemplate>
-                    <a href="Addquestionnaire.aspx?ID=<%# Eval("quesID") %>">觀看統計</a>
-                </ItemTemplate>
-            </asp:TemplateField>
-        </Columns>
-    </asp:GridView>
+    <table class="table table-striped">
+        <tr>
+            <th>#</th>
+            <th>問卷標題</th>
+            <th>狀態</th>
+            <th>開始時間</th>
+            <th>結束時間</th>
+            <th>觀看統計</th>
+        </tr>
+        <asp:Repeater ID="repQuestionnaire" runat="server">
+            <ItemTemplate>
+                <tr>
+                    <td>
+                        <asp:Label ID="lblNumber" runat="server"></asp:Label>
+                    </td>
+                    <td>
+                        <a href="QuestionList.aspx?quesID=<%# Eval("quesID") %>">
+                            <asp:Label ID="lblquesTitle" runat="server" Text='<%#Eval("quesTitle") %>'></asp:Label></a>
+                    </td>
+                    <td>
+                        <asp:Label ID="lblquesstates" runat="server" Text='<%#Eval("stateType")%>'></asp:Label>
+                    </td>
+                    <td>
+                        <asp:Label ID="lblquesstart" runat="server" Text='<%#Eval("quesstart") %>'></asp:Label>
+                    </td>
+                    <td>
+                        <asp:Label ID="lblquesend" runat="server" Text='<%#Eval("quesend") %>'></asp:Label>
+                    </td>
+                    <td>
+                        <a href="TotalAnswer.aspx?quesID=<%#Eval("quesID") %>">前往
+                    </td>
+                </tr>
+            </ItemTemplate>
+        </asp:Repeater>
+    </table>
     <script src="js/SearchkeyWord.js"></script>
 </asp:Content>

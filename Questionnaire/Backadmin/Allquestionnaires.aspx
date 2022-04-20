@@ -1,6 +1,8 @@
 ﻿<%@ Page Title="後台-問卷管理" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="Allquestionnaires.aspx.cs" Inherits="Questionnaire.Backadmin.Allquestionnaires" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
+    <script src="../JS/bootstrap.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:PlaceHolder ID="plcsearch" runat="server">問卷標題:
@@ -35,9 +37,9 @@
                     <td>
                         <asp:Label ID="lblNumber" runat="server"></asp:Label>
                     </td>
-                    <td> 
+                    <td>
                         <a href="Addquestionnaire.aspx?quesID=<%# Eval("quesID") %>">
-                        <asp:Label ID="lblquesTitle" runat="server" Text='<%#Eval("quesTitle") %>'></asp:Label></a>
+                            <asp:Label ID="lblquesTitle" runat="server" Text='<%#Eval("quesTitle") %>'></asp:Label></a>
                     </td>
                     <td>
                         <asp:Label ID="lblquesstates" runat="server" Text='<%#Eval("stateType")%>'></asp:Label>

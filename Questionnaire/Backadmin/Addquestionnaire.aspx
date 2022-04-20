@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="後台-問卷建立" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="Addquestionnaire.aspx.cs" Inherits="Questionnaire.Backadmin.Addquestionnaire" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
     <script src="../JS/bootstrap.min.js"></script>
@@ -19,9 +20,9 @@
         <asp:TextBox ID="txtStart" runat="server" TextMode="DateTimeLocal"></asp:TextBox><br />
         結束時間:
         <asp:TextBox ID="txtEnd" runat="server" TextMode="DateTimeLocal"></asp:TextBox><br />
-        已啟用<asp:CheckBox ID="checUse" runat="server" Checked="true"/><br />
-        <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click"/>
-        <asp:Button ID="Save" runat="server" Text="送出" onclick="Save_Click"/>
+        已啟用<asp:CheckBox ID="checUse" runat="server" Checked="true" /><br />
+        <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" />
+        <asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" />
     </asp:Panel>
 
     <asp:Panel ID="panQuestions" runat="server" Visible="false" BorderStyle="Solid">
@@ -38,7 +39,7 @@
             <asp:ListItem Value="1">複選方塊</asp:ListItem>
             <asp:ListItem Value="2">文字方塊</asp:ListItem>
         </asp:DropDownList>
-        必填<asp:CheckBox ID="checMust" runat="server" Checked="true"/>
+        必填<asp:CheckBox ID="checMust" runat="server" Checked="true" />
         <br />
         回答:
         <asp:TextBox ID="txtAnswer" runat="server"></asp:TextBox>(多個答案以,分隔)
@@ -46,42 +47,42 @@
         <br />
         <asp:Button ID="btnDelete" runat="server" Text="刪除" OnClick="btnDelete_Click" />
         <table class="table table-striped">
-        <tr>
-            <th></th>
-            <th>#</th>
-            <th>問題</th>
-            <th>種類</th>
-            <th>必填</th>
-            <th></th>
-        </tr>
-        <asp:Repeater ID="repQuestions" runat="server" OnItemCommand="repQuestions_ItemCommand">
-            <ItemTemplate>
-                <asp:HiddenField ID="hfquesDetailID" runat="server" Value='<%#Eval("quesDetailID") %>' />
-                <tr>
-                    <td>
-                        <asp:CheckBox ID="ckbDel" runat="server" />
-                    </td>
-                    <td>
-                        <asp:Label ID="lblNumber" runat="server"></asp:Label>
-                    </td>
-                    <td>
-                        <asp:Label ID="lblquesDetailTitle" runat="server" Text='<%#Eval("quesDetailTitle") %>'></asp:Label>
-                    </td>
-                    <td>
-                        <asp:Label ID="lblquesDetailType" runat="server" Text='<%#Eval("quesDetailType") %>'></asp:Label>
-                    </td>
-                    <td>
-                        <asp:CheckBox ID="ckbListUse" runat="server" Checked='<%#Eval("quesDetailMustKeyIn") %>' Enabled="false" />
-                    </td>
-                    <td>
-                        <asp:LinkButton ID="LinkEdit" runat="server" CommandArgument='<%#Eval("quesDetailID") %>' CommandName="lkbEdit">編輯</asp:LinkButton>
-                    </td>
-                </tr>
-            </ItemTemplate>
-        </asp:Repeater>
-    </table>
+            <tr>
+                <th></th>
+                <th>#</th>
+                <th>問題</th>
+                <th>種類</th>
+                <th>必填</th>
+                <th></th>
+            </tr>
+            <asp:Repeater ID="repQuestions" runat="server" OnItemCommand="repQuestions_ItemCommand">
+                <ItemTemplate>
+                    <asp:HiddenField ID="hfquesDetailID" runat="server" Value='<%#Eval("quesDetailID") %>' />
+                    <tr>
+                        <td>
+                            <asp:CheckBox ID="ckbDel" runat="server" />
+                        </td>
+                        <td>
+                            <asp:Label ID="lblNumber" runat="server"></asp:Label>
+                        </td>
+                        <td>
+                            <asp:Label ID="lblquesDetailTitle" runat="server" Text='<%#Eval("quesDetailTitle") %>'></asp:Label>
+                        </td>
+                        <td>
+                            <asp:Label ID="lblquesDetailType" runat="server" Text='<%#Eval("quesDetailType") %>'></asp:Label>
+                        </td>
+                        <td>
+                            <asp:CheckBox ID="ckbListUse" runat="server" Checked='<%#Eval("quesDetailMustKeyIn") %>' Enabled="false" />
+                        </td>
+                        <td>
+                            <asp:LinkButton ID="LinkEdit" runat="server" CommandArgument='<%#Eval("quesDetailID") %>' CommandName="lkbEdit">編輯</asp:LinkButton>
+                        </td>
+                    </tr>
+                </ItemTemplate>
+            </asp:Repeater>
+        </table>
         <asp:Button ID="btnquescancle" runat="server" Text="取消" OnClick="btnquescancle_Click" />
-        <asp:Button ID="btnquessave" runat="server" Text="送出" onclick="btnquessave_Click"/>
+        <asp:Button ID="btnquessave" runat="server" Text="送出" OnClick="btnquessave_Click" />
     </asp:Panel>
 
     <asp:Panel ID="panFillQuestions" runat="server" Visible="false" BorderStyle="Solid">
