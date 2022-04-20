@@ -84,6 +84,8 @@ namespace Questionnaire.Backadmin
         }
         #endregion
 
+        #region 問卷Questionnaire
+
         /// <summary>
         /// 問卷Questionnaire
         /// </summary>
@@ -102,6 +104,12 @@ namespace Questionnaire.Backadmin
         }
         protected void Save_Click(object sender, EventArgs e)
         {
+            if(ErrorMsg(out string mistake))
+            {
+                this.ltlmistamsg.Text = mistake;
+                return;
+            }
+
             QuestionModel question = new QuestionModel()
             {
                 quesID = Guid.NewGuid(),
@@ -133,6 +141,21 @@ namespace Questionnaire.Backadmin
             this.panQuestionnaire.Visible = false;
             this.panQuestions.Visible = true;
         }
+        private bool ErrorMsg(out string mistake)
+        {
+            mistake = string.Empty;
+            if (string.IsNullOrWhiteSpace(this.txtTitle.Text.Trim()))
+               mistake += "※必須輸入標題※<br/>";
+            if (string.IsNullOrWhiteSpace(this.txtStart.Text))
+               mistake += "※必須輸入開始日期※<br/>";
+            if (string.IsNullOrWhiteSpace(this.txtEnd.Text))
+               mistake += "※必須輸入結束日期※<br/>";
+
+            if(string.IsNullOrEmpty(mistake))
+                return false;
+            return true;
+        }
+        #endregion
 
         /// <summary>
         /// 問題Questions
@@ -140,7 +163,13 @@ namespace Questionnaire.Backadmin
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void BtnAdd_Click(object sender, EventArgs e)
-        {          
+        {
+            if (ErrorMsgQuestion(out string mistake))
+            {
+                this.ltlquesmistMsg.Text = mistake;
+                return;
+            }
+
             QuestionDetailModel questionDetail = new QuestionDetailModel();
             questionDetail.quesDetailID = Guid.NewGuid();
             questionDetail.quesID = _questionID;
@@ -153,6 +182,21 @@ namespace Questionnaire.Backadmin
             HttpContext.Current.Session["qusetionModel"] = _questionDetail;
             InitQues(_questionDetail);
             InitTextbox();
+        }
+
+        private bool ErrorMsgQuestion(out string mistake)
+        {
+            mistake = string.Empty;
+            if (string.IsNullOrWhiteSpace(this.txtTitle1.Text.Trim()))
+                mistake += "※必須輸入標題※<br/>";
+            if (questionDetail.quesDetailType != QuestionType.單選方塊 && this.txtAnswer.Text == null)
+                mistake += "※必須把問題輸入完整※<br/>";
+            else if(questionDetail.quesDetailType != QuestionType.複選方塊 && this.txtAnswer.Text == null)
+                mistake += "※必須把問題輸入完整※<br/>";
+
+            if (string.IsNullOrEmpty(mistake))
+                return false;
+            return true;
         }
 
         private void InitQues(List<QuestionDetailModel> questionList)

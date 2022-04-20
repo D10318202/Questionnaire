@@ -60,6 +60,15 @@ namespace Questionnaire.Backadmin
         protected global::System.Web.UI.WebControls.Panel panQuestionnaire;
 
         /// <summary>
+        /// ltlmistamsg 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ltlmistamsg;
+
+        /// <summary>
         /// txtTitle 控制項。
         /// </summary>
         /// <remarks>
@@ -130,6 +139,15 @@ namespace Questionnaire.Backadmin
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel panQuestions;
+
+        /// <summary>
+        /// ltlquesmistMsg 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ltlquesmistMsg;
 
         /// <summary>
         /// dropclass 控制項。
