@@ -9,8 +9,9 @@
         </div>
         <div class="row">
             <div class="col-lg-2">
-                <a href="List.aspx">問卷管理</a><br />
-                <a href="ExampleList.aspx">常用問題管理</a><br />
+                <a href="../FrontDesk/Index.aspx">前台首頁</a>|
+                <a href="Allquestionnaires.aspx">問卷管理</a>|
+                <a href="Oftenusequestion.aspx">常用問題管理</a>
             </div>
             <div class="col-lg-8">
                 <table>
@@ -20,7 +21,7 @@
                             <asp:TextBox ID="txtkeyword" runat="server"></asp:TextBox>
                         </td>
                         <td>
-                            <asp:Button ID="btnSearch" runat="server" Text="搜尋" OnClick="btnSearch_Click" />
+                            <asp:Button ID="btnSearch" runat="server" Text="搜尋" />
                         </td>
                     </tr>
                     <tr>
@@ -29,7 +30,7 @@
                             <asp:TextBox ID="txtCreate" runat="server"></asp:TextBox>
                         </td>
                         <td>
-                            <asp:Button ID="btnCreate" runat="server" Text="新增" OnClick="btnCreate_Click" />
+                            <asp:Button ID="btnCreate" runat="server" Text="新增" />
                         </td>
                     </tr>
                 </table>

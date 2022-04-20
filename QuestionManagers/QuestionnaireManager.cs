@@ -280,7 +280,8 @@ namespace QuestionManagers
                     using (SqlCommand command = new SqlCommand(commandText, conn))
                     {
                         command.Parameters.AddWithValue("@quesID", questionDetail.quesID);
-                        command.Parameters.AddWithValue("@quesDetailTitle", questionDetail.quesDetailType);
+                        command.Parameters.AddWithValue("@quesDetailID", questionDetail.quesDetailID);
+                        command.Parameters.AddWithValue("@quesDetailTitle", questionDetail.quesDetailTitle);
                         command.Parameters.AddWithValue("@quesDetailBody", questionDetail.quesDetailBody);
                         command.Parameters.AddWithValue("@quesDetailType", questionDetail.quesDetailType);
                         command.Parameters.AddWithValue("@quesDetailMustKeyIn", questionDetail.quesDetailMustKeyIn);

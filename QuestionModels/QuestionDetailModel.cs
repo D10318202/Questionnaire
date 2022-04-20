@@ -12,18 +12,20 @@ namespace QuestionModels
         public int quesDetailNo {get; set;}
         public string quesDetailTitle {get; set;}
         public string quesDetailBody {get; set;}
-        public QuestionType quesDetailType {get; set;}
-        public QuestionMustFill quesDetailMustKeyIn { get; set; }
+        public QuestionType quesDetailType {get; set;}      
+        public bool quesDetailMustKeyIn { get; set; }
     }
     public enum QuestionType
     {
         單選方塊 = 0,
         複選方塊 = 1,
         文字方塊 = 2
-    }
-    public enum QuestionMustFill
-    {
-        必填 = 0,
-        不是必填 = 1
-    }
+    } 
+    
+    //public QuestionMustFill quesDetailMustKeyIn { get; set; }
+    //public enum QuestionMustFill
+    //{
+    //    是必填 = 0,
+    //    不是必填 = 1
+    //}
 }

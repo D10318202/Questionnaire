@@ -34,7 +34,7 @@ namespace Questionnaire.Backadmin
                 HttpContext.Current.Session["quesID"] = _questionID;
             }
             else
-                Response.Redirect("Allquestionnaire.aspx");
+                Response.Redirect("Allquestionnaires.aspx");
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Questionnaire.Backadmin
         }
         protected void Cancle_Click(object sender, EventArgs e)
         {
-            Response.Redirect("allquestionnaires.aspx");
+            Response.Redirect("Allquestionnaires.aspx");
         }
         protected void Save_Click(object sender, EventArgs e)
         {
@@ -143,20 +143,13 @@ namespace Questionnaire.Backadmin
         {
             QuestionDetailModel questionDetail = new QuestionDetailModel()
             {
-                quesID = _questionID,
                 quesDetailID = Guid.NewGuid(),
+                quesID = _questionID,
                 quesDetailTitle = this.txtTitle1.Text.Trim(),
                 quesDetailBody = this.txtAnswer.Text.Trim(),
                 quesDetailType = (QuestionType)Convert.ToInt32(this.droptype.SelectedValue),
+                quesDetailMustKeyIn = this.checMust.Checked,
             };
-            if (this.checMust.Checked == false)
-            {
-                questionDetail.quesDetailMustKeyIn = QuestionMustFill.不是必填;
-            }
-            else
-            {
-                questionDetail.quesDetailMustKeyIn = QuestionMustFill.必填;
-            }
             _questionDetail.Add(questionDetail);
             HttpContext.Current.Session["qusetionModel"] = _questionDetail;
             InitQues(_questionDetail);
@@ -165,13 +158,13 @@ namespace Questionnaire.Backadmin
 
         private void InitQues(List<QuestionDetailModel> questionList)
         {
-            if(questionList != null || questionList.Count > 0)
+            if (questionList != null || questionList.Count > 0)
             {
                 int i = 1;
                 this.repQuestions.Visible = true;
                 this.repQuestions.DataSource = questionList;
                 this.repQuestions.DataBind();
-                foreach(RepeaterItem repeaterItem in this.repQuestions.Items)
+                foreach (RepeaterItem repeaterItem in this.repQuestions.Items)
                 {
                     Label lblNumber = repeaterItem.FindControl("lblNumber") as Label;
                     lblNumber.Text = i.ToString();
@@ -196,7 +189,7 @@ namespace Questionnaire.Backadmin
 
         protected void btnquescancle_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Allquestionnaire.aspx");
+            Response.Redirect("Allquestionnaires.aspx");
         }
 
         protected void btnquessave_Click(object sender, EventArgs e)
@@ -209,19 +202,19 @@ namespace Questionnaire.Backadmin
 
                 questionNumber++;
             }
-            Response.Redirect("Allquestionnaire.aspx");
-        }        
+            Response.Redirect("Allquestionnaires.aspx");
+        }
         public void repQuestions_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                if (e.CommandName == "LinkEdit" && Guid.TryParse(e.CommandArgument.ToString(), out Guid quesDetailID))
+                if (e.CommandName == "LinkEdit" && Guid.TryParse(e.CommandArgument.ToString(), out Guid QuesDetailID))
                 {
-                    QuestionDetailModel questionDetail = _questionDetail.Find(x => x.quesDetailID == quesDetailID);
+                    QuestionDetailModel questionDetail = _questionDetail.Find(x => x.quesDetailID == QuesDetailID);
                     this.txtTitle1.Text = questionDetail.quesDetailTitle;
-                    this.droptype.SelectedIndex = (int)questionDetail.quesDetailType;
-                    this.questionDetail.quesDetailMustKeyIn = questionDetail.quesDetailMustKeyIn;
                     this.txtAnswer.Text = questionDetail.quesDetailBody;
+                    this.droptype.SelectedIndex = (int)questionDetail.quesDetailType;
+                    this.checMust.Checked = questionDetail.quesDetailMustKeyIn;
                 }
             }
         }
@@ -245,7 +238,7 @@ namespace Questionnaire.Backadmin
                 HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment; filename=" + FileName);
                 HttpContext.Current.Response.ContentType = "application/vnd.ms-excel";
                 HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
-                using(MemoryStream mystream = new MemoryStream())
+                using (MemoryStream mystream = new MemoryStream())
                 {
                     StreamWriter sw = new StreamWriter(mystream, Encoding.UTF8);
                     StringBuilder sbcsvContent = new StringBuilder();
@@ -267,7 +260,7 @@ namespace Questionnaire.Backadmin
         }
         #endregion
 
-        
+
 
 
     }

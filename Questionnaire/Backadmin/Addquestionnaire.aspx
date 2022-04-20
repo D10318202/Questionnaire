@@ -19,7 +19,7 @@
         <asp:TextBox ID="txtStart" runat="server" TextMode="DateTimeLocal"></asp:TextBox><br />
         結束時間:
         <asp:TextBox ID="txtEnd" runat="server" TextMode="DateTimeLocal"></asp:TextBox><br />
-        已啟用<asp:CheckBox ID="checUse" runat="server" checked="true"/><br />
+        已啟用<asp:CheckBox ID="checUse" runat="server" Checked="true"/><br />
         <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click"/>
         <asp:Button ID="Save" runat="server" Text="送出" onclick="Save_Click"/>
     </asp:Panel>
@@ -38,7 +38,7 @@
             <asp:ListItem Value="1">複選方塊</asp:ListItem>
             <asp:ListItem Value="2">文字方塊</asp:ListItem>
         </asp:DropDownList>
-        必填<asp:CheckBox ID="checMust" runat="server" Checked="true" />
+        必填<asp:CheckBox ID="checMust" runat="server" Checked="true"/>
         <br />
         回答:
         <asp:TextBox ID="txtAnswer" runat="server"></asp:TextBox>(多個答案以,分隔)
