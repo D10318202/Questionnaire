@@ -7,12 +7,13 @@ namespace QuestionModels
 {
     public class QuestionModel
     {
-       public DateTime quesstart { get; set;}
-       public DateTime quesend { get; set;}
-       public Guid quesID { get; set;}
-       public string quesTitle { get; set;}
-       public string quesBody{ get; set; }
-       public StateType stateType { get; set; }
+        public Guid quesID { get; set; }
+        public DateTime CreateTime { get; set; }
+        public DateTime quesstart { get; set; }
+        public DateTime quesend { get; set; }
+        public string quesTitle { get; set; }
+        public string quesBody { get; set; }
+        public StateType stateType { get; set; }
     }
 
     public enum StateType

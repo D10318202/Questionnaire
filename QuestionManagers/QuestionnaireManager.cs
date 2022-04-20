@@ -51,7 +51,7 @@ namespace QuestionManagers
                 Logger.WriteLog(" QuestionnaireManager.GetQuestionnaire", ex);
                 throw;
             }
-        }  //尚未完成
+        }
 
         /// <summary>
         /// 列出問卷詳細內容
@@ -100,7 +100,50 @@ namespace QuestionManagers
             }
         }
         //列出問卷內容資訊
-        public List<QuestionModel> GetQuestionnaireList(Guid quesID)
+        public List<QuestionModel> GetQuestionnaireList()
+        {
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                $@"  SELECT *
+                     FROM [MainQues]
+                     WHERE quesstates = 1
+                     ORDER BY CreateTime DESC ";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        conn.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+                        List<QuestionModel> Questionnairelist = new List<QuestionModel>();
+                        while (reader.Read())
+                        {
+
+                            QuestionModel question = new QuestionModel()
+                            {
+                                quesID = (Guid)reader["quesID"],
+                                quesTitle = reader["quesTitle"] as string,
+                                quesBody = reader["quesBody"] as string,
+                                quesstart = (DateTime)reader["quesstart"],
+                                quesend = (DateTime)reader["quesend"],
+                                CreateTime = (DateTime)reader["CreateTime"]
+                            };
+                            question.stateType = (question.quesend < DateTime.Now) ? StateType.關閉 : StateType.已啟用;
+                            Questionnairelist.Add(question);
+                        }
+                        return Questionnairelist;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("QuestionnaireManager.GetQuestionnaireList", ex);
+                throw;
+            }
+        }
+
+        public List<QuestionModel> GetQuestionnaireList(string keyword)
         {
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
@@ -114,8 +157,6 @@ namespace QuestionManagers
                 {
                     using (SqlCommand command = new SqlCommand(commandText, conn))
                     {
-                        command.Parameters.AddWithValue("@quesID", quesID);
-
                         conn.Open();
                         SqlDataReader reader = command.ExecuteReader();
                         while (reader.Read())
@@ -142,7 +183,7 @@ namespace QuestionManagers
         }
 
 
-        
+
         #region /*問卷*/
         /// <summary>
         /// 創建問卷
@@ -154,9 +195,9 @@ namespace QuestionManagers
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
                 @"  INSERT INTO [MainQues] 
-                        (quesID, quesTitle, quesBody, quesstart, quesend,quesstates)
+                        (quesID, quesTitle, quesBody, CreateTime, quesstart, quesend,quesstates)
                     VALUES 
-                        (@quesID, @quesTitle, @quesBody, @quesstart, @quesend, @quesstates) ";
+                        (@quesID, @quesTitle, @quesBody, @CreateTime, @quesstart, @quesend, @quesstates) ";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
@@ -166,6 +207,7 @@ namespace QuestionManagers
                         command.Parameters.AddWithValue("@quesID", question.quesID);
                         command.Parameters.AddWithValue("@quesTitle", question.quesTitle);
                         command.Parameters.AddWithValue("@quesBody", question.quesBody);
+                        command.Parameters.AddWithValue("@CreateTime", question.CreateTime);
                         command.Parameters.AddWithValue("@quesstart", question.quesstart);
                         command.Parameters.AddWithValue("@quesend", question.quesend);
                         command.Parameters.AddWithValue("@quesstates", question.stateType);
@@ -180,7 +222,7 @@ namespace QuestionManagers
                 Logger.WriteLog("QuestionnaireManager.CreateQuestionnaire", ex);
                 throw;
             }
-        }       
+        }
 
         /// <summary>
         /// 編輯問卷

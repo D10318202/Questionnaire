@@ -183,7 +183,19 @@ namespace Questionnaire.Backadmin
         }
         protected void btnDelete_Click(object sender, EventArgs e)
         {
-
+            List<QuestionDetailModel> detailModels = new List<QuestionDetailModel>();
+            foreach (RepeaterItem repeaterItem in this.repQuestions.Items)
+            {
+                HiddenField hfquesDetailID = repeaterItem.FindControl("hfquesDetailID") as HiddenField;
+                CheckBox ckbDel = repeaterItem.FindControl("ckbDel") as CheckBox;
+                if (!ckbDel.Checked && Guid.TryParse(hfquesDetailID.Value, out Guid QuesDetailID))
+                {
+                    QuestionDetailModel questionDetail = _questionDetail.Find(x => x.quesDetailID == QuesDetailID);
+                    detailModels.Add(questionDetail);
+                }
+            }
+            InitQues(detailModels);
+            HttpContext.Current.Session["questionModel"] = detailModels;
         }
 
         protected void btnquescancle_Click(object sender, EventArgs e)
@@ -254,7 +266,7 @@ namespace Questionnaire.Backadmin
             }
             catch (Exception ex)
             {
-                Response.Write("<script>匯出失敗</script>");
+                Response.Write("<script>alert('匯出失敗')</script>");
             }
         }
         #endregion
