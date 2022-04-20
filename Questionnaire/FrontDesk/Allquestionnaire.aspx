@@ -47,5 +47,5 @@
             </ItemTemplate>
         </asp:Repeater>
     </table>
-    <script src="js/SearchkeyWord.js"></script>
+<%--    <script src="js/SearchkeyWord.js"></script>--%>
 </asp:Content>

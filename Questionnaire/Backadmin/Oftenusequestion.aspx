@@ -1,6 +1,8 @@
-﻿<%@ Page Title="後台-常用問題管理" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="Oftenusequestion.aspx.cs" Inherits="Questionnaire.Backadmin.Oftenusequestion"%>
+﻿<%@ Page Title="後台-常用問題管理" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="Oftenusequestion.aspx.cs" Inherits="Questionnaire.Backadmin.Oftenusequestion" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script src="../JS/bootstrap.min.js"></script>
+    <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
@@ -8,11 +10,6 @@
             <h2>後台-常用問題管理</h2>
         </div>
         <div class="row">
-            <div class="col-lg-2">
-                <a href="../FrontDesk/Index.aspx">前台首頁</a>|
-                <a href="Allquestionnaires.aspx">問卷管理</a>|
-                <a href="Oftenusequestion.aspx">常用問題管理</a>
-            </div>
             <div class="col-lg-8">
                 <table>
                     <tr>
@@ -30,7 +27,7 @@
                             <asp:TextBox ID="txtCreate" runat="server"></asp:TextBox>
                         </td>
                         <td>
-                            <asp:Button ID="btnCreate" runat="server" Text="新增" />
+                            <asp:Button ID="btnCreate" runat="server" Text="新增" OnClick="btnCreate_Click" />
                         </td>
                     </tr>
                 </table>
@@ -40,10 +37,11 @@
                         <th></th>
                         <th>#</th>
                         <th>標題</th>
+                        <th>建立時間</th>
                     </tr>
-                    <asp:Repeater ID="rptTable" runat="server">
+                    <asp:Repeater ID="rptQuestionOften" runat="server">
                         <ItemTemplate>
-                            <asp:HiddenField ID="hfID" runat="server" Value='<%#Eval("quesDetailID") %>' />
+                            <asp:HiddenField ID="hfID" runat="server" Value='<%#Eval("quesID") %>' />
                             <tr>
                                 <td>
                                     <asp:CheckBox ID="ckbDel" runat="server" />
@@ -52,8 +50,11 @@
                                     <asp:Label ID="lblNumber" runat="server"></asp:Label>
                                 </td>
                                 <td>
-                                    <a href="Allquestionnaire.aspx?ID=<%#Eval("quesDetailID") %>">
-                                        <asp:Label ID="lblQueryName" runat="server" Text='<%#Eval("quesDetailTitle") %>'></asp:Label></a>
+                                    <a href="OftenQuestionDesign.aspx?ID=<%#Eval("quesID") %>">
+                                        <asp:Label ID="lblQueryName" runat="server" Text='<%#Eval("quesTitle") %>'></asp:Label></a>
+                                </td>
+                                <td>
+                                    <asp:Label ID="lblCreateTime" runat="server" Text='<%#Eval("CreateTime") %>'></asp:Label>
                                 </td>
                             </tr>
                         </ItemTemplate>

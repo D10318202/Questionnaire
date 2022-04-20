@@ -4,33 +4,37 @@
 
 <html>
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
-     <style>
-        body{
+    <style>
+        .body {
             background-color:lightyellow;
+        }
+
+        .auto-style1 {
+            width: 79px;
+            height: 73px;
         }
     </style>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body>
+<body class="body">
     <form id="form1" runat="server">
-         <table width="100%">
-            <tr>
-                <td>logo</td>
-                <td>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10">
+                    <img src="../Pictures/75470.png" class="auto-style1" />&nbsp;                    
+                    <a href="../FrontDesk/Index.aspx">前台首頁</a>
                     <a href="Allquestionnaires.aspx">問卷管理</a>
                     <a href="Oftenusequestion.aspx">常用問題管理</a>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-                    </asp:ContentPlaceHolder>
-                </td>
-            </tr>
-        </table>
+                </div>
+            </div>
+            <div>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
     </form>
 </body>
 </html>

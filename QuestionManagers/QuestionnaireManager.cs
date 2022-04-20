@@ -99,6 +99,8 @@ namespace QuestionManagers
             }
         }
 
+        #region 列出問卷
+
         /// <summary>
         /// 列出問卷內容資訊
         /// </summary>
@@ -195,7 +197,100 @@ namespace QuestionManagers
             }
         }
 
+        #endregion
 
+        #region 列出常用問題
+
+        /// <summary>
+        /// 列出常用問題
+        /// </summary>
+        /// <returns></returns>
+        public List<QuestionModel> GetQuestionList()
+        {
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                $@"  SELECT *
+                     FROM [MainQues]
+                     WHERE quesstates = 1
+                     ORDER BY CreateTime DESC ";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        conn.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+                        List<QuestionModel> Questionnairelist = new List<QuestionModel>();
+                        while (reader.Read())
+                        {
+
+                            QuestionModel question = new QuestionModel()
+                            {
+                                quesID = (Guid)reader["quesID"],
+                                quesTitle = reader["quesTitle"] as string,
+                                CreateTime = (DateTime)reader["CreateTime"]
+                            };
+                            Questionnairelist.Add(question);
+                        }
+                        return Questionnairelist;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("QuestionnaireManager.GetQuestionList", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 列出常用問題(搜尋功能)
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
+        public List<QuestionModel> GetQuestionList(string keyword)
+        {
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                $@"  SELECT *
+                     FROM [MainQues]
+                     WHERE quesTitle LIKE '%'+ @keyword+ '%' AND quesstates = 1
+                     ORDER BY CreateTime DESC ";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        if (!string.IsNullOrWhiteSpace(keyword))
+                            command.Parameters.AddWithValue("@keyword", keyword);
+
+                        conn.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+                        List<QuestionModel> question = new List<QuestionModel>();
+                        while (reader.Read())
+                        {
+                            QuestionModel questionmo = new QuestionModel()
+                            {
+                                quesID = (Guid)reader["quesID"],
+                                quesTitle = reader["quesTitle"] as string,
+                                CreateTime = (DateTime)reader["CreateTime"]
+                            };
+                            question.Add(questionmo);
+                        }
+                        return question;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(" QuestionnaireManager.GetQuestionList", ex);
+                throw;
+            }
+        }
+
+        #endregion
 
         #region /*問卷*/
         /// <summary>
