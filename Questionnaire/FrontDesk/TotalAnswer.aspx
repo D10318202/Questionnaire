@@ -8,6 +8,7 @@
             <asp:Literal ID="ltlTitle" runat="server"></asp:Literal></h2>
         <h4>
             <asp:Literal ID="ltlBody" runat="server"></asp:Literal></h4>
-        <asp:PlaceHolder ID="plcAnswer" runat="server"></asp:PlaceHolder>
+        <asp:Panel ID="panTotal" runat="server" Visible="false" BorderStyle="Solid">
+        </asp:Panel>
     </div>
 </asp:Content>

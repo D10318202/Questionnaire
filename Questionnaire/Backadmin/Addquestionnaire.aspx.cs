@@ -140,16 +140,15 @@ namespace Questionnaire.Backadmin
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void BtnAdd_Click(object sender, EventArgs e)
-        {
-            QuestionDetailModel questionDetail = new QuestionDetailModel()
-            {
-                quesDetailID = Guid.NewGuid(),
-                quesID = _questionID,
-                quesDetailTitle = this.txtTitle1.Text.Trim(),
-                quesDetailBody = this.txtAnswer.Text.Trim(),
-                quesDetailType = (QuestionType)Convert.ToInt32(this.droptype.SelectedValue),
-                quesDetailMustKeyIn = this.checMust.Checked,
-            };
+        {          
+            QuestionDetailModel questionDetail = new QuestionDetailModel();
+            questionDetail.quesDetailID = Guid.NewGuid();
+            questionDetail.quesID = _questionID;
+            questionDetail.quesDetailTitle = this.txtTitle1.Text.Trim();
+            questionDetail.quesDetailBody = this.txtAnswer.Text.Trim();
+            questionDetail.quesDetailType = (QuestionType)Convert.ToInt32(this.droptype.SelectedValue);
+            questionDetail.quesDetailMustKeyIn = this.checMust.Checked;
+
             _questionDetail.Add(questionDetail);
             HttpContext.Current.Session["qusetionModel"] = _questionDetail;
             InitQues(_questionDetail);
