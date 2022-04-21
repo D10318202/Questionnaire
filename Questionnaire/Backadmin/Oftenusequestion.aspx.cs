@@ -11,7 +11,6 @@ namespace Questionnaire.Backadmin
 {
     public partial class Oftenusequestion : System.Web.UI.Page
     {
-        private static Guid _questionID;
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -52,6 +51,7 @@ namespace Questionnaire.Backadmin
         protected void btnCreate_Click(object sender, EventArgs e)
         {
             Guid newquestionID = Guid.NewGuid();
+            _quesMgr.CreateOftenUseExamp(newquestionID, this.txtCreate.Text.Trim());
             Response.Redirect("OftenQuestionDesign.aspx?ID=" + newquestionID);
         }
 

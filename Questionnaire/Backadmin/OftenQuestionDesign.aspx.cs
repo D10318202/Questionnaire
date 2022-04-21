@@ -13,5 +13,10 @@ namespace Questionnaire.Backadmin
         {
 
         }
+
+        protected void btnquescancle_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Oftenusequestion.aspx");
+        }
     }
 }
