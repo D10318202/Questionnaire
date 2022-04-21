@@ -21,7 +21,7 @@
                 <br />
                 <br />
 
-                <asp:Button ID="delete" runat="server" Text="刪除"onclick="delete_Click" />
+                <asp:Button ID="delete" runat="server" Text="刪除" OnClick="delete_Click" />
                 <asp:Button ID="add" runat="server" Text="新增" OnClick="add_Click" />
                 <table class="table table-striped">
                     <tr>

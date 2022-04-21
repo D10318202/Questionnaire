@@ -11,7 +11,6 @@ namespace Questionnaire.Backadmin
 {
     public partial class Allquestionnaires : System.Web.UI.Page
     {
-        //private static List<QuestionModel> _question = new List<QuestionModel>();
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -33,11 +32,22 @@ namespace Questionnaire.Backadmin
                 i--;
             }
         }
+
+        /// <summary>
+        /// 增加問卷
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void add_Click(object sender, EventArgs e)
         {
             Response.Redirect("Addquestionnaire.aspx");
         }
 
+        /// <summary>
+        /// 刪除問卷
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void delete_Click(object sender, EventArgs e)
         {
             foreach (RepeaterItem repeaterItem in this.repQuestionnaire.Items)
