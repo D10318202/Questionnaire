@@ -30,7 +30,7 @@ namespace Questionnaire.Backadmin
             else if (Guid.TryParse(QusetionnaireID, out _questionID))
             {
                 isCreateMode = false;
-                initEditMode(_questionID);
+                EditMode(_questionID);
                 HttpContext.Current.Session["quesID"] = _questionID;
             }
             else
@@ -89,19 +89,7 @@ namespace Questionnaire.Backadmin
         /// <summary>
         /// 問卷Questionnaire
         /// </summary>
-        /// <param name="quesID"></param>
-        private void initEditMode(Guid quesID)
-        {
-            QuestionModel question = _quesMgr.GetQuestionnaire(quesID);
-            this.txtTitle.Text = question.quesTitle;
-            this.txtBody.Text = question.quesBody;
-            this.txtStart.Text = question.quesstart.ToString();
-            this.txtEnd.Text = question.quesend.ToString();
-        }
-        protected void Cancle_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("Allquestionnaires.aspx");
-        }
+        /// <param name="quesID"></param> 
         protected void Save_Click(object sender, EventArgs e)
         {
             if(ErrorMsg(out string mistake))
@@ -109,7 +97,7 @@ namespace Questionnaire.Backadmin
                 this.ltlmistamsg.Text = mistake;
                 return;
             }
-
+            
             QuestionModel question = new QuestionModel()
             {
                 quesID = Guid.NewGuid(),
@@ -141,6 +129,18 @@ namespace Questionnaire.Backadmin
             this.panQuestionnaire.Visible = false;
             this.panQuestions.Visible = true;
         }
+        private void EditMode(Guid quesID)
+        {
+            QuestionModel question = _quesMgr.GetQuestionnaire(quesID);
+            this.txtTitle.Text = question.quesTitle;
+            this.txtBody.Text = question.quesBody;
+            this.txtStart.Text = question.quesstart.ToString("yyyy/MM/dd");
+            this.txtEnd.Text = question.quesend.ToString("yyyy/MM/dd");
+        }
+        protected void Cancle_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Allquestionnaires.aspx");
+        }       
         private bool ErrorMsg(out string mistake)
         {
             mistake = string.Empty;
@@ -150,7 +150,6 @@ namespace Questionnaire.Backadmin
                mistake += "※必須輸入開始日期※<br/>";
             if (string.IsNullOrWhiteSpace(this.txtEnd.Text))
                mistake += "※必須輸入結束日期※<br/>";
-
             if(string.IsNullOrEmpty(mistake))
                 return false;
             return true;
@@ -164,6 +163,7 @@ namespace Questionnaire.Backadmin
         /// <param name="e"></param>
         protected void BtnAdd_Click(object sender, EventArgs e)
         {
+            
             if (ErrorMsgQuestion(out string mistake))
             {
                 this.ltlquesmistMsg.Text = mistake;
@@ -179,7 +179,7 @@ namespace Questionnaire.Backadmin
             questionDetail.quesDetailMustKeyIn = this.checMust.Checked;
 
             _questionDetail.Add(questionDetail);
-            HttpContext.Current.Session["qusetionModel"] = _questionDetail;
+            HttpContext.Current.Session["qusetionMode"] = _questionDetail;
             InitQues(_questionDetail);
             InitTextbox();
         }
@@ -252,6 +252,8 @@ namespace Questionnaire.Backadmin
             int questionNumber = 1;
             foreach (QuestionDetailModel questionDetail in _questionDetail)
             {
+                questionDetail.quesDetailID = Guid.NewGuid();
+                questionDetail.quesID = _questionID;
                 questionDetail.quesDetailNo = questionNumber;
                 _quesMgr.CreateQuestionDetail(questionDetail);
 
