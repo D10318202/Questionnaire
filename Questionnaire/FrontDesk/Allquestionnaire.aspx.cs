@@ -37,6 +37,11 @@ namespace Questionnaire
             }
         }
 
+        /// <summary>
+        /// 搜尋功能
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         //待更改
         protected void btnSearch_Click(object sender, EventArgs e)
         {

@@ -183,7 +183,6 @@ namespace Questionnaire.Backadmin
             InitQues(_questionDetail);
             InitTextbox();
         }
-
         private bool ErrorMsgQuestion(out string mistake)
         {
             mistake = string.Empty;
@@ -198,7 +197,6 @@ namespace Questionnaire.Backadmin
                 return false;
             return true;
         }
-
         private void InitQues(List<QuestionDetailModel> questionList)
         {
             if (questionList != null || questionList.Count > 0)
@@ -217,7 +215,6 @@ namespace Questionnaire.Backadmin
             else
                 this.repQuestions.Visible = false;
         }
-
         private void InitTextbox()
         {
             this.txtTitle1.Text = "";
@@ -241,12 +238,10 @@ namespace Questionnaire.Backadmin
             InitQues(detailModels);
             HttpContext.Current.Session["questionModel"] = detailModels;
         }
-
         protected void btnquescancle_Click(object sender, EventArgs e)
         {
             Response.Redirect("Allquestionnaires.aspx");
         }
-
         protected void btnquessave_Click(object sender, EventArgs e)
         {
             int questionNumber = 1;
@@ -276,6 +271,11 @@ namespace Questionnaire.Backadmin
             }
         }
 
+        /// <summary>
+        /// 填寫資料FillQuestions
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         #region /*填寫資料FillQuestions*/
         protected void btnsavefile_Click(object sender, EventArgs e)
         {

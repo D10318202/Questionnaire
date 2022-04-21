@@ -376,7 +376,7 @@ namespace QuestionManagers
         /// </summary>
         /// <param name="quesID">問卷代號</param>
         /// <returns></returns>
-        public bool DeleteQuestionary(Guid quesID)
+        public bool DeleteQuestionnaire(Guid quesID)
         {
 
             string connStr = ConfigHelper.GetConnectionString();
@@ -389,11 +389,10 @@ namespace QuestionManagers
                 {
                     using (SqlCommand command = new SqlCommand(commandText, conn))
                     {
-
-                        command.Parameters.AddWithValue("@quesID", quesID);
-
+                        DeleteQuestion(quesID);
+                        DeleteAnswer(quesID);
                         conn.Open();
-
+                        command.Parameters.AddWithValue("@quesID", quesID);                      
                         command.ExecuteNonQuery();
                     }
                     return true;
@@ -405,6 +404,71 @@ namespace QuestionManagers
                 throw;
             }
         }
+
+        /// <summary>
+        /// 刪除問題
+        /// </summary>
+        /// <param name="quesID"></param>
+        /// <returns></returns>
+        public bool DeleteQuestion(Guid quesID)
+        {
+
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                @" DELETE FROM QuestionDetail 
+                   WHERE quesID = @quesID";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        conn.Open();
+                        command.Parameters.AddWithValue("@quesID", quesID);
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 刪除答案
+        /// </summary>
+        /// <param name="quesID"></param>
+        /// <returns></returns>
+        public bool DeleteAnswer(Guid quesID)
+        {
+
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                @" DELETE FROM Answer 
+                   WHERE quesID = @quesID";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        conn.Open();
+                        command.Parameters.AddWithValue("@quesID", quesID);
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+                throw;
+            }
+        }
+
 
         #endregion
 
@@ -452,15 +516,6 @@ namespace QuestionManagers
         /// </summary>
         /// <param name="questionDetail"></param>
         public void UpdateQuestionDetail(QuestionDetailModel questionDetail)
-        {
-
-        }
-
-        /// <summary>
-        /// 刪除問題
-        /// </summary>
-        /// <param name="questionDetail"></param>
-        public void DeleteQuestionDetail(QuestionDetailModel questionDetail)
         {
 
         }
