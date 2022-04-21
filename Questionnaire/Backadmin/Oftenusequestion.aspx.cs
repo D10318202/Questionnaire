@@ -17,7 +17,7 @@ namespace Questionnaire.Backadmin
         {
             if (!this.IsPostBack)
             {
-                List<QuestionModel> questionnaireList = _quesMgr.GetQuestionList(_questionID);
+                List<QuestionModel> questionnaireList = _quesMgr.GetQuestionList();
                 InitQuesOften(questionnaireList);
             }
             //if (!this.IsPostBack)
@@ -40,6 +40,7 @@ namespace Questionnaire.Backadmin
         }
         protected void btnSearch_Click(object sender, EventArgs e)
         {
+            //待更改
             string keyword = this.txtkeyword.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(keyword))
@@ -50,7 +51,21 @@ namespace Questionnaire.Backadmin
 
         protected void btnCreate_Click(object sender, EventArgs e)
         {
-            Response.Redirect("QuestionDetailModel");
+            Guid newquestionID = Guid.NewGuid();
+            Response.Redirect("OftenQuestionDesign.aspx?ID=" + newquestionID);
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            foreach (RepeaterItem repeaterItem in this.rptQuestionOften.Items)
+            {
+                HiddenField hfID = repeaterItem.FindControl("hfID") as HiddenField;
+                CheckBox ckbDel = repeaterItem.FindControl("ckbDel") as CheckBox;
+                if (ckbDel.Checked && Guid.TryParse(hfID.Value, out Guid quesID))
+                    _quesMgr.DeleteQuestionnaire(quesID);
+            }
+            List<QuestionModel> questionnaireList = _quesMgr.GetQuestionList();
+            InitQuesOften(questionnaireList);
         }
     }
 }

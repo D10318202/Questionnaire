@@ -60,7 +60,7 @@
                         </ItemTemplate>
                     </asp:Repeater>
                 </table>
-                <asp:Button ID="btnDelete" runat="server" Text="刪除" />
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" Onclick="btnDelete_Click"/>
             </div>
         </div>
     </div>

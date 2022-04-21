@@ -243,7 +243,7 @@ namespace Questionnaire.Backadmin
         }
         protected void btnquessave_Click(object sender, EventArgs e)
         {
-            if(_quesMgr.GetQuestionList(_questionID) != null)
+            if(_quesMgr.GetQuestionModel(_questionID) != null)
                  _quesMgr.DeleteQuestion(_questionID);
 
             int questionNumber = 1;
