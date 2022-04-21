@@ -100,7 +100,7 @@ namespace Questionnaire.Backadmin
             
             QuestionModel question = new QuestionModel()
             {
-                quesID = Guid.NewGuid(),
+                //quesID = Guid.NewGuid(),
                 quesstart = Convert.ToDateTime(this.txtStart.Text),
                 quesend = Convert.ToDateTime(this.txtEnd.Text),
                 quesTitle = this.txtTitle.Text.Trim(),
@@ -126,6 +126,7 @@ namespace Questionnaire.Backadmin
                 _quesMgr.UpdateQuestionnaire(question);
             }
             HttpContext.Current.Session["quesID"] = question.quesID;
+            Response.Redirect("Addquestionnaire.aspx?quesID=" + question.quesID);   //感覺有點奇怪，但可行
             this.panQuestionnaire.Visible = false;
             this.panQuestions.Visible = true;
         }
@@ -162,14 +163,12 @@ namespace Questionnaire.Backadmin
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void BtnAdd_Click(object sender, EventArgs e)
-        {
-            
+        {           
             if (ErrorMsgQuestion(out string mistake))
             {
                 this.ltlquesmistMsg.Text = mistake;
                 return;
             }
-
             QuestionDetailModel questionDetail = new QuestionDetailModel();
             questionDetail.quesDetailID = Guid.NewGuid();
             questionDetail.quesID = _questionID;
@@ -244,6 +243,9 @@ namespace Questionnaire.Backadmin
         }
         protected void btnquessave_Click(object sender, EventArgs e)
         {
+            if(_quesMgr.GetQuestionList(_questionID) != null)
+                 _quesMgr.DeleteQuestion(_questionID);
+
             int questionNumber = 1;
             foreach (QuestionDetailModel questionDetail in _questionDetail)
             {

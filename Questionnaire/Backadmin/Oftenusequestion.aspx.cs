@@ -11,12 +11,13 @@ namespace Questionnaire.Backadmin
 {
     public partial class Oftenusequestion : System.Web.UI.Page
     {
+        private static Guid _questionID;
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
             {
-                List<QuestionModel> questionnaireList = _quesMgr.GetQuestionList();
+                List<QuestionModel> questionnaireList = _quesMgr.GetQuestionList(_questionID);
                 InitQuesOften(questionnaireList);
             }
             //if (!this.IsPostBack)

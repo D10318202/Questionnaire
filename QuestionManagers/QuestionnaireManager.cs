@@ -205,7 +205,7 @@ namespace QuestionManagers
         /// 列出常用問題
         /// </summary>
         /// <returns></returns>
-        public List<QuestionModel> GetQuestionList()
+        public List<QuestionModel> GetQuestionList(Guid quesID)
         {
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
