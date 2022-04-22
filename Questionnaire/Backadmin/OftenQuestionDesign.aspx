@@ -5,13 +5,13 @@
     <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container">
+   <div class="container">
         <div class="row">
             <h2>常用問題新增</h2>
         </div>
         <div class="row">
-            <div class="col-lg-10">
-                <asp:Label ID="ltlmistamsg" runat="server" ForeColor="Red"></asp:Label><br />
+            <div class="col-lg-8">
+                <asp:Label ID="ltlquesmistMsg" runat="server" ForeColor="Red"></asp:Label><br />
                 問卷名稱:
                      <asp:TextBox ID="txtTitle" runat="server"></asp:TextBox><br />
                 問題:
@@ -25,9 +25,9 @@
                 <br />
                 回答:
                     <asp:TextBox ID="txtAnswer" runat="server"></asp:TextBox>(多個答案以,分隔)
-                    <asp:Button ID="BtnAdd" runat="server" Text="加入" />
+                    <asp:Button ID="BtnAdd" runat="server" Text="加入" OnClick="BtnAdd_Click"/>
                 <br />
-                <asp:Button ID="btnDelete" runat="server" Text="刪除" />
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" OnClick="btnDelete_Click"/>
                 <table class="table table-info">
                     <tr>
                         <th></th>
@@ -37,7 +37,7 @@
                         <th>必填</th>
                         <th></th>
                     </tr>
-                    <asp:Repeater ID="repQuestions" runat="server">
+                    <asp:Repeater ID="repQuestions" runat="server" OnItemCommand="repQuestions_ItemCommand">
                         <ItemTemplate>
                             <asp:HiddenField ID="hfquesDetailID" runat="server" Value='<%#Eval("quesDetailID") %>' />
                             <tr>
@@ -63,8 +63,8 @@
                         </ItemTemplate>
                     </asp:Repeater>
                 </table>
-                <asp:Button ID="btnquescancle" runat="server" Text="取消" />
-                <asp:Button ID="btnquessave" runat="server" Text="送出" />
+                <asp:Button ID="btnquescancle" runat="server" Text="取消" Onclick="btnquescancle_Click" />
+                <asp:Button ID="btnquessave" runat="server" Text="送出" OnClick="btnquessave_Click"/>
             </div>
         </div>
     </div>

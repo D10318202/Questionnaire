@@ -1,5 +1,8 @@
 ﻿<%@ Page Title="問卷總覽" Language="C#" MasterPageFile="~/FrontDesk/FrontDesk.Master" AutoEventWireup="true" CodeBehind="Allquestionnaire.aspx.cs" Inherits="Questionnaire.Allquestionnaire" %>
 
+<%@ Register Src="~/ShareControls/ucPage.ascx" TagPrefix="uc1" TagName="ucPage" %>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
     <script src="../JS/bootstrap.min.js"></script>
@@ -47,5 +50,6 @@
             </ItemTemplate>
         </asp:Repeater>
     </table>
+    <uc1:ucPage runat="server" id="ucPage" />
 <%--    <script src="js/SearchkeyWord.js"></script>--%>
 </asp:Content>

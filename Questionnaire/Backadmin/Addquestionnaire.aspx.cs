@@ -149,6 +149,8 @@ namespace Questionnaire.Backadmin
                mistake += "※必須輸入標題※<br/>";
             if (string.IsNullOrWhiteSpace(this.txtStart.Text))
                mistake += "※必須輸入開始日期※<br/>";
+            else if (Convert.ToDateTime(this.txtStart.Text) < DateTime.Today && isCreateMode)
+                mistake += "※起始日期不可早於今天※<br/>";
             if (string.IsNullOrWhiteSpace(this.txtEnd.Text))
                mistake += "※必須輸入結束日期※<br/>";
             if(string.IsNullOrEmpty(mistake))

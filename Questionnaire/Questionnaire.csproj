@@ -82,6 +82,7 @@
     <Content Include="JS\jquery.min.js" />
     <Content Include="JS\SearchkeyWord.js" />
     <Content Include="Pictures\75470.png" />
+    <Content Include="ShareControls\ucPage.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +167,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShareControls\ucPage.ascx.cs">
+      <DependentUpon>ucPage.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ShareControls\ucPage.ascx.designer.cs">
+      <DependentUpon>ucPage.ascx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Backadmin\Backadmin.Master" />
@@ -188,6 +196,7 @@
       <Name>QuestionModels</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

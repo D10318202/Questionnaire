@@ -16,7 +16,7 @@ namespace Questionnaire.Backadmin
         {
             if (!this.IsPostBack)
             {
-                List<QuestionModel> questionnaireList = _quesMgr.GetQuestionnaireList();
+                List<QuestionModel> questionnaireList = _quesMgr.GetQuestionnaireBackadminList();
                 InitQuestionnaire(questionnaireList);
             }
         }

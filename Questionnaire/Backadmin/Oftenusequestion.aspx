@@ -1,5 +1,8 @@
 ﻿<%@ Page Title="後台-常用問題管理" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="Oftenusequestion.aspx.cs" Inherits="Questionnaire.Backadmin.Oftenusequestion" %>
 
+<%@ Register Src="~/ShareControls/ucPage.ascx" TagPrefix="uc1" TagName="ucPage" %>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../JS/bootstrap.min.js"></script>
     <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
@@ -64,5 +67,6 @@
             </div>
         </div>
     </div>
+    <uc1:ucPage runat="server" id="ucPage" />
     <script src="../JS/SearchkeyWord.js"></script>
 </asp:Content>

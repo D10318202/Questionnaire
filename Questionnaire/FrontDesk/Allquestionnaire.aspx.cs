@@ -11,7 +11,6 @@ namespace Questionnaire
 {
     public partial class Allquestionnaire : System.Web.UI.Page
     {
-        private static List<QuestionModel> _question = new List<QuestionModel>();
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         protected void Page_Load(object sender, EventArgs e)
         {

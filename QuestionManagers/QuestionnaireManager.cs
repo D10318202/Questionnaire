@@ -299,7 +299,51 @@ namespace QuestionManagers
                         List<QuestionModel> Questionnairelist = new List<QuestionModel>();
                         while (reader.Read())
                         {
+                            QuestionModel question = new QuestionModel()
+                            {
+                                quesID = (Guid)reader["quesID"],
+                                quesTitle = reader["quesTitle"] as string,
+                                quesBody = reader["quesBody"] as string,
+                                quesstart = (DateTime)reader["quesstart"],
+                                quesend = (DateTime)reader["quesend"],
+                                CreateTime = (DateTime)reader["CreateTime"]
+                            };
+                            question.stateType = (question.quesend < DateTime.Now) ? StateType.關閉 : StateType.已啟用;
+                            Questionnairelist.Add(question);
+                        }
+                        return Questionnairelist;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("QuestionnaireManager.GetQuestionnaireList", ex);
+                throw;
+            }
+        }
 
+        /// <summary>
+        /// 列出問卷內容資訊(後台)
+        /// </summary>
+        /// <returns></returns>
+        public List<QuestionModel> GetQuestionnaireBackadminList()
+        {
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                $@"  SELECT *
+                     FROM [MainQues]
+                     ORDER BY CreateTime DESC ";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        conn.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+                        List<QuestionModel> Questionnairelist = new List<QuestionModel>();
+                        while (reader.Read())
+                        {
                             QuestionModel question = new QuestionModel()
                             {
                                 quesID = (Guid)reader["quesID"],
