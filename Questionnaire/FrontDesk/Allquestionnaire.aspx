@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="問卷總覽" Language="C#" MasterPageFile="~/FrontDesk/FrontDesk.Master" AutoEventWireup="true" CodeBehind="Allquestionnaire.aspx.cs" Inherits="Questionnaire.Allquestionnaire" %>
 
-<%@ Register Src="~/ShareControls/ucPage.ascx" TagPrefix="uc1" TagName="ucPage" %>
+<%@ Register Src="~/ShareControls/ucPager.ascx" TagPrefix="uc1" TagName="ucPager" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -50,6 +50,6 @@
             </ItemTemplate>
         </asp:Repeater>
     </table>
-    <uc1:ucPage runat="server" id="ucPage" />
+    <uc1:ucPager runat="server" id="ucPager" />
 <%--    <script src="js/SearchkeyWord.js"></script>--%>
 </asp:Content>

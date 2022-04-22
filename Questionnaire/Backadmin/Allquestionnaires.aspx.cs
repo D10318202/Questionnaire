@@ -12,19 +12,35 @@ namespace Questionnaire.Backadmin
     public partial class Allquestionnaires : System.Web.UI.Page
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
+        private const int _pageSize = 5;
+        private static int _pageIndex;
+        private static int _totalRows;
         protected void Page_Load(object sender, EventArgs e)
         {
+            HttpContext.Current.Session.RemoveAll();
+            string pageIndexText = this.Request.QueryString["Page"];
+            _pageIndex =
+                (string.IsNullOrWhiteSpace(pageIndexText))
+                    ? 1
+                    : Convert.ToInt32(pageIndexText);
+
             if (!this.IsPostBack)
             {
                 List<QuestionModel> questionnaireList = _quesMgr.GetQuestionnaireBackadminList();
                 InitQuestionnaire(questionnaireList);
             }
+                //List<QuestionModel> questionsList = _quesMgr.GetIndexList(_pageIndex, _pageSize, searchlist);
+                //_totalRows = searchlist.Count;
+                //this.ucPager.TotalRows = _totalRows;
+                //this.ucPager.PageIndex = _pageIndex;
+                //this.ucPager.Bind(paramKey, paramValue);
+            
         }
         private void InitQuestionnaire(List<QuestionModel> questionnaireList)
         {
             this.repQuestionnaire.DataSource = questionnaireList;
             this.repQuestionnaire.DataBind();
-            int i = questionnaireList.Count;
+            int i = _totalRows - (_pageIndex - 1) * _pageSize;
             foreach (RepeaterItem repeaterItem in this.repQuestionnaire.Items)
             {
                 Label lblNumber = repeaterItem.FindControl("lblNumber") as Label;

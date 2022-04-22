@@ -82,7 +82,7 @@
     <Content Include="JS\jquery.min.js" />
     <Content Include="JS\SearchkeyWord.js" />
     <Content Include="Pictures\75470.png" />
-    <Content Include="ShareControls\ucPage.ascx" />
+    <Content Include="ShareControls\ucPager.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -167,12 +167,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShareControls\ucPage.ascx.cs">
-      <DependentUpon>ucPage.ascx</DependentUpon>
+    <Compile Include="ShareControls\ucPager.ascx.cs">
+      <DependentUpon>ucPager.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ShareControls\ucPage.ascx.designer.cs">
-      <DependentUpon>ucPage.ascx</DependentUpon>
+    <Compile Include="ShareControls\ucPager.ascx.designer.cs">
+      <DependentUpon>ucPager.ascx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

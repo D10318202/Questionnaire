@@ -13,7 +13,7 @@ namespace Questionnaire.Backadmin
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private static Guid _questionID;
-        private static List<QuestionDetailModel> _questionDetail = ;
+        private static List<QuestionDetailModel> _questionDetail = new List<QuestionDetailModel>();
         protected void Page_Load(object sender, EventArgs e)
         {
 

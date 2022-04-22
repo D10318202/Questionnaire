@@ -10,6 +10,14 @@ namespace QuestionManagers
 {
     public class QuestionnaireManager
     {
+        public List<QuestionModel> GetIndexList(int pageSize, int pageIndex, List<QuestionModel> list)
+        {
+            int skip = pageSize * (pageIndex - 1); //計算跳頁
+            if (skip < 0)
+                skip = 0;
+
+            return list.Skip(skip).Take(pageSize).ToList();
+        }
         #region /*問卷*/
         /// <summary>
         /// 創建問卷
@@ -110,7 +118,7 @@ namespace QuestionManagers
                         DeleteQuestion(quesID);
                         DeleteAnswer(quesID);
                         conn.Open();
-                        command.Parameters.AddWithValue("@quesID", quesID);                      
+                        command.Parameters.AddWithValue("@quesID", quesID);
                         command.ExecuteNonQuery();
                     }
                     return true;
@@ -274,7 +282,7 @@ namespace QuestionManagers
             {
                 return null;
             }
-        }       
+        }
 
         /// <summary>
         /// 列出問卷內容資訊
@@ -560,11 +568,11 @@ namespace QuestionManagers
                         SqlDataReader reader = command.ExecuteReader();
 
                         QuestionModel question = new QuestionModel();
-                        if(reader.Read())
+                        if (reader.Read())
                         {
                             question.quesID = (Guid)reader["quesID"];
                             question.quesTitle = reader["quesTitle"] as string;
-                            question.CreateTime = (DateTime)reader["CreateTime"];   
+                            question.CreateTime = (DateTime)reader["CreateTime"];
                         }
                         return question;
                     }
@@ -577,7 +585,7 @@ namespace QuestionManagers
             }
         }
         #endregion
-        
+
         #region 列出常用問題
 
         /// <summary>
