@@ -261,6 +261,7 @@ namespace QuestionManagers
                         command.Parameters.AddWithValue("@quesID", quesID);
                         conn.Open();
                         SqlDataReader reader = command.ExecuteReader();
+                        List<QuestionDetailModel> questionDetail = new List<QuestionDetailModel>();
                         while (reader.Read())
                         {
                             QuestionDetailModel questionDetailModel = new QuestionDetailModel()
@@ -269,12 +270,12 @@ namespace QuestionManagers
                                 quesDetailID = (Guid)reader["quesDetailID"],
                                 quesDetailTitle = reader["quesDetailTitle"] as string,
                                 quesDetailBody = reader["quesDetailBody"] as string,
-                                //quesDetailType = reader["quesDetailType"] as string,
-                                //quesDetailMustKeyIn = (bool)reader["quesDetailMustKeyIn"], //要更改
+                                quesDetailType = (QuestionType)reader["quesDetailType"],
+                                quesDetailMustKeyIn = (bool)reader["quesDetailMustKeyIn"]
                             };
-                            list.Add(questionDetailModel);
+                            questionDetail.Add(questionDetailModel);
                         }
-                        return list;
+                        return questionDetail;
                     }
                 }
             }
@@ -531,10 +532,9 @@ namespace QuestionManagers
                 {
                     using (SqlCommand command = new SqlCommand(commandText, conn))
                     {
-                        command.Parameters.AddWithValue("@quesID", quesID);
-                        command.Parameters.AddWithValue("@quesTitle", quesTitle);
-
                         conn.Open();
+                        command.Parameters.AddWithValue("@quesID", quesID);
+                        command.Parameters.AddWithValue("@quesTitle", quesTitle);                       
                         command.ExecuteNonQuery();
                     }
                 }
@@ -557,13 +557,15 @@ namespace QuestionManagers
             string commandText =
                 $@"  SELECT *
                      FROM [MainQues]
-                     ORDER BY [quesstart]";
+                     WHERE quesID = @quesID";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     using (SqlCommand command = new SqlCommand(commandText, conn))
                     {
+                        command.Parameters.AddWithValue("@quesID", quesID);
+
                         conn.Open();
                         SqlDataReader reader = command.ExecuteReader();
 

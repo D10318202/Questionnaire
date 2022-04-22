@@ -16,7 +16,20 @@ namespace Questionnaire.Backadmin
         private static List<QuestionDetailModel> _questionDetail = new List<QuestionDetailModel>();
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            _questionDetail = HttpContext.Current.Session["questionModel"] as List<QuestionDetailModel>;
+            if (!IsPostBack)
+            {
+                string QuesID = Request.QueryString["quesID"];
+                if (Guid.TryParse(QuesID, out _questionID))
+                {
+                    List<QuestionDetailModel> questionList = _quesMgr.GetQuestionModel(_questionID);
+                    this.txtTitle.Text = _quesMgr.GetOftenUse(_questionID).quesTitle;
+                    InitQues(questionList);
+                    HttpContext.Current.Session["qusetionModel"] = questionList;
+                }
+                else
+                    Response.Redirect("Oftenusequestion.aspx");
+            }
         }
         protected void BtnAdd_Click(object sender, EventArgs e)
         {
@@ -25,14 +38,15 @@ namespace Questionnaire.Backadmin
                 this.ltlquesmistMsg.Text = mistake;
                 return;
             }
-            QuestionDetailModel questionDetail = new QuestionDetailModel();
-            questionDetail.quesDetailID = Guid.NewGuid();
-            questionDetail.quesID = _questionID;
-            questionDetail.quesDetailTitle = this.txtTitle1.Text.Trim();
-            questionDetail.quesDetailBody = this.txtAnswer.Text.Trim();
-            questionDetail.quesDetailType = (QuestionType)Convert.ToInt32(this.droptype.SelectedValue);
-            questionDetail.quesDetailMustKeyIn = this.checMust.Checked;
-
+            QuestionDetailModel questionDetail = new QuestionDetailModel()
+            {
+                quesDetailID = Guid.NewGuid(),
+                quesID = _questionID,
+                quesDetailTitle = this.txtTitle1.Text.Trim(),
+                quesDetailBody = this.txtAnswer.Text.Trim(),
+                quesDetailType = (QuestionType)Convert.ToInt32(this.droptype.SelectedValue),
+                quesDetailMustKeyIn = this.checMust.Checked
+            };
             _questionDetail.Add(questionDetail);
             HttpContext.Current.Session["qusetionMode"] = _questionDetail;
             InitQues(_questionDetail);
@@ -96,6 +110,7 @@ namespace Questionnaire.Backadmin
         }
         protected void btnquescancle_Click(object sender, EventArgs e)
         {
+            HttpContext.Current.Session.RemoveAll();
             Response.Redirect("Oftenusequestion.aspx");
         }
         protected void btnquessave_Click(object sender, EventArgs e)
@@ -106,13 +121,12 @@ namespace Questionnaire.Backadmin
             int questionNumber = 1;
             foreach (QuestionDetailModel questionDetail in _questionDetail)
             {
-                questionDetail.quesDetailID = Guid.NewGuid();
-                questionDetail.quesID = _questionID;
                 questionDetail.quesDetailNo = questionNumber;
                 _quesMgr.CreateQuestionDetail(questionDetail);
 
                 questionNumber++;
             }
+            HttpContext.Current.Session.Remove("questionModel");
             Response.Redirect("Oftenusequestion.aspx");
         }
         public void repQuestions_ItemCommand(object source, RepeaterCommandEventArgs e)

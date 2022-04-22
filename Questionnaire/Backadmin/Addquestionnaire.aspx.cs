@@ -127,8 +127,8 @@ namespace Questionnaire.Backadmin
             }
             HttpContext.Current.Session["quesID"] = question.quesID;
             Response.Redirect("Addquestionnaire.aspx?quesID=" + question.quesID);   //感覺有點奇怪，但可行
-            this.panQuestionnaire.Visible = false;
-            this.panQuestions.Visible = true;
+            //this.panQuestionnaire.Visible = false;
+            //this.panQuestions.Visible = true;
         }
         private void EditMode(Guid quesID)
         {
@@ -319,10 +319,23 @@ namespace Questionnaire.Backadmin
                 Response.Write("<script>alert('匯出失敗')</script>");
             }
         }
+
+
+
         #endregion
 
-
-
-
+        protected void dropclass_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(Guid.TryParse(this.dropclass.SelectedValue, out Guid OftenUseQuestion))
+            {
+                List<QuestionDetailModel> questionoften = _quesMgr.GetQuestionModel(OftenUseQuestion);
+                HttpContext.Current.Session["qusetionDetail"] = questionoften;
+                InitQues(questionoften);
+            }
+            else
+            {
+                InitQues(new List<QuestionDetailModel>());
+            }
+        }
     }
 }

@@ -37,9 +37,9 @@
                     <asp:Panel ID="panQuestions" runat="server" Visible="false" BorderStyle="Solid">
                         <asp:Label ID="ltlquesmistMsg" runat="server" ForeColor="Red"></asp:Label><br />
                         種類:
-                           <asp:DropDownList ID="dropclass" runat="server">
+                           <asp:DropDownList ID="dropclass" runat="server" OnSelectedIndexChanged="dropclass_SelectedIndexChanged">
                                <asp:ListItem Selected="True" Value="createquestion">自訂問題</asp:ListItem>
-                               <asp:ListItem Value="commonquestion">常用問題</asp:ListItem>
+
                            </asp:DropDownList>
                         <br />
                         問題:

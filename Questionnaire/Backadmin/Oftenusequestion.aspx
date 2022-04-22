@@ -68,6 +68,6 @@
             </div>
         </div>
     </div>
-    <uc1:ucPager runat="server" id="ucPager" />
+<%--    <uc1:ucPager runat="server" id="ucPager" />--%>
     <script src="../JS/SearchkeyWord.js"></script>
 </asp:Content>

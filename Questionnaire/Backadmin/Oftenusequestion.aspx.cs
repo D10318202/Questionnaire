@@ -52,7 +52,7 @@ namespace Questionnaire.Backadmin
         {
             Guid newquestionID = Guid.NewGuid();
             _quesMgr.CreateOftenUseExamp(newquestionID, this.txtCreate.Text.Trim());
-            Response.Redirect("OftenQuestionDesign.aspx?ID=" + newquestionID);
+            Response.Redirect("OftenQuestionDesign.aspx?quesID=" + newquestionID);
         }
 
         protected void btnDelete_Click(object sender, EventArgs e)
