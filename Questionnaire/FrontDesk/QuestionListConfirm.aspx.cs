@@ -37,7 +37,7 @@ namespace Questionnaire.FrontDesk
                 List<QuestionDetailModel> questionDetails = _quesMgr.GetQuestionModel(_questionID);
                 foreach (QuestionDetailModel question in questionDetails)
                 {
-                    string ques = $"<br/>{question.quesDetailNo}. {question.quesDetailTitle}";
+                    string ques = $"<br/>{question.quesNumber}. {question.quesDetailTitle}";
                     if (question.quesDetailMustKeyIn)
                         ques += "(*必填)";
                     Literal ltlquestionDetail = new Literal();
@@ -64,7 +64,7 @@ namespace Questionnaire.FrontDesk
         {
             QuestionAnswerModel qamrad = _personanswer.Find(x => x.quesNumber == question.quesNumber);
             RadioButtonList radioButtonList = new RadioButtonList();
-            radioButtonList.ID = "Q" + question.quesDetailNo;
+            radioButtonList.ID = "Q" + question.quesNumber;
             radioButtonList.Enabled = false;
             this.plcquestion.Controls.Add(radioButtonList);
             string[] arrQue = question.quesDetailBody.Split(';');
@@ -80,7 +80,7 @@ namespace Questionnaire.FrontDesk
         {
             List<QuestionAnswerModel> qamrad = _personanswer.FindAll(x => x.quesNumber == question.quesNumber);
             CheckBoxList checkBoxList = new CheckBoxList();
-            checkBoxList.ID = "Q" + question.quesDetailNo;
+            checkBoxList.ID = "Q" + question.quesNumber;
             checkBoxList.Enabled = false;
             this.plcquestion.Controls.Add(checkBoxList);
             string[] arrQue = question.quesDetailBody.Split(';');
@@ -96,7 +96,7 @@ namespace Questionnaire.FrontDesk
         {
             QuestionAnswerModel qamrad = _personanswer.Find(x => x.quesNumber == question.quesNumber);
             TextBox textBox = new TextBox();
-            textBox.ID = "Q" + question.quesDetailNo;
+            textBox.ID = "Q" + question.quesNumber;
             textBox.Enabled = false;
             textBox.Text = qamrad.Answer;
             this.plcquestion.Controls.Add(textBox);

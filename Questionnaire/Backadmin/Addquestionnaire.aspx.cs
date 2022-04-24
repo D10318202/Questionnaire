@@ -253,7 +253,7 @@ namespace Questionnaire.Backadmin
             {
                 questionDetail.quesDetailID = Guid.NewGuid();
                 questionDetail.quesID = _questionID;
-                questionDetail.quesDetailNo = questionNumber;
+                questionDetail.quesNumber = questionNumber;
                 _quesMgr.CreateQuestionDetail(questionDetail);
 
                 questionNumber++;

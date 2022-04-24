@@ -121,7 +121,7 @@ namespace Questionnaire.Backadmin
             int questionNumber = 1;
             foreach (QuestionDetailModel questionDetail in _questionDetail)
             {
-                questionDetail.quesDetailNo = questionNumber;
+                questionDetail.quesNumber = questionNumber;
                 _quesMgr.CreateQuestionDetail(questionDetail);
 
                 questionNumber++;

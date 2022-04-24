@@ -2,12 +2,14 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../JS/jquery.min.js"></script>
+    <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
+    <script src="../JS/bootstrap.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div align="center">
         <asp:HiddenField ID="hfID" runat="server" />
-        <h2>
-            <asp:Literal ID="ltltitle" runat="server"></asp:Literal></h2>
+        <h1>
+            <asp:Literal ID="ltltitle" runat="server"></asp:Literal></h1>
         <br />
         <h3>
             <asp:Literal ID="ltlContent" runat="server"></asp:Literal></h3>
@@ -27,48 +29,47 @@
         <br />
         <asp:PlaceHolder ID="plcquestion" runat="server"></asp:PlaceHolder>
         <br />
-        <input type="button" id="btnSubmit" value="送出" />
+        <input type="button" id="btnSubmit" value="送出"  />
         <%--<asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" />--%>
         <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" /><br />
     </div>
     <script>
         $(document).ready(function () {
-            $("input[quesID=btnSubmit]").click(function () {
+            $("input[id=btnSubmit]").click(function () {
                 var answer = "";
-                var QuesDea = $("input[quesID*=Q]").get();
+                var QuesDea = $("input[id*=Q]").get();
                 console.log(QuesDea);
                 for (var item of QuesDea) {
                     if (item.type == "radio" && item.checked) {
-                        answer += item.quesID + " ";
+                        answer += item.id + " ";
                     }
                     if (item.type == "checkbox" && item.checked) {
-                        answer += item.quesID + " ";
+                        answer += item.id + " ";
                     }
                     if (item.type == "text") {
-                        answer += `${item.quesID}_${item.value}` + " ";
+                        answer += `${item.id}_${item.value}` + " ";
                     }
                 }
                 var postData = {
                     "Answer": answer,
                     "Name": $("#txtname").val(),
-                    "Mobile": $("#txtphone").val(),
+                    "Phone": $("#txtphone").val(),
                     "Email": $("#txtemail").val(),
                     "Age": $("#txtage").val()
                 };
 
                 $.ajax({
-                    url: "/API/QuestionAnswerHandler.ashx?quesID=" + $("#hfID").val(),
+                    url: "../API/QuestionAnswerHandler.ashx?quesID=" + $("#hfID").val(),
                     method: "POST",
                     data: postData,
                     success: function (txtMsg) {
                         console.log(txtMsg);
-                        if (txtMsg == "success")
-                        {
-                            window.location = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val();
+                        if (txtMsg == "success"){
+                            window.location = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val(); 
                         }
                         else (txtMsg == "noAnswer")
                         {
-                            alert("問題還沒完成")
+                            alert("問題還沒完成");
                         }
                     },
                     error: function (msg) {

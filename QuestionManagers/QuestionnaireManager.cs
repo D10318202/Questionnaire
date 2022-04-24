@@ -251,7 +251,8 @@ namespace QuestionManagers
             string commandText =
                 @"  SELECT *
                     FROM QuestionsDetail
-                    WHERE quesID = @quesID";
+                    WHERE quesID = @quesID
+                    ORDER BY quesNumber";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
@@ -271,7 +272,8 @@ namespace QuestionManagers
                                 quesDetailTitle = reader["quesDetailTitle"] as string,
                                 quesDetailBody = reader["quesDetailBody"] as string,
                                 quesDetailType = (QuestionType)reader["quesDetailType"],
-                                quesDetailMustKeyIn = (bool)reader["quesDetailMustKeyIn"]
+                                quesDetailMustKeyIn = (bool)reader["quesDetailMustKeyIn"],
+                                quesNumber = (int)reader["quesNumber"]
                             };
                             questionDetail.Add(questionDetailModel);
                         }
@@ -437,9 +439,9 @@ namespace QuestionManagers
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
                 @"  INSERT INTO [QuestionsDetail] 
-                        (quesID, quesDetailID, quesDetailTitle, quesDetailBody, quesDetailType, quesDetailMustKeyIn)
+                        (quesID, quesDetailID, quesDetailTitle, quesDetailBody, quesDetailType, quesDetailMustKeyIn, quesNumber)
                     VALUES 
-                        (@quesID, @quesDetailID, @quesDetailTitle, @quesDetailBody, @quesDetailType, @quesDetailMustKeyIn) ";
+                        (@quesID, @quesDetailID, @quesDetailTitle, @quesDetailBody, @quesDetailType, @quesDetailMustKeyIn, @quesNumber) ";
 
             try
             {
@@ -453,6 +455,7 @@ namespace QuestionManagers
                         command.Parameters.AddWithValue("@quesDetailBody", questionDetail.quesDetailBody);
                         command.Parameters.AddWithValue("@quesDetailType", questionDetail.quesDetailType);
                         command.Parameters.AddWithValue("@quesDetailMustKeyIn", questionDetail.quesDetailMustKeyIn);
+                        command.Parameters.AddWithValue("@quesNumber", questionDetail.quesNumber);
 
                         conn.Open();
                         command.ExecuteNonQuery();
@@ -681,6 +684,8 @@ namespace QuestionManagers
 
         #endregion
 
+        #region 回答用
+
         /// <summary>
         /// 建立回答人
         /// </summary>
@@ -848,5 +853,7 @@ namespace QuestionManagers
                 throw;
             }
         }
+
+        #endregion
     }
 }

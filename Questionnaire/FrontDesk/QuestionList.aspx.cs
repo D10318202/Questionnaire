@@ -30,7 +30,7 @@ namespace Questionnaire.FrontDesk
                 List<QuestionDetailModel> questionDetails = _quesMgr.GetQuestionModel(_questionID);
                 foreach (QuestionDetailModel question in questionDetails)
                 {
-                    string ques = $"<br/>{question.quesDetailNo}. {question.quesDetailTitle}";
+                    string ques = $"<br/>{question.quesNumber}. {question.quesDetailTitle}";
                     if (question.quesDetailMustKeyIn)
                         ques += "(*必填)";
                     Literal ltlquestionDetail = new Literal();
@@ -40,15 +40,15 @@ namespace Questionnaire.FrontDesk
                     {
                         switch (question.quesDetailType)
                         {
-                            //case QuestionType.單選方塊:
-                            //    (question);
-                            //    break;
-                            //case QuestionType.複選方塊:
-                            //    (question);
-                            //    break;
-                            //case QuestionType.文字方塊:
-                            //    (question);
-                            //    break;
+                            case QuestionType.單選方塊:
+                                EditRadio(question);
+                                break;
+                            case QuestionType.複選方塊:
+                                EditCheck(question);
+                                break;
+                            case QuestionType.文字方塊:
+                                EditText(question);
+                                break;
                         }
                     }
                     else
@@ -83,7 +83,7 @@ namespace Questionnaire.FrontDesk
         private void CreateRadio(QuestionDetailModel question)
         {
             RadioButtonList radioButtonList = new RadioButtonList();
-            radioButtonList.ID = "Q" + question.quesDetailNo;
+            radioButtonList.ID = "Q" + question.quesNumber;
             this.plcquestion.Controls.Add(radioButtonList);
             string[] arrQue = question.quesDetailBody.Split(';');
             for (int i = 0; i < arrQue.Length; i++)
@@ -95,7 +95,7 @@ namespace Questionnaire.FrontDesk
         private void CreateCheck(QuestionDetailModel question)
         {
             CheckBoxList checkBoxList = new CheckBoxList();
-            checkBoxList.ID = "Q" + question.quesDetailNo;
+            checkBoxList.ID = "Q" + question.quesNumber;
             this.plcquestion.Controls.Add(checkBoxList);
             string[] arrQue = question.quesDetailBody.Split(';');
             for (int i = 0; i < arrQue.Length; i++)
@@ -107,7 +107,46 @@ namespace Questionnaire.FrontDesk
         private void CreateText(QuestionDetailModel question)
         {
             TextBox textBox = new TextBox();
-            textBox.ID = "Q" + question.quesDetailNo;
+            textBox.ID = "Q" + question.quesNumber;
+            this.plcquestion.Controls.Add(textBox);
+        }
+
+        private void EditRadio(QuestionDetailModel question)
+        {
+            QuestionAnswerModel qamrad = _personanswer.Find(x => x.quesNumber == question.quesNumber);
+            RadioButtonList radioButtonList = new RadioButtonList();
+            radioButtonList.ID = "Q" + question.quesNumber;
+            this.plcquestion.Controls.Add(radioButtonList);
+            string[] arrQue = question.quesDetailBody.Split(';');
+            for (int i = 0; i < arrQue.Length; i++)
+            {
+                ListItem item = new ListItem(arrQue[i], i.ToString());
+                if (Convert.ToInt32(qamrad.Answer) == i)
+                    item.Selected = true;
+                radioButtonList.Items.Add(item);
+            }
+        }
+        private void EditCheck(QuestionDetailModel question)
+        {
+            List<QuestionAnswerModel> qamrad = _personanswer.FindAll(x => x.quesNumber == question.quesNumber);
+            CheckBoxList checkBoxList = new CheckBoxList();
+            checkBoxList.ID = "Q" + question.quesNumber;
+            this.plcquestion.Controls.Add(checkBoxList);
+            string[] arrQue = question.quesDetailBody.Split(';');
+            for (int i = 0; i < arrQue.Length; i++)
+            {
+                ListItem item = new ListItem(arrQue[i], i.ToString());
+                if (qamrad.Find(x => x.Answer == i.ToString()) != null)
+                    item.Selected = true;
+                checkBoxList.Items.Add(item);
+            }
+        }
+        private void EditText(QuestionDetailModel question)
+        {
+            QuestionAnswerModel qamrad = _personanswer.Find(x => x.quesNumber == question.quesNumber);
+            TextBox textBox = new TextBox();
+            textBox.ID = "Q" + question.quesNumber;
+            textBox.Text = qamrad.Answer;
             this.plcquestion.Controls.Add(textBox);
         }
 

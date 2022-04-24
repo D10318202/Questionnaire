@@ -9,7 +9,7 @@ namespace Questionnaire.API
     /// <summary>
     /// QuestionAnswerHandler 的摘要描述
     /// </summary>
-    public class QuestionAnswerHandler : IHttpHandler
+    public class QuestionAnswerHandler : IHttpHandler ,System.Web.SessionState.IRequiresSessionState
     {
 
         public void ProcessRequest(HttpContext context)
@@ -44,11 +44,11 @@ namespace Questionnaire.API
                 List<QuestionAnswerModel> questionAnswers = new List<QuestionAnswerModel>();
                 foreach (string item in AnswerArr)
                 {
-                    string[] answer = item.Split(' ');
+                    string[] answer = item.Split('_');
 
                     QuestionAnswerModel questionAnswerModel = new QuestionAnswerModel()
                     {
-                        AccountID = Guid.NewGuid(),
+                        AccountID = accountInfoModel.AccountID,
                         quesID = quesID,
                         quesNumber = Convert.ToInt32(answer[0].Replace('Q', '0')),
                         Answer = AnswerArr[1],
@@ -57,7 +57,7 @@ namespace Questionnaire.API
                 }
                 HttpContext.Current.Session["peopleAnswer"] = questionAnswers;
                 context.Response.ContentType = "text/plain";
-                context.Response.Write("Questionnaire Complete");
+                context.Response.Write("success");
             }
 
         }

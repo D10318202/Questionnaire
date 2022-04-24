@@ -9,7 +9,6 @@ namespace QuestionModels
     {
         public Guid quesID {get; set;}
         public Guid quesDetailID {get; set;}
-        public int quesDetailNo {get; set;}
         public string quesDetailTitle {get; set;}
         public string quesDetailBody {get; set;}
         public QuestionType quesDetailType {get; set;}
