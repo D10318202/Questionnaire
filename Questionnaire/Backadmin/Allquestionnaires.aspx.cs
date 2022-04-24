@@ -17,12 +17,12 @@ namespace Questionnaire.Backadmin
         private static int _totalRows;
         protected void Page_Load(object sender, EventArgs e)
         {
-            HttpContext.Current.Session.RemoveAll();
-            string pageIndexText = this.Request.QueryString["Page"];
-            _pageIndex =
-                (string.IsNullOrWhiteSpace(pageIndexText))
-                    ? 1
-                    : Convert.ToInt32(pageIndexText);
+            //HttpContext.Current.Session.RemoveAll();
+            //string pageIndexText = this.Request.QueryString["Page"];
+            //_pageIndex =
+            //    (string.IsNullOrWhiteSpace(pageIndexText))
+            //        ? 1
+            //        : Convert.ToInt32(pageIndexText);
 
             if (!this.IsPostBack)
             {

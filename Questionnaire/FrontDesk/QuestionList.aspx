@@ -1,15 +1,16 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/FrontDesk/FrontDesk.Master" AutoEventWireup="true" CodeBehind="QuestionList.aspx.cs" Inherits="Questionnaire.FrontDesk.QuestionList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script src="../JS/jquery.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div align="center">
         <asp:HiddenField ID="hfID" runat="server" />
-        <h3>
-            <asp:Literal ID="ltltitle" runat="server"></asp:Literal></h3>
+        <h2>
+            <asp:Literal ID="ltltitle" runat="server"></asp:Literal></h2>
         <br />
-        <h4>
-            <asp:Literal ID="ltlContent" runat="server"></asp:Literal></h4>
+        <h3>
+            <asp:Literal ID="ltlContent" runat="server"></asp:Literal></h3>
         <br />
         <p>有標示(*)為必填欄位</p>
         *姓名:
@@ -26,25 +27,25 @@
         <br />
         <asp:PlaceHolder ID="plcquestion" runat="server"></asp:PlaceHolder>
         <br />
-        <input type="button" id="btnSave" value="送出" />
+        <input type="button" id="btnSubmit" value="送出" />
         <%--<asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" />--%>
         <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" /><br />
     </div>
     <script>
         $(document).ready(function () {
-            $("input[id=btnSave]").click(function () {
+            $("input[quesID=btnSubmit]").click(function () {
                 var answer = "";
-                var QuesDea = $("input[ID*=Q]").get();
+                var QuesDea = $("input[quesID*=Q]").get();
                 console.log(QuesDea);
                 for (var item of QuesDea) {
                     if (item.type == "radio" && item.checked) {
-                        answer += item.ID + " ";
+                        answer += item.quesID + " ";
                     }
                     if (item.type == "checkbox" && item.checked) {
-                        answer += item.ID + " ";
+                        answer += item.quesID + " ";
                     }
                     if (item.type == "text") {
-                        answer += `${item.ID}_${item.value}` + " ";
+                        answer += `${item.quesID}_${item.value}` + " ";
                     }
                 }
                 var postData = {
@@ -61,11 +62,13 @@
                     data: postData,
                     success: function (txtMsg) {
                         console.log(txtMsg);
-                        if (txtMsg == "success") {
+                        if (txtMsg == "success")
+                        {
                             window.location = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val();
                         }
-                        else (txtMsg == "noAnswer") {
-                            alert("問題還沒完成。");
+                        else (txtMsg == "noAnswer")
+                        {
+                            alert("問題還沒完成")
                         }
                     },
                     error: function (msg) {

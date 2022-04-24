@@ -3,12 +3,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:HiddenField ID="hfID" runat="server" />
     <div align="center">
-        <h3>
-            <asp:Literal ID="ltltitle" runat="server"></asp:Literal></h3>
+        <h2>
+            <asp:Literal ID="ltltitle" runat="server"></asp:Literal></h2>
         <br />
-        <h4>
-            <asp:Literal ID="ltlContent" runat="server"></asp:Literal></h4>
+        <h3>
+            <asp:Literal ID="ltlContent" runat="server"></asp:Literal></h3>
         <br />
         <p>有標示(*)為必填欄位</p>
         *姓名:

@@ -11,113 +11,76 @@ namespace Questionnaire.FrontDesk
 {
     public partial class QuestionList : System.Web.UI.Page
     {
-        //List<QuestionDetailModel> quesDetaillist = new List<QuestionDetailModel>();
-        private static QuestionnaireManager _quesMgr;
-        private static Guid _quesID;
-        //private QuestionDetailModel questionDetail = new QuestionDetailModel();
-        //private QuestionAnswerModel quesAnswer = new QuestionAnswerModel();
-        //int a;
-        //int b;
-        //int c;
-        private static QuestionAnswerModel _personanswer;
+        private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
+        private static Guid _questionID;
+        private static List<QuestionAnswerModel> _personanswer;
         protected void Page_Load(object sender, EventArgs e)
         {
             string quesID = Request.QueryString["quesID"];
-            if(Guid.TryParse(quesID, out Guid _quesID))
+            if(Guid.TryParse(quesID, out Guid _questionID))
             {
-                _personanswer = HttpContext.Current.Session["personAnswer"] as QuestionAnswerModel;
-                bool isEditModel = _personanswer == null ? false : true;
+                _personanswer = HttpContext.Current.Session["personAnswer"] as List<QuestionAnswerModel>;
+                bool isEditMode = _personanswer == null ? false : true;
 
-                QuestionModel questionModel = _quesMgr.GetQuestionnaire(_quesID);
+                QuestionModel questionModel = _quesMgr.GetQuestionnaire(_questionID);
+                this.hfID.Value = _questionID.ToString();
                 this.ltltitle.Text = questionModel.quesTitle;
                 this.ltlContent.Text = questionModel.quesBody;
 
-                List<QuestionDetailModel> questionDetails = new List<QuestionDetailModel>();
-                //foreach(QuestionDetailModel question in questionDetails)
-                //{
-                //    string ques = $"<br/>{question.quesDetailNo}. {question.quesDetailTitle}";
-                //    if (question.quesDetailMustKeyIn)
-                //        ques += "(*必填)";
-                //    this.plcquestion.Controls.Add(new LiteralControl(ques));
-                //    if(isEditModel)
-                //    {
-                //        switch(question.quesDetailType)
-                //        {
-                //            case QuestionType.單選方塊:
-                //                CreateRdb(question);
-                //                break;
-                //            case QuestionType.複選方塊:
-                //                CreateCkb(question);
-                //                break;
-                //            case QuestionType.文字方塊:
-                //                CreateTxt(question);
-                //                break;
-                //        }
-                //    }
-                //}
+                List<QuestionDetailModel> questionDetails = _quesMgr.GetQuestionModel(_questionID);
+                foreach (QuestionDetailModel question in questionDetails)
+                {
+                    string ques = $"<br/>{question.quesDetailNo}. {question.quesDetailTitle}";
+                    if (question.quesDetailMustKeyIn)
+                        ques += "(*必填)";
+                    Literal ltlquestionDetail = new Literal();
+                    ltlquestionDetail.Text = ques + "<br/>";
+                    this.plcquestion.Controls.Add(ltlquestionDetail);
+                    if (isEditMode)
+                    {
+                        switch (question.quesDetailType)
+                        {
+                            //case QuestionType.單選方塊:
+                            //    (question);
+                            //    break;
+                            //case QuestionType.複選方塊:
+                            //    (question);
+                            //    break;
+                            //case QuestionType.文字方塊:
+                            //    (question);
+                            //    break;
+                        }
+                    }
+                    else
+                    {
+                        switch (question.quesDetailType)
+                        {
+                            case QuestionType.單選方塊:
+                                CreateRadio(question);
+                                break;
+                            case QuestionType.複選方塊:
+                                CreateCheck(question);
+                                break;
+                            case QuestionType.文字方塊:
+                                CreateText(question);
+                                break;
+                        }
+                    }
+                }
+                if (isEditMode)
+                {
+                    AccountInfoModel person = HttpContext.Current.Session["personInfo"] as AccountInfoModel;
+                    this.txtname.Text = person.Name;
+                    this.txtphone.Text = person.Phone;
+                    this.txtemail.Text = person.Email;
+                    this.txtage.Text = person.Age;
+                }
             }
-            //quesDetaillist = _quesMgr.GetQuestionModel(Guid.Parse(quesID));
-            //int listcount = quesDetaillist.Count;
-            //int i = 0;
-            //int j = 0;
-            //int k = 0;
-            //foreach (var item in quesDetaillist)
-            //{
-            //    if (item.quesDetailType == QuestionType.單選方塊)
-            //    {
-            //        if (quesAnswer.Answer.Contains(","))
-            //        {
-            //            this.Form.Controls.Add(new Literal() { ID = "ltl" + k, Text = "<br/>" + item.quesDetailTitle + ":" });
-            //            //this.quesAnswer.QuestionOfRadio[k] = item.quesDetailTitle;
-            //            string[] array = quesAnswer.Answer.Split(',');
-            //            foreach (var item2 in array)
-            //            {
-            //                this.Form.Controls.Add(new RadioButton() { ID = "radio" + k, Text = item2 });
-            //                k++;
-            //                a++;
-            //            }
-            //            continue;
-            //        }
-            //        else
-            //        {
-            //            BuildRadioBox(k, quesAnswer.Answer, item.quesDetailTitle);
-            //            a++;
-            //            k++;
-            //        }
-            //    }
-            //    if (item.quesDetailType == QuestionType.複選方塊)
-            //    {
-            //        if (quesAnswer.Answer.Contains(","))
-            //        {
-            //            this.Form.Controls.Add(new Literal() { ID = "ltl" + j, Text = "<br/>" + item.quesDetailTitle + ":" + "<br/>" });
-            //            //this.quesAnswer.QuestionOfCheck[j] = item.quesDetailTitle;
-            //            string[] array = quesAnswer.Answer.Split(',');
-            //            foreach (var item2 in array)
-            //            {
-            //                this.Form.Controls.Add(new CheckBox() { ID = "check" + j, Text = item2 });
-            //                j++;
-            //                b++;
-            //            }
-            //            continue;
-            //        }
-            //        else
-            //        {
-            //            BuildCheckBox(j, quesAnswer.Answer, item.quesDetailTitle);
-            //            b++;
-            //            j++;
-            //        }
-            //    }
-            //    if (item.quesDetailType == QuestionType.文字方塊)
-            //    {
-            //        //this.quesAnswer.QuestionOfText[i] = item.quesDetailTitle;
-            //        BuildTextBox(i, quesAnswer.Answer, item.quesDetailTitle);
-            //        i++;
-            //        c++;
-            //    }
-            //}
+            else
+                Response.Redirect("Allquestionnaire.aspx");
         }
 
-        private void CreateRdb(QuestionDetailModel question)
+        private void CreateRadio(QuestionDetailModel question)
         {
             RadioButtonList radioButtonList = new RadioButtonList();
             radioButtonList.ID = "Q" + question.quesDetailNo;
@@ -129,7 +92,7 @@ namespace Questionnaire.FrontDesk
                 radioButtonList.Items.Add(item);
             }
         }
-        private void CreateCkb(QuestionDetailModel question)
+        private void CreateCheck(QuestionDetailModel question)
         {
             CheckBoxList checkBoxList = new CheckBoxList();
             checkBoxList.ID = "Q" + question.quesDetailNo;
@@ -141,35 +104,16 @@ namespace Questionnaire.FrontDesk
                 checkBoxList.Items.Add(item);
             }
         }
-        private void CreateTxt(QuestionDetailModel question)
+        private void CreateText(QuestionDetailModel question)
         {
             TextBox textBox = new TextBox();
             textBox.ID = "Q" + question.quesDetailNo;
             this.plcquestion.Controls.Add(textBox);
         }
 
-        //private void BuildTextBox(int i, string answer, string quesDetailTitle)
-        //{
-
-        //    this.Form.Controls.Add(new Literal() { ID = "ltl" + i, Text = "<br/>" + quesDetailTitle + ":" });
-        //    this.Form.Controls.Add(new TextBox() { ID = "txt" + i });
-
-        //}
-        //private void BuildCheckBox(int j, string answer, string quesDetailTitle)
-        //{
-
-        //    this.Form.Controls.Add(new Literal() { ID = "ltl" + j, Text = "<br/>" + quesDetailTitle + ":" + "<br/>" });
-        //    this.Form.Controls.Add(new CheckBoxList() { ID = "check" + j, Text = answer });
-        //}
-        //private void BuildRadioBox(int k, string answer, string quesDetailTitle)
-        //{
-
-        //    this.Form.Controls.Add(new Literal() { ID = "ltl" + k, Text = "<br/>" + quesDetailTitle + ":" + "<br/>" });
-        //    this.Form.Controls.Add(new RadioButtonList() { ID = "radio" + k, Text = answer });
-        //}
         protected void Cancle_Click(object sender, EventArgs e)
         {
-            Response.Redirect("allquestionnaire.aspx");
+            Response.Redirect("Allquestionnaire.aspx");
         }
     }
 }
