@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/FrontDesk/FrontDesk.Master" AutoEventWireup="true" CodeBehind="QuestionListConfirm.aspx.cs" Inherits="Questionnaire.FrontDesk.QuestionList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/FrontDesk/FrontDesk.Master" AutoEventWireup="true" CodeBehind="QuestionListConfirm.aspx.cs" Inherits="Questionnaire.FrontDesk.QuestionListConfirm" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -26,7 +26,7 @@
         <br />
         <asp:PlaceHolder ID="plcquestion" runat="server"></asp:PlaceHolder>
         <br />
-        <asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" />
+        <asp:Button ID="Save" runat="server" Text="送出" Onclick="Save_Click" />
         <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" /><br />
     </div>
 </asp:Content>

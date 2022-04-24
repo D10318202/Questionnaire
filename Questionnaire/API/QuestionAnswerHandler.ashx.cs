@@ -50,7 +50,7 @@ namespace Questionnaire.API
                     {
                         AccountID = Guid.NewGuid(),
                         quesID = quesID,
-                        quesNumber = answer.Length,
+                        quesNumber = Convert.ToInt32(answer[0].Replace('Q', '0')),
                         Answer = AnswerArr[1],
                     };
                     questionAnswers.Add(questionAnswerModel);

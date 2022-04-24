@@ -534,7 +534,7 @@ namespace QuestionManagers
                     {
                         conn.Open();
                         command.Parameters.AddWithValue("@quesID", quesID);
-                        command.Parameters.AddWithValue("@quesTitle", quesTitle);                       
+                        command.Parameters.AddWithValue("@quesTitle", quesTitle);
                         command.ExecuteNonQuery();
                     }
                 }
@@ -681,5 +681,172 @@ namespace QuestionManagers
 
         #endregion
 
+        /// <summary>
+        /// 建立回答人
+        /// </summary>
+        /// <param name="account"></param>
+        public void CreatePersonInfo(AccountInfoModel account)
+        {
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                @"  INSERT INTO [AccountInfo] 
+                        (AccountID, Name, Phone, Email, Age,CreateTime,quesID)
+                    VALUES 
+                        (@AccountID, @Name, @Phone, @Email, @Age, @CreateTime, @quesID) ";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        command.Parameters.AddWithValue("@quesID", account.quesID);
+                        command.Parameters.AddWithValue("@AccountID", account.AccountID);
+                        command.Parameters.AddWithValue("@Name", account.Name);
+                        command.Parameters.AddWithValue("@Phone", account.Phone);
+                        command.Parameters.AddWithValue("@Email", account.Email);
+                        command.Parameters.AddWithValue("@Age", account.Age);
+                        command.Parameters.AddWithValue("@CreateTime", account.CreateTime);
+
+                        conn.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("QuestionnaireManager.CreatePersonInfo", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 建立答案
+        /// </summary>
+        /// <param name="account"></param>
+        public void CreateAnswer(QuestionAnswerModel answer)
+        {
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                @"  INSERT INTO [AccountInfo] 
+                        (AnswerID, quesID, AccountID, quesNumber, Answer)
+                    VALUES 
+                        (@AnswerID, @quesID, @AccountID, @quesNumber, @Answer) ";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        command.Parameters.AddWithValue("@AnswerID", answer.AnswerID);
+                        command.Parameters.AddWithValue("@quesID", answer.quesID);
+                        command.Parameters.AddWithValue("@AccountID", answer.AccountID);
+                        command.Parameters.AddWithValue("@quesNumber", answer.quesNumber);
+                        command.Parameters.AddWithValue("@Answer", answer.Answer);
+
+                        conn.Open();
+                        command.ExecuteNonQuery();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("QuestionnaireManager.CreateAnswer", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 取得回答人列表
+        /// </summary>
+        /// <param name="quesID"></param>
+        /// <returns></returns>
+        public List<AccountInfoModel> GetPersonInfoList(Guid quesID)
+        {
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                @"  SELECT *
+                    FROM AccountInfo
+                    WHERE quesID = @quesID
+                    ORDER BY CreateTime DESC";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        command.Parameters.AddWithValue("@quesID", quesID);
+                        conn.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+                        List<AccountInfoModel> accountInfo = new List<AccountInfoModel>();
+                        while (reader.Read())
+                        {
+                            AccountInfoModel Account = new AccountInfoModel()
+                            {
+                                quesID = (Guid)reader["quesID"],
+                                AccountID = (Guid)reader["AccountID"],
+                                Name = reader["Name"] as string,
+                                Age = reader["Age"] as string,
+                                Email = reader["Email"] as string,
+                                Phone = reader["Phone"] as string,
+                                CreateTime = (DateTime)reader["CreateTime"]
+                            };
+                            accountInfo.Add(Account);
+                        }
+                        return accountInfo;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("QuestionnairMgr.GetPersonInfoList", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 取得回答人
+        /// </summary>
+        /// <param name="quesID"></param>
+        /// <returns></returns>
+        public AccountInfoModel GetPersonInfo(Guid AccountID)
+        {
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                @"  SELECT *
+                    FROM AccountInfo
+                    WHERE AccountID = @AccountID";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        command.Parameters.AddWithValue("@AccountID", AccountID);
+                        conn.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        AccountInfoModel Account = new AccountInfoModel();
+                        if (reader.Read())
+                        {
+                            Account.quesID = (Guid)reader["quesID"];
+                            Account.AccountID = (Guid)reader["AccountID"];
+                            Account.Name = reader["Name"] as string;
+                            Account.Age = reader["Age"] as string;
+                            Account.Email = reader["Email"] as string;
+                            Account.Phone = reader["Phone"] as string;
+                            Account.CreateTime = (DateTime)reader["CreateTime"];
+                        }
+                        return Account;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("QuestionnairMgr.GetPersonInfo", ex);
+                throw;
+            }
+        }
     }
 }
