@@ -4,6 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div align="center">
+        <asp:HiddenField ID="hfID" runat="server" />
         <h3>
             <asp:Literal ID="ltltitle" runat="server"></asp:Literal></h3>
         <br />
@@ -29,4 +30,51 @@
         <%--<asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" />--%>
         <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" /><br />
     </div>
+    <script>
+        $(document).ready(function () {
+            $("input[id=btnSave]").click(function () {
+                var answer = "";
+                var QuesDea = $("input[ID*=Q]").get();
+                console.log(QuesDea);
+                for (var item of QuesDea) {
+                    if (item.type == "radio" && item.checked) {
+                        answer += item.ID + " ";
+                    }
+                    if (item.type == "checkbox" && item.checked) {
+                        answer += item.ID + " ";
+                    }
+                    if (item.type == "text") {
+                        answer += `${item.ID}_${item.value}` + " ";
+                    }
+                }
+                var postData = {
+                    "Answer": answer,
+                    "Name": $("#txtname").val(),
+                    "Mobile": $("#txtphone").val(),
+                    "Email": $("#txtemail").val(),
+                    "Age": $("#txtage").val()
+                };
+
+                $.ajax({
+                    url: "/API/QuestionAnswerHandler.ashx?quesID=" + $("#hfID").val(),
+                    method: "POST",
+                    data: postData,
+                    success: function (txtMsg) {
+                        console.log(txtMsg);
+                        if (txtMsg == "success") {
+                            window.location = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val();
+                        }
+                        else (txtMsg == "noAnswer") {
+                            alert("問題還沒完成。");
+                        }
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                        alert("通訊失敗，請聯絡管理員。");
+                    }
+                });
+            });
+        })
+
+    </script>
 </asp:Content>

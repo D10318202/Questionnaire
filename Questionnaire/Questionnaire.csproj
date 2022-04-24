@@ -86,6 +86,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\QuestionAnswerHandler.ashx.cs">
+      <DependentUpon>QuestionAnswerHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Backadmin\OftenQuestionDesign.aspx.cs">
       <DependentUpon>OftenQuestionDesign.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -178,6 +181,7 @@
   <ItemGroup>
     <Content Include="Backadmin\Backadmin.Master" />
     <Content Include="FrontDesk\FrontDesk.Master" />
+    <Content Include="API\QuestionAnswerHandler.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -13,6 +13,7 @@ namespace Questionnaire.Backadmin
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private static Guid _questionID;
+        private QuestionDetailModel questionDetail = new QuestionDetailModel();
         private static List<QuestionDetailModel> _questionDetail = new List<QuestionDetailModel>();
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -45,16 +46,15 @@ namespace Questionnaire.Backadmin
                 quesDetailTitle = this.txtTitle1.Text.Trim(),
                 quesDetailBody = this.txtAnswer.Text.Trim(),
                 quesDetailType = (QuestionType)Convert.ToInt32(this.droptype.SelectedValue),
-                quesDetailMustKeyIn = this.checMust.Checked
+                quesDetailMustKeyIn = this.checMust.Checked,
             };
             _questionDetail.Add(questionDetail);
-            HttpContext.Current.Session["qusetionMode"] = _questionDetail;
+            HttpContext.Current.Session["qusetionModel"] = _questionDetail;
             InitQues(_questionDetail);
             InitTextbox();
         }
         private bool ErrorMsgQuestion(out string mistake)
         {
-            QuestionDetailModel questionDetail = new QuestionDetailModel();
             mistake = string.Empty;
             if (string.IsNullOrWhiteSpace(this.txtTitle1.Text.Trim()))
                 mistake += "※必須輸入標題※<br/>";
