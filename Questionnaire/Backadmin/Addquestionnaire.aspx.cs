@@ -17,7 +17,7 @@ namespace Questionnaire.Backadmin
         private QuestionDetailModel questionDetail = new QuestionDetailModel();
         private QuestionModel question = new QuestionModel();
         private static List<QuestionDetailModel> _questionDetail = new List<QuestionDetailModel>();
-        private static List<AccountInfoModel> _accountInfo;
+        private static List<AccountInfoModel> _accountInfo = new List<AccountInfoModel>();
         private static Guid _questionID;
         private bool isCreateMode;
         protected void Page_Load(object sender, EventArgs e)
@@ -314,7 +314,7 @@ namespace Questionnaire.Backadmin
                 Response.Buffer = true;
 
                 #region 匯出csv                
-                HttpContext.Current.Response.ContentType = "application/vnd.ms-excel";
+                HttpContext.Current.Response.ContentType = "application/x-msexcel";
                 HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
                 HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment; filename=" + FileName);
                 using (MemoryStream mystream = new MemoryStream())
