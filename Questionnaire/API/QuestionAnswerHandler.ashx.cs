@@ -14,7 +14,7 @@ namespace Questionnaire.API
 
         public void ProcessRequest(HttpContext context)
         {
-            if (string.Compare("POST", context.Request.HttpMethod) == 0 &&
+            if (string.Compare("POST", context.Request.HttpMethod, true) == 0 &&
                  Guid.TryParse(context.Request.QueryString["quesID"], out Guid quesID))
             {
                 string name = context.Request.Form["Name"];
@@ -29,7 +29,7 @@ namespace Questionnaire.API
                     Phone = phone,
                     Age = age,
                     Email = email,
-                    quesID = quesID,
+                    quesID = quesID
                 };
                 HttpContext.Current.Session["questionanswer"] = accountInfoModel;
                 string quesans = context.Request.Form["Answer"];

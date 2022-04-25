@@ -17,6 +17,7 @@ namespace Questionnaire.Backadmin
         private QuestionDetailModel questionDetail = new QuestionDetailModel();
         private QuestionModel question = new QuestionModel();
         private static List<QuestionDetailModel> _questionDetail = new List<QuestionDetailModel>();
+        private static List<AccountInfoModel> _accountInfo;
         private static Guid _questionID;
         private bool isCreateMode;
         protected void Page_Load(object sender, EventArgs e)
@@ -92,12 +93,12 @@ namespace Questionnaire.Backadmin
         /// <param name="quesID"></param> 
         protected void Save_Click(object sender, EventArgs e)
         {
-            if(ErrorMsg(out string mistake))
+            if (ErrorMsg(out string mistake))
             {
                 this.ltlmistamsg.Text = mistake;
                 return;
             }
-            
+
             QuestionModel question = new QuestionModel()
             {
                 //quesID = Guid.NewGuid(),
@@ -141,23 +142,25 @@ namespace Questionnaire.Backadmin
         protected void Cancle_Click(object sender, EventArgs e)
         {
             Response.Redirect("Allquestionnaires.aspx");
-        }       
+        }
         private bool ErrorMsg(out string mistake)
         {
             mistake = string.Empty;
             if (string.IsNullOrWhiteSpace(this.txtTitle.Text.Trim()))
-               mistake += "※必須輸入標題※<br/>";
+                mistake += "※必須輸入標題※<br/>";
             if (string.IsNullOrWhiteSpace(this.txtStart.Text))
-               mistake += "※必須輸入開始日期※<br/>";
+                mistake += "※必須輸入開始日期※<br/>";
             else if (Convert.ToDateTime(this.txtStart.Text) < DateTime.Today && isCreateMode)
                 mistake += "※起始日期不可早於今天※<br/>";
             if (string.IsNullOrWhiteSpace(this.txtEnd.Text))
-               mistake += "※必須輸入結束日期※<br/>";
-            if(string.IsNullOrEmpty(mistake))
+                mistake += "※必須輸入結束日期※<br/>";
+            if (string.IsNullOrEmpty(mistake))
                 return false;
             return true;
         }
         #endregion
+
+        #region 問題Questions
 
         /// <summary>
         /// 問題Questions
@@ -165,7 +168,7 @@ namespace Questionnaire.Backadmin
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void BtnAdd_Click(object sender, EventArgs e)
-        {           
+        {
             if (ErrorMsgQuestion(out string mistake))
             {
                 this.ltlquesmistMsg.Text = mistake;
@@ -191,7 +194,7 @@ namespace Questionnaire.Backadmin
                 mistake += "※必須輸入標題※<br/>";
             if (questionDetail.quesDetailType != QuestionType.單選方塊 && this.txtAnswer.Text == null)
                 mistake += "※必須把問題輸入完整※<br/>";
-            else if(questionDetail.quesDetailType != QuestionType.複選方塊 && this.txtAnswer.Text == null)
+            else if (questionDetail.quesDetailType != QuestionType.複選方塊 && this.txtAnswer.Text == null)
                 mistake += "※必須把問題輸入完整※<br/>";
 
             if (string.IsNullOrEmpty(mistake))
@@ -245,8 +248,8 @@ namespace Questionnaire.Backadmin
         }
         protected void btnquessave_Click(object sender, EventArgs e)
         {
-            if(_quesMgr.GetQuestionModel(_questionID) != null)
-                 _quesMgr.DeleteQuestion(_questionID);
+            if (_quesMgr.GetQuestionModel(_questionID) != null)
+                _quesMgr.DeleteQuestion(_questionID);
 
             int questionNumber = 1;
             foreach (QuestionDetailModel questionDetail in _questionDetail)
@@ -273,10 +276,10 @@ namespace Questionnaire.Backadmin
                     this.checMust.Checked = questionDetail.quesDetailMustKeyIn;
                 }
             }
-        } 
+        }
         protected void dropclass_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(Guid.TryParse(this.dropclass.SelectedValue, out Guid OftenUseQuestion))
+            if (Guid.TryParse(this.dropclass.SelectedValue, out Guid OftenUseQuestion))
             {
                 List<QuestionDetailModel> questionoften = _quesMgr.GetQuestionModel(OftenUseQuestion);
                 HttpContext.Current.Session["qusetionDetail"] = questionoften;
@@ -287,6 +290,8 @@ namespace Questionnaire.Backadmin
                 InitQues(new List<QuestionDetailModel>());
             }
         }
+
+        #endregion
 
         /// <summary>
         /// 填寫資料FillQuestions
@@ -308,22 +313,86 @@ namespace Questionnaire.Backadmin
                 Response.Clear();
                 Response.Buffer = true;
 
-                #region 匯出csv
-                HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment; filename=" + FileName);
+                #region 匯出csv                
                 HttpContext.Current.Response.ContentType = "application/vnd.ms-excel";
                 HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
+                HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment; filename=" + FileName);
                 using (MemoryStream mystream = new MemoryStream())
                 {
                     StreamWriter sw = new StreamWriter(mystream, Encoding.UTF8);
                     StringBuilder sbcsvContent = new StringBuilder();
-                    List<QuestionDetailModel> questionDetailModels = new List<QuestionDetailModel>();
+                    List<QuestionDetailModel> questionDetails = _quesMgr.GetQuestionModel(_questionID);
+                    string muststring = "";
+                    foreach (QuestionDetailModel question in questionDetails)
+                    {
+                        muststring += $",{question.quesNumber}.{question.quesDetailTitle}";
+                        if (question.quesDetailMustKeyIn)
+                            muststring += "(*必填)";
+                    }
+                    sbcsvContent.Append($"姓名,年齡,手機號碼,E-mail,填寫時間{muststring}\t\n");
 
+                    string tablestring = "";
+                    foreach (AccountInfoModel accountInfos in _accountInfo)
+                    {
+                        tablestring += $"{accountInfos.Name},{accountInfos.Email},{accountInfos.Phone},{accountInfos.Age},{accountInfos.CreateTime}";
+                        List<QuestionAnswerModel> questionAnswers = _quesMgr.GetAnswerList(accountInfos.AccountID);
+                        foreach (QuestionDetailModel questionDetail in questionDetails)
+                        {
+                            switch (questionDetail.quesDetailType)
+                            {
+                                case QuestionType.單選方塊:
+                                    tablestring += ",";
+                                    QuestionAnswerModel radio = questionAnswers.Find(x => x.quesNumber == questionDetail.quesNumber);
+                                    if (radio != null)
+                                    {
+                                        string[] arrtitle = questionDetail.quesDetailTitle.Split(';');
+
+                                        string title = arrtitle[Convert.ToInt32(radio.Answer)];
+
+                                        tablestring += title;
+                                    }
+                                    break;
+
+                                case QuestionType.複選方塊:
+                                    tablestring += ",";
+                                    List<QuestionAnswerModel> check = questionAnswers.FindAll(x => x.quesNumber == questionDetail.quesNumber);
+                                    if (check != null)
+                                    {
+                                        string[] arrtitle = questionDetail.quesDetailTitle.Split(';');
+
+                                        for (int i = 0; i < check.Count; i++)
+                                        {
+                                            if (i != 0)
+                                            {
+                                                tablestring += ";";                                                 
+                                            }
+                                            tablestring += arrtitle[Convert.ToInt32(check[i].Answer)];                                          
+                                        }
+                                    }
+                                    break;
+
+                                case QuestionType.文字方塊:
+                                    tablestring += ",";
+                                    QuestionAnswerModel txt = questionAnswers.Find(x => x.quesNumber == questionDetail.quesNumber);
+                                    if (txt != null)
+                                    {
+                                        tablestring += txt.Answer;
+                                    }
+                                    break;
+                            }
+                        }
+                        tablestring += "\r\n";
+                    }
+                    sbcsvContent.Append(tablestring);
+                    sw.Write(sbcsvContent);
+                    sw.Flush();
+                    mystream.Position = 0;
+                    mystream.WriteTo(Response.OutputStream);
+
+                    HttpContext.Current.Response.Flush();
+                    HttpContext.Current.Response.End();
 
                 }
-
-
-                HttpContext.Current.Response.Flush();
-                HttpContext.Current.Response.End();
                 #endregion
 
             }
@@ -337,6 +406,6 @@ namespace Questionnaire.Backadmin
 
         #endregion
 
-       
+
     }
 }

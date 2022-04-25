@@ -6,33 +6,41 @@
     <script src="../JS/bootstrap.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div align="center">
-        <asp:HiddenField ID="hfID" runat="server" />
-        <h1>
-            <asp:Literal ID="ltltitle" runat="server"></asp:Literal></h1>
-        <br />
-        <h3>
-            <asp:Literal ID="ltlContent" runat="server"></asp:Literal></h3>
-        <br />
-        <p>有標示(*)為必填欄位</p>
-        *姓名:
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10">
+                <asp:HiddenField ID="hfID" runat="server" />
+                <h1>
+                    <asp:Literal ID="ltltitle" runat="server"></asp:Literal></h1>
+                <br />
+                <h3>
+                    <asp:Literal ID="ltlContent" runat="server"></asp:Literal></h3>
+                <br />
+                <p>有標示(*)為必填欄位</p>
+                *姓名:
             <asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名"></asp:TextBox><br />
-        <br />
-        *年齡:
+                <br />
+                *年齡:
             <asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡"></asp:TextBox><br />
-        <br />
-        *手機號碼:
+                <br />
+                *手機號碼:
             <asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼"></asp:TextBox><br />
-        <br />
-        *E-mail:
+                <br />
+                *E-mail:
             <asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱"></asp:TextBox><br />
+                <br />
+                <br />
+                <asp:PlaceHolder ID="plcquestion" runat="server"></asp:PlaceHolder>
+                <br />
+            </div>
+        </div>
         <br />
-        <asp:PlaceHolder ID="plcquestion" runat="server"></asp:PlaceHolder>
         <br />
-        <input type="button" id="btnSubmit" value="送出"  />
+        <input type="button" id="btnSubmit" value="送出" />
         <%--<asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" />--%>
-        <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" /><br />
+        <asp:Button ID="btncancle" runat="server" Text="取消" OnClick="btncancle_Click" /><br />
     </div>
+
     <script>
         $(document).ready(function () {
             $("input[id=btnSubmit]").click(function () {
@@ -59,16 +67,15 @@
                 };
 
                 $.ajax({
-                    url: "../API/QuestionAnswerHandler.ashx?quesID=" + $("#hfID").val(),
+                    url: "/API/QuestionAnswerHandler.ashx?quesID=" + $("#hfID").val(),
                     method: "POST",
                     data: postData,
                     success: function (txtMsg) {
                         console.log(txtMsg);
-                        if (txtMsg == "success"){
-                            window.location = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val(); 
+                        if (txtMsg == "success") {
+                            window.open = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val();
                         }
-                        else (txtMsg == "noAnswer")
-                        {
+                        if (txtMsg == "noAnswer") {
                             alert("問題還沒完成");
                         }
                     },

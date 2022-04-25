@@ -810,6 +810,51 @@ namespace QuestionManagers
         }
 
         /// <summary>
+        /// 取得答案
+        /// </summary>
+        /// <param name="AccountID"></param>
+        /// <returns></returns>
+        public List<QuestionAnswerModel> GetAnswerList(Guid AccountID)
+        {
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                $@"  SELECT *
+                     FROM [Answer]
+                     WHERE AccountID = @AccountID 
+                     ORDER BY QuestionNo, Answer ";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        command.Parameters.AddWithValue("@AccountID", AccountID);
+
+                        conn.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        List<QuestionAnswerModel> answerList = new List<QuestionAnswerModel>();
+                        while (reader.Read())
+                        {
+                            QuestionAnswerModel answer = new QuestionAnswerModel()
+                            {
+                                quesNumber = Convert.ToInt32(reader["[quesNumber"]),
+                                Answer = reader["Answer"] as string
+                            };
+                            answerList.Add(answer);
+                        }
+                        return answerList;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("QuestionnairMgr.GetAnswerList", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
         /// 取得回答人
         /// </summary>
         /// <param name="quesID"></param>

@@ -14,13 +14,14 @@ namespace Questionnaire.FrontDesk
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private static Guid _questionID;
         private static List<QuestionAnswerModel> _personanswer;
+        private static bool _isEditMode;
         protected void Page_Load(object sender, EventArgs e)
         {
             string quesID = Request.QueryString["quesID"];
             if(Guid.TryParse(quesID, out Guid _questionID))
             {
                 _personanswer = HttpContext.Current.Session["personAnswer"] as List<QuestionAnswerModel>;
-                bool isEditMode = _personanswer == null ? false : true;
+                _isEditMode = _personanswer == null ? false : true;
 
                 QuestionModel questionModel = _quesMgr.GetQuestionnaire(_questionID);
                 this.hfID.Value = _questionID.ToString();
@@ -36,7 +37,7 @@ namespace Questionnaire.FrontDesk
                     Literal ltlquestionDetail = new Literal();
                     ltlquestionDetail.Text = ques + "<br/>";
                     this.plcquestion.Controls.Add(ltlquestionDetail);
-                    if (isEditMode)
+                    if (_isEditMode)
                     {
                         switch (question.quesDetailType)
                         {
@@ -67,13 +68,13 @@ namespace Questionnaire.FrontDesk
                         }
                     }
                 }
-                if (isEditMode)
+                if (_isEditMode)
                 {
-                    AccountInfoModel person = HttpContext.Current.Session["personInfo"] as AccountInfoModel;
-                    this.txtname.Text = person.Name;
-                    this.txtphone.Text = person.Phone;
-                    this.txtemail.Text = person.Email;
-                    this.txtage.Text = person.Age;
+                    AccountInfoModel accountInfoModel = HttpContext.Current.Session["personInfo"] as AccountInfoModel;
+                    this.txtname.Text = accountInfoModel.Name;
+                    this.txtphone.Text = accountInfoModel.Phone;
+                    this.txtemail.Text = accountInfoModel.Email;
+                    this.txtage.Text = accountInfoModel.Age;
                 }
             }
             else
@@ -150,8 +151,9 @@ namespace Questionnaire.FrontDesk
             this.plcquestion.Controls.Add(textBox);
         }
 
-        protected void Cancle_Click(object sender, EventArgs e)
+        protected void btncancle_Click(object sender, EventArgs e)
         {
+            HttpContext.Current.Session.RemoveAll();
             Response.Redirect("Allquestionnaire.aspx");
         }
     }
