@@ -46,6 +46,7 @@
     <Compile Include="QuestionAnswerModel.cs" />
     <Compile Include="QuestionDetailModel.cs" />
     <Compile Include="QuestionModel.cs" />
+    <Compile Include="QuestionTotalModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

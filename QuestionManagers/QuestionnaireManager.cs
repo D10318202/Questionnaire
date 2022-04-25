@@ -899,6 +899,48 @@ namespace QuestionManagers
             }
         }
 
+        public List<QuestionTotalModel> GetTotalAnswerList(Guid quesID)
+        {
+
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                $@"  SELECT quesNumber, Answer, COUNT(quesID) AS AnsCount
+                     FROM [Answer]
+                     WHERE quesID = @quesID 
+                     GROUP BY quesNumber, Answer, quesID
+                     ORDER BY quesNumber, Answer ";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        command.Parameters.AddWithValue("@quesID", quesID);
+                        conn.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        List<QuestionTotalModel> totalList = new List<QuestionTotalModel>();
+                        while (reader.Read())
+                        {
+                            QuestionTotalModel total = new QuestionTotalModel()
+                            {
+                                quesNumber = Convert.ToInt32(reader["[quesNumber"]),
+                                Answer = reader["Answer"] as string,
+                                AnsCount = (int)reader["AnsCount"]
+                            };
+                            totalList.Add(total);
+                        }
+                        return totalList;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("QuestionnairMgr.GetTotalAnswerList", ex);
+                throw;
+            }
+        }
+
         #endregion
     }
 }
