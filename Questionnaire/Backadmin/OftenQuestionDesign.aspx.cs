@@ -112,6 +112,22 @@ namespace Questionnaire.Backadmin
             if (_quesMgr.GetQuestionModel(_questionID) != null)
                 _quesMgr.DeleteQuestion(_questionID);
 
+            if(string.IsNullOrWhiteSpace(this.txtTitle.Text))
+            {
+                this.ltlquesmistMsg.Visible = true;
+                this.ltlquesmistMsg.Text = "*請輸入常用問題的標題*";
+                return;
+            }
+            else
+                this.ltlquesmistMsg.Visible = false;
+
+            if(_questionDetail.Count == 0)
+            {
+                this.ltlquesmistMsg.Visible = true;
+                this.ltlquesmistMsg.Text = "*只少要輸入一個常用問題*";
+                return;
+            }
+
             int questionNumber = 1;
             foreach (QuestionDetailModel questionDetail in _questionDetail)
             {

@@ -54,7 +54,7 @@
                                     <asp:Label ID="lblNumber" runat="server"></asp:Label>
                                 </td>
                                 <td>
-                                    <a href="OftenQuestionDesign.aspx?ID=<%#Eval("quesID") %>">
+                                    <a href="OftenQuestionDesign.aspx?quesID=<%#Eval("quesID") %>">
                                         <asp:Label ID="lblQueryName" runat="server" Text='<%#Eval("quesTitle") %>'></asp:Label></a>
                                 </td>
                                 <td>

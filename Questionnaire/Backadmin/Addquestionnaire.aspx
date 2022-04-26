@@ -96,7 +96,7 @@
                     </asp:Panel>
 
                     <asp:Panel ID="panFillQuestions" runat="server" Visible="false" BorderStyle="Solid">
-                        <asp:Button ID="btnsavefile" runat="server" Text="匯出" OnClick="btnsavefile_Click" /><br />
+                        <asp:Button ID="btnsavefile" runat="server" Text="匯出(.csv)" OnClick="btnsavefile_Click" CssClass="alert-light" /><br />
                         <table class="table table-success">
                             <tr>
                                 <th>#</th>
@@ -125,7 +125,7 @@
                         </table>
                     </asp:Panel>
 
-                    <asp:Panel ID="panTotal" runat="server" Visible="false" BorderStyle="Solid">
+                    <asp:Panel ID="panTotal" runat="server" Visible="false" BorderStyle="Solid" OnLoad="panTotal_Load">
                     </asp:Panel>
                 </div>
             </div>

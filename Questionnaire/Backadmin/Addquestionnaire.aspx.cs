@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace Questionnaire.Backadmin
@@ -128,8 +129,8 @@ namespace Questionnaire.Backadmin
             }
             HttpContext.Current.Session["quesID"] = question.quesID;
             Response.Redirect("Addquestionnaire.aspx?quesID=" + question.quesID);   //感覺有點奇怪，但可行
-            //this.panQuestionnaire.Visible = false;
-            //this.panQuestions.Visible = true;
+                                                                                    //this.panQuestionnaire.Visible = false;
+                                                                                    //this.panQuestions.Visible = true;
         }
         private void EditMode(Guid quesID)
         {
@@ -364,9 +365,9 @@ namespace Questionnaire.Backadmin
                                         {
                                             if (i != 0)
                                             {
-                                                tablestring += ";";                                                 
+                                                tablestring += ";";
                                             }
-                                            tablestring += arrtitle[Convert.ToInt32(check[i].Answer)];                                          
+                                            tablestring += arrtitle[Convert.ToInt32(check[i].Answer)];
                                         }
                                     }
                                     break;
@@ -403,7 +404,71 @@ namespace Questionnaire.Backadmin
         }
         #endregion
 
+        protected void panTotal_Load(object sender, EventArgs e)
+        {
+            string QusetionnaireID = Request.QueryString["quesID"];
+            if (Guid.TryParse(QusetionnaireID, out _questionID))
+            {
+                QuestionModel question = _quesMgr.GetQuestionnaire(_questionID);
+                this.txtTitle.Text = question.quesTitle;
+                this.txtBody.Text = question.quesBody;
 
+                List<QuestionDetailModel> questionDetailList = _quesMgr.GetQuestionModel(_questionID);
+                List<QuestionTotalModel> questionTotals = _quesMgr.GetTotalAnswerList(_questionID);
+                foreach (QuestionDetailModel questionDetails in questionDetailList)
+                {
+                    string quesDetail = $"<br/>{questionDetails.quesNumber}.{questionDetails.quesDetailTitle}";
+                    if (questionDetails.quesDetailMustKeyIn)
+                        quesDetail += "(*必填)";
+                    Literal ltlquestion = new Literal();
+                    ltlquestion.Text = quesDetail + "<br/>";
+                    this.panTotal.Controls.Add(ltlquestion);
 
+                    if (questionDetails.quesDetailType != QuestionType.文字方塊)
+                    {
+                        List<QuestionTotalModel> NoquestionList = questionTotals.FindAll(x => x.quesNumber == questionDetails.quesNumber);
+                        int total = 0;
+                        foreach (QuestionTotalModel questionTotal in NoquestionList)
+                            total += questionTotal.AnsCount;
+
+                        if (total == 0)
+                        {
+                            Literal ltlNoAnswer = new Literal();
+                            ltlNoAnswer.Text = "尚無資料<br/>";
+                            this.panTotal.Controls.Add(ltlNoAnswer);
+                        }
+                        else
+                        {
+                            string[] arrQues = questionDetails.quesDetailBody.Split(';');
+                            for (int i = 0; i < arrQues.Length; i++)
+                            {
+                                int Anstotal = 0;
+                                QuestionTotalModel totalModel = NoquestionList.Find(x => x.Answer == i.ToString());
+                                if (totalModel != null)
+                                    Anstotal += totalModel.AnsCount;
+
+                                Literal ltlAnswer = new Literal();
+                                ltlAnswer.Text = $"arrQues[i] : {Anstotal * 100 / total}% ({Anstotal})";
+                                this.panTotal.Controls.Add(ltlAnswer);
+
+                                HtmlGenericControl outotaldiv = new HtmlGenericControl("div");
+                                outotaldiv.Style.Value = "width:100%;heigth:30px:border:2px solid blue";
+                                this.panTotal.Controls.Add(outotaldiv);
+
+                                HtmlGenericControl intotalanswerdiv = new HtmlGenericControl("div");
+                                intotalanswerdiv.Style.Value = $"width:{Anstotal * 100 / total}%;heigth:30px;background-color:skyblue;color:white";
+                                outotaldiv.Controls.Add(intotalanswerdiv);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Literal ltltext = new Literal();
+                        ltltext.Text += "-資料不統計-<br/>";
+                        this.panTotal.Controls.Add(ltltext);
+                    }
+                }
+            }
+        }
     }
 }
