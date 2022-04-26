@@ -245,8 +245,6 @@ namespace QuestionManagers
         /// <returns></returns>
         public List<QuestionDetailModel> GetQuestionModel(Guid quesID)
         {
-            List<QuestionDetailModel> list = new List<QuestionDetailModel>();
-
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
                 @"  SELECT *
@@ -265,7 +263,7 @@ namespace QuestionManagers
                         List<QuestionDetailModel> questionDetail = new List<QuestionDetailModel>();
                         while (reader.Read())
                         {
-                            QuestionDetailModel questionDetailModel = new QuestionDetailModel()
+                            QuestionDetailModel questionDetails = new QuestionDetailModel()
                             {
                                 quesID = (Guid)reader["quesID"],
                                 quesDetailID = (Guid)reader["quesDetailID"],
@@ -275,7 +273,7 @@ namespace QuestionManagers
                                 quesDetailMustKeyIn = (bool)reader["quesDetailMustKeyIn"],
                                 quesNumber = (int)reader["quesNumber"]
                             };
-                            questionDetail.Add(questionDetailModel);
+                            questionDetail.Add(questionDetails);
                         }
                         return questionDetail;
                     }
@@ -283,6 +281,7 @@ namespace QuestionManagers
             }
             catch (Exception ex)
             {
+                Logger.WriteLog("QuestionnairMgr.GetQuestionModel", ex);
                 return null;
             }
         }

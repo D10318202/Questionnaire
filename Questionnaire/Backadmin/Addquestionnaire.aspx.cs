@@ -279,9 +279,9 @@ namespace Questionnaire.Backadmin
         }
         protected void dropclass_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Guid.TryParse(this.dropclass.SelectedValue, out Guid OftenUseQuestion))
+            if (Guid.TryParse(this.dropclass.SelectedValue, out Guid oftenuseID))
             {
-                List<QuestionDetailModel> questionoften = _quesMgr.GetQuestionModel(OftenUseQuestion);
+                List<QuestionDetailModel> questionoften = _quesMgr.GetQuestionModel(oftenuseID);
                 HttpContext.Current.Session["qusetionDetail"] = questionoften;
                 InitQues(questionoften);
             }

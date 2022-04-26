@@ -117,7 +117,7 @@
                                             <asp:Literal ID="ltlTime" runat="server" Text='<%#Eval("CreateTime") %>'></asp:Literal>
                                         </td>
                                         <td>
-                                            <a href="questionList.aspx?AccountID=<%#Eval("AccountID") %>">前往</a>
+                                            <a href="QestionListConfirm.aspx?AccountID=<%#Eval("AccountID") %>">前往</a>
                                         </td>
                                     </tr>
                                 </ItemTemplate>

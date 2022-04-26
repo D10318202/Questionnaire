@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Backadmin\AnswerDetail.aspx" />
     <Content Include="Backadmin\OftenQuestionDesign.aspx" />
     <Content Include="CSS\bootstrap.min.css" />
     <Content Include="FrontDesk\Allquestionnaire.aspx" />
@@ -88,6 +89,13 @@
   <ItemGroup>
     <Compile Include="API\QuestionAnswerHandler.ashx.cs">
       <DependentUpon>QuestionAnswerHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Backadmin\AnswerDetail.aspx.cs">
+      <DependentUpon>AnswerDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Backadmin\AnswerDetail.aspx.designer.cs">
+      <DependentUpon>AnswerDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="Backadmin\OftenQuestionDesign.aspx.cs">
       <DependentUpon>OftenQuestionDesign.aspx</DependentUpon>

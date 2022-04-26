@@ -73,7 +73,7 @@ namespace Questionnaire.Backadmin
                 if (ckbDel.Checked && Guid.TryParse(hfquesID.Value, out Guid quesID))
                     _quesMgr.DeleteQuestionnaire(quesID);
             }
-            List<QuestionModel> questionnaireList = _quesMgr.GetQuestionnaireList();
+            List<QuestionModel> questionnaireList = _quesMgr.GetQuestionnaireBackadminList();
             InitQuestionnaire(questionnaireList);
         }
 

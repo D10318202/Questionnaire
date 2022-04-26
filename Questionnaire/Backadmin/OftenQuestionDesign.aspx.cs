@@ -11,8 +11,8 @@ namespace Questionnaire.Backadmin
 {
     public partial class OftenQuestionDesign : System.Web.UI.Page
     {
-        private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private static Guid _questionID;
+        private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private QuestionDetailModel questionDetail = new QuestionDetailModel();
         private static List<QuestionDetailModel> _questionDetail = new List<QuestionDetailModel>();
         protected void Page_Load(object sender, EventArgs e)
@@ -34,38 +34,32 @@ namespace Questionnaire.Backadmin
         }
         protected void BtnAdd_Click(object sender, EventArgs e)
         {
-            if (ErrorMsgQuestion(out string mistake))
-            {
-                this.ltlquesmistMsg.Text = mistake;
-                return;
-            }
-            QuestionDetailModel questionDetail = new QuestionDetailModel()
-            {
-                quesDetailID = Guid.NewGuid(),
-                quesID = _questionID,
-                quesDetailTitle = this.txtTitle1.Text.Trim(),
-                quesDetailBody = this.txtAnswer.Text.Trim(),
-                quesDetailType = (QuestionType)Convert.ToInt32(this.droptype.SelectedValue),
-                quesDetailMustKeyIn = this.checMust.Checked,
-            };
+            QuestionDetailModel questionDetail = new QuestionDetailModel();
+            questionDetail.quesDetailID = Guid.NewGuid();
+            questionDetail.quesID = _questionID;
+            questionDetail.quesDetailTitle = this.txtTitle1.Text.Trim();
+            questionDetail.quesDetailBody = this.txtAnswer.Text.Trim();
+            questionDetail.quesDetailType = (QuestionType)Convert.ToInt32(this.droptype.SelectedValue);
+            questionDetail.quesDetailMustKeyIn = this.checMust.Checked;
             _questionDetail.Add(questionDetail);
             HttpContext.Current.Session["qusetionModel"] = _questionDetail;
             InitQues(_questionDetail);
             InitTextbox();
         }
-        private bool ErrorMsgQuestion(out string mistake)
+        private bool checkinput(string mistake)
         {
-            mistake = string.Empty;
-            if (string.IsNullOrWhiteSpace(this.txtTitle1.Text.Trim()))
-                mistake += "※必須輸入標題※<br/>";
-            if (questionDetail.quesDetailType != QuestionType.單選方塊 && this.txtAnswer.Text == null)
-                mistake += "※必須把問題輸入完整※<br/>";
-            else if (questionDetail.quesDetailType != QuestionType.複選方塊 && this.txtAnswer.Text == null)
-                mistake += "※必須把問題輸入完整※<br/>";
-
-            if (string.IsNullOrEmpty(mistake))
+            if (string.IsNullOrWhiteSpace(mistake))
+            {
+                this.ltlquesmistMsg.Visible = true;
+                this.ltlquesmistMsg.Text = "*請檢查是否都有輸入*";
                 return false;
-            return true;
+            }
+            else
+            {
+                this.ltlquesmistMsg.Visible = false;
+                return true;
+
+            }
         }
         private void InitQues(List<QuestionDetailModel> questionList)
         {
