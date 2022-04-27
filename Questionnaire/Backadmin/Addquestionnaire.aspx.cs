@@ -33,18 +33,22 @@ namespace Questionnaire.Backadmin
             {
                 isCreateMode = false;
                 EditMode(_questionID);
+                List<QuestionDetailModel> questionList = _quesMgr.GetQuestionModel(_questionID);
+                InitQues(questionList);
+                HttpContext.Current.Session["qusetionModel"] = questionList;
                 HttpContext.Current.Session["quesID"] = _questionID;
             }
             else
                 Response.Redirect("Allquestionnaires.aspx");
         }
 
+
+        #region  分頁切換
         /// <summary>
         /// 分頁切換
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        #region
         protected void LinkQuestionnaire_Click(object sender, EventArgs e)
         {
             this.ChangeStatus(PageStatus.Questionnaire);
@@ -193,10 +197,13 @@ namespace Questionnaire.Backadmin
             mistake = string.Empty;
             if (string.IsNullOrWhiteSpace(this.txtTitle1.Text.Trim()))
                 mistake += "※必須輸入標題※<br/>";
+            else if (this.txtTitle1.Text.Length < 5)
+                mistake += "※標題必須至少要有5個字※<br/>";
+
             if (questionDetail.quesDetailType != QuestionType.單選方塊 && this.txtAnswer.Text == null)
-                mistake += "※必須把問題輸入完整※<br/>";
+                mistake += "※必須把問題和答案輸入完整※<br/>";
             else if (questionDetail.quesDetailType != QuestionType.複選方塊 && this.txtAnswer.Text == null)
-                mistake += "※必須把問題輸入完整※<br/>";
+                mistake += "※必須把問題和答案輸入完整※<br/>";
 
             if (string.IsNullOrEmpty(mistake))
                 return false;
@@ -251,6 +258,30 @@ namespace Questionnaire.Backadmin
         {
             if (_quesMgr.GetQuestionModel(_questionID) != null)
                 _quesMgr.DeleteQuestion(_questionID);
+
+            #region 防呆部份
+            if (string.IsNullOrWhiteSpace(this.txtTitle.Text))
+            {
+                this.ltlquesmistMsg.Visible = true;
+                this.ltlquesmistMsg.Text = "*請輸入常用問題的標題*";
+                return;
+            }
+            else if (this.txtTitle1.Text.Length < 5)
+            {
+                this.ltlquesmistMsg.Visible = true;
+                this.ltlquesmistMsg.Text = "*常用問題的標題至少要有五個字*";
+                return;
+            }
+            else
+                this.ltlquesmistMsg.Visible = false;
+
+            if (_questionDetail.Count == 0)
+            {
+                this.ltlquesmistMsg.Visible = true;
+                this.ltlquesmistMsg.Text = "*只少要輸入一個常用問題*";
+                return;
+            }
+            #endregion
 
             int questionNumber = 1;
             foreach (QuestionDetailModel questionDetail in _questionDetail)
@@ -404,6 +435,13 @@ namespace Questionnaire.Backadmin
         }
         #endregion
 
+        #region  統計頁
+
+        /// <summary>
+        /// 統計頁面
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void panTotal_Load(object sender, EventArgs e)
         {
             string QusetionnaireID = Request.QueryString["quesID"];
@@ -470,5 +508,8 @@ namespace Questionnaire.Backadmin
                 }
             }
         }
+
+        #endregion
+
     }
 }

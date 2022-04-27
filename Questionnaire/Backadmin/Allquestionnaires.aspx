@@ -24,8 +24,8 @@
                 <br />
                 <br />
 
-                <asp:Button ID="delete" runat="server" Text="刪除" OnClick="delete_Click" />
-                <asp:Button ID="add" runat="server" Text="新增" OnClick="add_Click" />
+                <asp:Button ID="delete" runat="server" Text="刪除" OnClick="delete_Click" BackColor="Red" />
+                <asp:Button ID="add" runat="server" Text="新增" OnClick="add_Click" BackColor="LimeGreen" />
                 <table class="table table-striped">
                     <tr>
                         <th></th>
@@ -70,5 +70,4 @@
         </div>
     </div>
     <uc1:ucPager runat="server" id="ucPager" />
-    <script src="../JS/SearchkeyWord.js"></script>
 </asp:Content>

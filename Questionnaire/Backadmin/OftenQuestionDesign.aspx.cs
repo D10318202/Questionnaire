@@ -112,10 +112,17 @@ namespace Questionnaire.Backadmin
             if (_quesMgr.GetQuestionModel(_questionID) != null)
                 _quesMgr.DeleteQuestion(_questionID);
 
-            if(string.IsNullOrWhiteSpace(this.txtTitle.Text))
+            #region 防呆部份
+            if (string.IsNullOrWhiteSpace(this.txtTitle.Text))
             {
                 this.ltlquesmistMsg.Visible = true;
                 this.ltlquesmistMsg.Text = "*請輸入常用問題的標題*";
+                return;
+            }
+            else if(this.txtTitle1.Text.Length < 5)
+            {
+                this.ltlquesmistMsg.Visible = true;
+                this.ltlquesmistMsg.Text = "*常用問題的標題至少要有五個字*";
                 return;
             }
             else
@@ -127,6 +134,7 @@ namespace Questionnaire.Backadmin
                 this.ltlquesmistMsg.Text = "*只少要輸入一個常用問題*";
                 return;
             }
+            #endregion
 
             int questionNumber = 1;
             foreach (QuestionDetailModel questionDetail in _questionDetail)

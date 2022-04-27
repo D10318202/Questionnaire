@@ -45,6 +45,10 @@
         $(document).ready(function () {
             $("input[id=btnSubmit]").click(function () {
                 var answer = "";
+                var name  = $("txtname").val();
+                var phone = $("txtnphone").val();
+                var email = $("txtemail").val();
+                var age = $("txtage").val();
                 var QuesDea = $("input[id*=Q]").get();
                 console.log(QuesDea);
                 for (var item of QuesDea) {
@@ -60,20 +64,20 @@
                 }
                 var postData = {
                     "Answer": answer,
-                    "Name": $("#txtname").val(),
-                    "Phone": $("#txtphone").val(),
-                    "Email": $("#txtemail").val(),
-                    "Age": $("#txtage").val()
+                    "Name": name,
+                    "Phone": phone,
+                    "Email": email,
+                    "Age": age
                 };
 
                 $.ajax({
-                    url: "/API/QuestionAnswerHandler.ashx?quesID=" + $("#hfID").val(),
+                    url: "../API/QuestionAnswerHandler.ashx?quesID=" + $("#hfID").val(),
                     method: "POST",
                     data: postData,
                     success: function (txtMsg) {
                         console.log(txtMsg);
                         if (txtMsg == "success") {
-                            window.open = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val();
+                            window.location = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val();
                         }
                         if (txtMsg == "noAnswer") {
                             alert("問題還沒完成");
