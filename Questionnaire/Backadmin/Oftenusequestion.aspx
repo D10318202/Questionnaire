@@ -31,7 +31,7 @@
                             <asp:TextBox ID="txtCreate" runat="server"></asp:TextBox>
                         </td>
                         <td>
-                            <asp:Button ID="btnCreate" runat="server" Text="新增" OnClick="btnCreate_Click" />
+                            <asp:Button ID="btnCreate" runat="server" Text="新增" OnClick="btnCreate_Click" BackColor="LimeGreen" />
                         </td>
                     </tr>
                 </table>
@@ -64,7 +64,7 @@
                         </ItemTemplate>
                     </asp:Repeater>
                 </table>
-                <asp:Button ID="btnDelete" runat="server" Text="刪除" Onclick="btnDelete_Click"/>
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" Onclick="btnDelete_Click" BackColor="Red"/>
             </div>
         </div>
     </div>

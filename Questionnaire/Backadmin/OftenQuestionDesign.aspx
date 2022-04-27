@@ -25,9 +25,9 @@
                 <br />
                 回答:
                     <asp:TextBox ID="txtAnswer" runat="server"></asp:TextBox>(多個答案以,分隔)
-                    <asp:Button ID="BtnAdd" runat="server" Text="加入" OnClick="BtnAdd_Click"/>
+                    <asp:Button ID="BtnAdd" runat="server" Text="加入" OnClick="BtnAdd_Click" BackColor="LimeGreen"/>
                 <br />
-                <asp:Button ID="btnDelete" runat="server" Text="刪除" OnClick="btnDelete_Click"/>
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" OnClick="btnDelete_Click" BackColor="Red"/>
                 <table class="table table-info">
                     <tr>
                         <th></th>
@@ -63,8 +63,8 @@
                         </ItemTemplate>
                     </asp:Repeater>
                 </table>
-                <asp:Button ID="btnquescancle" runat="server" Text="取消" Onclick="btnquescancle_Click" />
-                <asp:Button ID="btnquessave" runat="server" Text="送出" OnClick="btnquessave_Click"/>
+                <asp:Button ID="btnquescancle" runat="server" Text="取消" Onclick="btnquescancle_Click" BackColor="Red"/>
+                <asp:Button ID="btnquessave" runat="server" Text="送出" OnClick="btnquessave_Click" BackColor="Menu"/>
             </div>
         </div>
     </div>

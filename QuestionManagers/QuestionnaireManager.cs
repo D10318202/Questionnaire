@@ -18,7 +18,7 @@ namespace QuestionManagers
 
             return list.Skip(skip).Take(pageSize).ToList();
         }
-        #region /*問卷*/
+        #region /*問卷* 常用問題=0; 不是常用問題=1;/
         /// <summary>
         /// 創建問卷
         /// </summary>
@@ -29,9 +29,9 @@ namespace QuestionManagers
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
                 @"  INSERT INTO [MainQues] 
-                        (quesID, quesTitle, quesBody, quesstart, quesend,quesstates)
+                        (quesID, quesTitle, quesBody, quesstart, quesend, quesstates, IsOftenUse)
                     VALUES 
-                        (@quesID, @quesTitle, @quesBody, @quesstart, @quesend, @quesstates) ";
+                        (@quesID, @quesTitle, @quesBody, @quesstart, @quesend, @quesstates, @IsOftenUse) ";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
@@ -44,6 +44,7 @@ namespace QuestionManagers
                         command.Parameters.AddWithValue("@quesstart", question.quesstart);
                         command.Parameters.AddWithValue("@quesend", question.quesend);
                         command.Parameters.AddWithValue("@quesstates", question.stateType);
+                        command.Parameters.AddWithValue("@IsOftenUse", 1);  //常用問題=0; 不是常用問題=1;
 
                         conn.Open();
                         command.ExecuteNonQuery();
@@ -206,6 +207,7 @@ namespace QuestionManagers
             string commandText =
                 $@"  SELECT *
                      FROM [MainQues]
+                     WHERE quesID = @quesID
                      ORDER BY [quesstart]";
             try
             {
@@ -213,6 +215,8 @@ namespace QuestionManagers
                 {
                     using (SqlCommand command = new SqlCommand(commandText, conn))
                     {
+                        command.Parameters.AddWithValue("@quesID", quesID);
+
                         conn.Open();
                         SqlDataReader reader = command.ExecuteReader();
                         while (reader.Read())
@@ -223,7 +227,8 @@ namespace QuestionManagers
                                 quesTitle = reader["quesTitle"] as string,
                                 quesBody = reader["quesBody"] as string,
                                 quesstart = (DateTime)reader["quesstart"],
-                                quesend = (DateTime)reader["quesend"]
+                                quesend = (DateTime)reader["quesend"],
+                                CreateTime = (DateTime)reader["CreateTime"],
                             };
                             return question;
                         }
@@ -296,7 +301,7 @@ namespace QuestionManagers
             string commandText =
                 $@"  SELECT *
                      FROM [MainQues]
-                     WHERE quesstates = 1
+                     WHERE quesstates = 1 AND IsOftenUse = 1
                      ORDER BY CreateTime DESC ";
             try
             {
@@ -342,6 +347,7 @@ namespace QuestionManagers
             string commandText =
                 $@"  SELECT *
                      FROM [MainQues]
+                     WHERE IsOftenUse = 1
                      ORDER BY CreateTime DESC ";
             try
             {
@@ -372,7 +378,7 @@ namespace QuestionManagers
             }
             catch (Exception ex)
             {
-                Logger.WriteLog("QuestionnaireManager.GetQuestionnaireList", ex);
+                Logger.WriteLog("QuestionnaireManager.GetQuestionnaireBackadminList", ex);
                 throw;
             }
         }
@@ -491,9 +497,9 @@ namespace QuestionManagers
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
                 @"  INSERT INTO [MainQues] 
-                        (quesID, quesTitle, quesstates)
+                        (quesID, quesTitle, IsOftenUse)
                     VALUES 
-                        (@quesID, @quesTitle, @quesstates) ";
+                        (@quesID, @quesTitle, @IsOftenUse) ";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
@@ -502,7 +508,7 @@ namespace QuestionManagers
                     {
                         command.Parameters.AddWithValue("@quesID", quesID);
                         command.Parameters.AddWithValue("@quesTitle", quesTitle);
-                        command.Parameters.AddWithValue("@quesstates", 1);
+                        command.Parameters.AddWithValue("@IsOftenUse", 0);  
 
                         conn.Open();
                         command.ExecuteNonQuery();
@@ -602,7 +608,7 @@ namespace QuestionManagers
             string commandText =
                 $@"  SELECT *
                      FROM [MainQues]
-                     WHERE quesstates = 1
+                     WHERE IsOftenUse = 0
                      ORDER BY CreateTime DESC ";
             try
             {
@@ -646,7 +652,7 @@ namespace QuestionManagers
             string commandText =
                 $@"  SELECT *
                      FROM [MainQues]
-                     WHERE quesTitle LIKE '%'+ @keyword+ '%' AND quesstates = 1
+                     WHERE quesTitle LIKE '%'+ @keyword+ '%' AND IsOftenUse = 0
                      ORDER BY CreateTime DESC ";
             try
             {

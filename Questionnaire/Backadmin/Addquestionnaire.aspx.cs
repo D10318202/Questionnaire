@@ -266,12 +266,6 @@ namespace Questionnaire.Backadmin
                 this.ltlquesmistMsg.Text = "*請輸入常用問題的標題*";
                 return;
             }
-            else if (this.txtTitle1.Text.Length < 5)
-            {
-                this.ltlquesmistMsg.Visible = true;
-                this.ltlquesmistMsg.Text = "*常用問題的標題至少要有五個字*";
-                return;
-            }
             else
                 this.ltlquesmistMsg.Visible = false;
 
