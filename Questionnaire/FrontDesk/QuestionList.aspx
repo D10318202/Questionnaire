@@ -36,8 +36,8 @@
         </div>
         <br />
         <br />
-<%--        <button class="btnSubmit">送出</button>--%>
-        <input type="button" id="btnSubmit" value="送出" />
+        <%--<button id="btnSubmit">送出</button>--%>
+        <input type="button" id="btnSubmit" value="送出"/>
 <%--        <asp:Button ID="Save" runat="server" Text="送出"  />--%>
         <asp:Button ID="btncancle" runat="server" Text="取消" OnClick="btncancle_Click" /><br />
         
@@ -46,6 +46,7 @@
         $(document).ready(function () {
             $("input[id=btnSubmit]").click(function () {
                 var answer = "";
+                var profile = `${$("#txtname").val()};${$("#txtphone").val()};${$("#txtemail").val()};${$("#txtage").val()}`
                 var QuesDea = $("input[id*=Q]").get();
                 console.log(QuesDea);
                 for (var ans of QuesDea) {
@@ -61,11 +62,7 @@
                 }
                 var postData = {
                     "Answer": answer,
-                    "Name": $("txtname").val(),
-                    "Phone": $("txtphone").val(),
-                    "Email": $("txtemail").val(),
-                    "Age": $("txtage").val()
-
+                    "Profile": profile
                 };
                 $.ajax({
                     url: "../API/QuestionAnswerHandler.ashx?quesID=" + $("#hfID").val(),
@@ -74,10 +71,13 @@
                     success: function (txtMsg) {
                         console.log(txtMsg);
                         if (txtMsg == "success") {
-                            window.location.href = "QuestionListConfirm.aspx?ID=" + $("#hfID").val();
+                            window.location.href = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val();
                         }
-                        else if (txtMsg == "noAnswer") {
+                        if (txtMsg == "noAnswer") {
                             alert("問題還沒完成");
+                        }
+                        if (txtMsg == "errorinput") {
+                            alert("個人資訊有錯誤，請檢查")
                         }
                     },
                     error: function (msg) {
@@ -88,54 +88,4 @@
             });
         })
     </script>
-    <%--<script type="text/javascript">
-        $(document).ready(function () {
-            $(".btnSubmit").click(function () {
-                var answer = "";
-                var name  = $("txtname").val();
-                var phone = $("txtphone").val();
-                var email = $("txtemail").val();
-                var age = $("txtage").val();
-                var QuesDea = $("input[id*=Q]").get();
-                console.log(QuesDea);
-                for (var ans of QuesDea) {
-                    if (ans.type == "radio" && ans.checked) {
-                        answer += ans.id + ";";
-                    }
-                    if (ans.type == "checkbox" && ans.checked) {
-                        answer += ans.id + ";";
-                    }
-                    if (ans.type == "text") {
-                        answer += `${ans.id}_${ans.value}` + ";";
-                    }
-                }
-                var postData = {
-                    "Answer": answer,
-                    "Name": name,
-                    "Phone": phone,
-                    "Email": email,
-                    "Age": age
-
-                };
-                $.ajax({
-                    url: "../API/QuestionAnswerHandler.ashx?quesID=" + $("#hfID").val(),
-                    method: "POST",
-                    data: postData,
-                    success: function (txtMsg) {
-                        console.log(txtMsg);
-                        if (txtMsg == "success") {
-                            window.location.href = "QuestionListConfirm.aspx?ID=" + $("#hfID").val();
-                        }
-                        if (txtMsg == "noAnswer") {
-                            alert("問題還沒完成");
-                        }
-                    },
-                    error: function (msg) {
-                        console.log(msg);
-                        alert("通訊失敗，請聯絡管理員。");
-                    }
-                });
-            });
-        });
-    </script>--%>
 </asp:Content>
