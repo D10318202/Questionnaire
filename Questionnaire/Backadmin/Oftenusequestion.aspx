@@ -1,8 +1,6 @@
 ﻿<%@ Page Title="後台-常用問題管理" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="Oftenusequestion.aspx.cs" Inherits="Questionnaire.Backadmin.Oftenusequestion" %>
 
-
-
-
+<%@ Register Src="~/ShareControls/ucPage.ascx" TagPrefix="uc1" TagName="ucPage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../JS/bootstrap.min.js"></script>
@@ -19,7 +17,7 @@
                     <tr>
                         <td>問卷標題</td>
                         <td>
-                            <asp:TextBox ID="txtkeyword" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtkeyword" runat="server" placeholder="請輸入搜尋文字"></asp:TextBox>
                         </td>
                         <td>
                             <asp:Button ID="btnSearch" runat="server" Text="搜尋" />
@@ -28,7 +26,7 @@
                     <tr>
                         <td>新增問題範例</td>
                         <td>
-                            <asp:TextBox ID="txtCreate" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtCreate" runat="server" placeholder="請輸入範例標題"></asp:TextBox>
                         </td>
                         <td>
                             <asp:Button ID="btnCreate" runat="server" Text="新增" OnClick="btnCreate_Click" BackColor="LimeGreen" />
@@ -68,6 +66,5 @@
             </div>
         </div>
     </div>
-
-    <script src="../JS/SearchkeyWord.js"></script>
+    <uc1:ucPage runat="server" ID="ucPage" />
 </asp:Content>

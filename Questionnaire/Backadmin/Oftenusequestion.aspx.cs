@@ -12,24 +12,46 @@ namespace Questionnaire.Backadmin
     public partial class Oftenusequestion : System.Web.UI.Page
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
+        private const int _PageSize = 5;
+        private static int _PageIndex;
+        private static int _TotalRows;
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!this.IsPostBack)
-            {
-                List<QuestionModel> questionnaireList = _quesMgr.GetQuestionList();
-                InitQuesOften(questionnaireList);
-            }
             //if (!this.IsPostBack)
             //{
-            //    string keyword = this.Request.QueryString["keyword"];
-            //    this.txtkeyword.Text = keyword;
+            //    List<QuestionModel> questionnaireList = _quesMgr.GetQuestionList();
+            //    InitQuesOften(questionnaireList);
             //}
+            HttpContext.Current.Session.RemoveAll();
+            string pageIndexText = this.Request.QueryString["Index"];
+            _PageIndex =
+                (string.IsNullOrWhiteSpace(pageIndexText))
+                    ? 1
+                    : Convert.ToInt32(pageIndexText);
+
+            if (!this.IsPostBack)
+            {
+                string keyword = this.Request.QueryString["keyword"];
+                List<QuestionModel> questionmodata =
+                                             string.IsNullOrWhiteSpace(keyword)
+                                             ? _quesMgr.GetQuestionList()
+                                             : _quesMgr.GetQuestionList(keyword);              
+                List<QuestionModel> quesresultList = _quesMgr.GetIndexList(_PageIndex, _PageSize, questionmodata);
+                this.txtkeyword.Text = keyword;
+                _TotalRows = quesresultList.Count;
+                this.ucPage.TotalRows = _TotalRows;
+                this.ucPage.PageIndex = _PageIndex;
+                string[] paramKey = { "keyword" };
+                string[] paramValues = { keyword };
+                this.ucPage.Bind(paramKey, paramValues);
+                InitQuesOften(quesresultList);
+            }
         }
         private void InitQuesOften(List<QuestionModel> questionnaireList)
         {
             this.rptQuestionOften.DataSource = questionnaireList;
             this.rptQuestionOften.DataBind();
-            int i = questionnaireList.Count;
+            int i = _TotalRows - (_PageIndex - 1) * _PageSize;
             foreach (RepeaterItem repeaterItem in this.rptQuestionOften.Items)
             {
                 Label lblNumber = repeaterItem.FindControl("lblNumber") as Label;
@@ -39,13 +61,10 @@ namespace Questionnaire.Backadmin
         }
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            //待更改
-            string keyword = this.txtkeyword.Text.Trim();
-
-            if (string.IsNullOrWhiteSpace(keyword))
-                Response.Redirect("Allquestionnaire.aspx");
-            else
-                Response.Redirect("Allquestionnaire.aspx?keyword=" + keyword);
+            string redirectUrl = this.Request.Url.LocalPath + "?Index=1";
+            if (!string.IsNullOrWhiteSpace(this.txtkeyword.Text.Trim()))
+                redirectUrl += "&keyword=" + this.txtkeyword.Text.Trim();
+            Response.Redirect(redirectUrl);
         }
 
         protected void btnCreate_Click(object sender, EventArgs e)

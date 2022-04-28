@@ -402,6 +402,9 @@ namespace QuestionManagers
                 {
                     using (SqlCommand command = new SqlCommand(commandText, conn))
                     {
+                        if (!string.IsNullOrWhiteSpace(keyword))
+                            command.Parameters.AddWithValue("@keyword", keyword);
+
                         conn.Open();
                         SqlDataReader reader = command.ExecuteReader();
                         List<QuestionModel> Questionnairelist = new List<QuestionModel>();
