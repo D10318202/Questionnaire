@@ -36,30 +36,77 @@
         </div>
         <br />
         <br />
+<%--        <button class="btnSubmit">送出</button>--%>
         <input type="button" id="btnSubmit" value="送出" />
-        <%--<asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" />--%>
+<%--        <asp:Button ID="Save" runat="server" Text="送出"  />--%>
         <asp:Button ID="btncancle" runat="server" Text="取消" OnClick="btncancle_Click" /><br />
+        
     </div>
-
     <script>
         $(document).ready(function () {
             $("input[id=btnSubmit]").click(function () {
                 var answer = "";
+                var QuesDea = $("input[id*=Q]").get();
+                console.log(QuesDea);
+                for (var ans of QuesDea) {
+                    if (ans.type == "radio" && ans.checked) {
+                        answer += ans.id + ";";
+                    }
+                    if (ans.type == "checkbox" && ans.checked) {
+                        answer += ans.id + ";";
+                    }
+                    if (ans.type == "text") {
+                        answer += `${ans.id}_${ans.value}` + ";";
+                    }
+                }
+                var postData = {
+                    "Answer": answer,
+                    "Name": $("txtname").val(),
+                    "Phone": $("txtphone").val(),
+                    "Email": $("txtemail").val(),
+                    "Age": $("txtage").val()
+
+                };
+                $.ajax({
+                    url: "../API/QuestionAnswerHandler.ashx?quesID=" + $("#hfID").val(),
+                    method: "POST",
+                    data: postData,
+                    success: function (txtMsg) {
+                        console.log(txtMsg);
+                        if (txtMsg == "success") {
+                            window.location.href = "QuestionListConfirm.aspx?ID=" + $("#hfID").val();
+                        }
+                        else if (txtMsg == "noAnswer") {
+                            alert("問題還沒完成");
+                        }
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                        alert("通訊失敗，請聯絡管理員。");
+                    }
+                });
+            });
+        })
+    </script>
+    <%--<script type="text/javascript">
+        $(document).ready(function () {
+            $(".btnSubmit").click(function () {
+                var answer = "";
                 var name  = $("txtname").val();
-                var phone = $("txtnphone").val();
+                var phone = $("txtphone").val();
                 var email = $("txtemail").val();
                 var age = $("txtage").val();
                 var QuesDea = $("input[id*=Q]").get();
                 console.log(QuesDea);
-                for (var item of QuesDea) {
-                    if (item.type == "radio" && item.checked) {
-                        answer += item.id + " ";
+                for (var ans of QuesDea) {
+                    if (ans.type == "radio" && ans.checked) {
+                        answer += ans.id + ";";
                     }
-                    if (item.type == "checkbox" && item.checked) {
-                        answer += item.id + " ";
+                    if (ans.type == "checkbox" && ans.checked) {
+                        answer += ans.id + ";";
                     }
-                    if (item.type == "text") {
-                        answer += `${item.id}_${item.value}` + " ";
+                    if (ans.type == "text") {
+                        answer += `${ans.id}_${ans.value}` + ";";
                     }
                 }
                 var postData = {
@@ -68,8 +115,8 @@
                     "Phone": phone,
                     "Email": email,
                     "Age": age
-                };
 
+                };
                 $.ajax({
                     url: "../API/QuestionAnswerHandler.ashx?quesID=" + $("#hfID").val(),
                     method: "POST",
@@ -77,7 +124,7 @@
                     success: function (txtMsg) {
                         console.log(txtMsg);
                         if (txtMsg == "success") {
-                            window.location = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val();
+                            window.location.href = "QuestionListConfirm.aspx?ID=" + $("#hfID").val();
                         }
                         if (txtMsg == "noAnswer") {
                             alert("問題還沒完成");
@@ -89,7 +136,6 @@
                     }
                 });
             });
-        })
-
-    </script>
+        });
+    </script>--%>
 </asp:Content>

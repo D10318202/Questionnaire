@@ -24,6 +24,7 @@ namespace Questionnaire.Backadmin
         protected void Page_Load(object sender, EventArgs e)
         {
             string QusetionnaireID = Request.QueryString["quesID"];
+            this.txtStart.Text = DateTime.Now.ToString("yyyy-MM-dd");
             if (string.IsNullOrWhiteSpace(QusetionnaireID))
             {
                 isCreateMode = true;
@@ -41,7 +42,6 @@ namespace Questionnaire.Backadmin
             else
                 Response.Redirect("Allquestionnaires.aspx");
         }
-
 
         #region  分頁切換
         /// <summary>
@@ -146,6 +146,7 @@ namespace Questionnaire.Backadmin
         }
         protected void Cancle_Click(object sender, EventArgs e)
         {
+            HttpContext.Current.Session.RemoveAll();
             Response.Redirect("Allquestionnaires.aspx");
         }
         private bool ErrorMsg(out string mistake)
@@ -153,6 +154,9 @@ namespace Questionnaire.Backadmin
             mistake = string.Empty;
             if (string.IsNullOrWhiteSpace(this.txtTitle.Text.Trim()))
                 mistake += "※必須輸入標題※<br/>";
+            else if (this.txtTitle.Text.Trim().Length < 5)
+                mistake += "※標題必須至少要有五個字※<br/>";
+
             if (string.IsNullOrWhiteSpace(this.txtStart.Text))
                 mistake += "※必須輸入開始日期※<br/>";
             else if (Convert.ToDateTime(this.txtStart.Text) < DateTime.Today && isCreateMode)
@@ -197,13 +201,15 @@ namespace Questionnaire.Backadmin
             mistake = string.Empty;
             if (string.IsNullOrWhiteSpace(this.txtTitle1.Text.Trim()))
                 mistake += "※必須輸入標題※<br/>";
-            else if (this.txtTitle1.Text.Length < 5)
+            else if (this.txtTitle1.Text.Length < 3)
                 mistake += "※標題必須至少要有5個字※<br/>";
-
+            
             if (questionDetail.quesDetailType != QuestionType.單選方塊 && this.txtAnswer.Text == null)
                 mistake += "※必須把問題和答案輸入完整※<br/>";
             else if (questionDetail.quesDetailType != QuestionType.複選方塊 && this.txtAnswer.Text == null)
                 mistake += "※必須把問題和答案輸入完整※<br/>";
+            else if (questionDetail.quesDetailType == QuestionType.文字方塊 && this.txtAnswer.Text != null)
+                mistake += "※選擇文字方塊不需要輸入回答欄位※<br/>";
 
             if (string.IsNullOrEmpty(mistake))
                 return false;
@@ -252,6 +258,7 @@ namespace Questionnaire.Backadmin
         }
         protected void btnquescancle_Click(object sender, EventArgs e)
         {
+            HttpContext.Current.Session.RemoveAll();
             Response.Redirect("Allquestionnaires.aspx");
         }
         protected void btnquessave_Click(object sender, EventArgs e)
@@ -307,9 +314,9 @@ namespace Questionnaire.Backadmin
         {
             if (Guid.TryParse(this.dropclass.SelectedValue, out Guid oftenuseID))
             {
-                List<QuestionDetailModel> questionoften = _quesMgr.GetQuestionModel(oftenuseID);
-                HttpContext.Current.Session["qusetionDetail"] = questionoften;
-                InitQues(questionoften);
+                List<QuestionDetailModel> questionList = _quesMgr.GetQuestionModel(oftenuseID);
+                HttpContext.Current.Session["qusetionDetail"] = questionList;
+                InitQues(questionList);
             }
             else
             {
@@ -504,6 +511,5 @@ namespace Questionnaire.Backadmin
         }
 
         #endregion
-
     }
 }

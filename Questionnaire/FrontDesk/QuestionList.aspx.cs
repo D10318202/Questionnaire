@@ -13,7 +13,7 @@ namespace Questionnaire.FrontDesk
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private static Guid _questionID;
-        private static List<QuestionAnswerModel> _personanswer;
+        private static List<QuestionAnswerModel> _personanswer = new List<QuestionAnswerModel>();
         private static bool _isEditMode;
         protected void Page_Load(object sender, EventArgs e)
         {

@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="後台-常用問題管理" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="Oftenusequestion.aspx.cs" Inherits="Questionnaire.Backadmin.Oftenusequestion" %>
 
-<%@ Register Src="~/ShareControls/ucPager.ascx" TagPrefix="uc1" TagName="ucPager" %>
+
 
 
 
@@ -68,6 +68,6 @@
             </div>
         </div>
     </div>
-<%--    <uc1:ucPager runat="server" id="ucPager" />--%>
+
     <script src="../JS/SearchkeyWord.js"></script>
 </asp:Content>

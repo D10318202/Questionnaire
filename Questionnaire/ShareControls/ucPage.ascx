@@ -1,6 +1,6 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ucPager.ascx.cs" Inherits="Questionnaire.ShareControls.ucPager" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ucPage.ascx.cs" Inherits="Questionnaire.ShareControls.ucPage" %>
 
-<div class="Pagger">
+<div>
     <a runat="server" id="aLinkFirst" href="">第一頁</a>
     <a runat="server" id="aLinkPrev" href="">上一頁</a>
     <a runat="server" id="aLinkPage1" href="">1</a>

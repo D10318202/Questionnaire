@@ -13,8 +13,8 @@ namespace Questionnaire.Backadmin
     {
         private static Guid _questionID;
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
-        private QuestionDetailModel questionDetail = new QuestionDetailModel();
         private static List<QuestionDetailModel> _questionDetail = new List<QuestionDetailModel>();
+        private QuestionDetailModel questionDetail = new QuestionDetailModel();
         protected void Page_Load(object sender, EventArgs e)
         {
             _questionDetail = HttpContext.Current.Session["questionModel"] as List<QuestionDetailModel>;
@@ -34,32 +34,43 @@ namespace Questionnaire.Backadmin
         }
         protected void BtnAdd_Click(object sender, EventArgs e)
         {
-            QuestionDetailModel questionDetail = new QuestionDetailModel();
-            questionDetail.quesDetailID = Guid.NewGuid();
-            questionDetail.quesID = _questionID;
-            questionDetail.quesDetailTitle = this.txtTitle1.Text.Trim();
-            questionDetail.quesDetailBody = this.txtAnswer.Text.Trim();
-            questionDetail.quesDetailType = (QuestionType)Convert.ToInt32(this.droptype.SelectedValue);
-            questionDetail.quesDetailMustKeyIn = this.checMust.Checked;
+            if (ErrorMsgQuestion(out string mistake))
+            {
+                this.ltlquesmistMsg.Text = mistake;
+                return;
+            }
+            QuestionDetailModel questionDetail = new QuestionDetailModel()
+            {
+                quesDetailID = Guid.NewGuid(),
+                quesID = _questionID,
+                quesDetailTitle = this.txtTitle1.Text.Trim(),
+                quesDetailBody = this.txtAnswer.Text.Trim(),
+                quesDetailType = (QuestionType)Convert.ToInt32(this.droptype.SelectedValue),
+                quesDetailMustKeyIn = this.checMust.Checked,
+            };
             _questionDetail.Add(questionDetail);
             HttpContext.Current.Session["qusetionModel"] = _questionDetail;
             InitQues(_questionDetail);
             InitTextbox();
         }
-        private bool checkinput(string mistake)
+        private bool ErrorMsgQuestion(out string mistake)
         {
-            if (string.IsNullOrWhiteSpace(mistake))
-            {
-                this.ltlquesmistMsg.Visible = true;
-                this.ltlquesmistMsg.Text = "*請檢查是否都有輸入*";
-                return false;
-            }
-            else
-            {
-                this.ltlquesmistMsg.Visible = false;
-                return true;
+            mistake = string.Empty;
+            if (string.IsNullOrWhiteSpace(this.txtTitle1.Text.Trim()))
+                mistake += "※必須輸入標題※<br/>";
+            else if (this.txtTitle1.Text.Length < 3)
+                mistake += "※標題必須至少要有5個字※<br/>";
 
-            }
+            if (questionDetail.quesDetailType != QuestionType.單選方塊 && this.txtAnswer.Text == null)
+                mistake += "※必須把問題和答案輸入完整※<br/>";
+            else if (questionDetail.quesDetailType != QuestionType.複選方塊 && this.txtAnswer.Text == null)
+                mistake += "※必須把問題和答案輸入完整※<br/>";
+            else if (questionDetail.quesDetailType == QuestionType.文字方塊 && this.txtAnswer.Text != null)
+                mistake += "※選擇文字方塊不需要輸入回答欄位※<br/>";
+
+            if (string.IsNullOrEmpty(mistake))
+                return false;
+            return true;
         }
         private void InitQues(List<QuestionDetailModel> questionList)
         {
@@ -105,7 +116,7 @@ namespace Questionnaire.Backadmin
         protected void btnquescancle_Click(object sender, EventArgs e)
         {
             HttpContext.Current.Session.RemoveAll();
-            Response.Redirect("Oftenusequestion.aspx");
+            Response.Redirect("Allquestionnaires.aspx");
         }
         protected void btnquessave_Click(object sender, EventArgs e)
         {
@@ -119,16 +130,10 @@ namespace Questionnaire.Backadmin
                 this.ltlquesmistMsg.Text = "*請輸入常用問題的標題*";
                 return;
             }
-            else if(this.txtTitle1.Text.Length < 5)
-            {
-                this.ltlquesmistMsg.Visible = true;
-                this.ltlquesmistMsg.Text = "*常用問題的標題至少要有五個字*";
-                return;
-            }
             else
                 this.ltlquesmistMsg.Visible = false;
 
-            if(_questionDetail.Count == 0)
+            if (_questionDetail.Count == 0)
             {
                 this.ltlquesmistMsg.Visible = true;
                 this.ltlquesmistMsg.Text = "*只少要輸入一個常用問題*";
@@ -139,13 +144,14 @@ namespace Questionnaire.Backadmin
             int questionNumber = 1;
             foreach (QuestionDetailModel questionDetail in _questionDetail)
             {
+                questionDetail.quesDetailID = Guid.NewGuid();
+                questionDetail.quesID = _questionID;
                 questionDetail.quesNumber = questionNumber;
                 _quesMgr.CreateQuestionDetail(questionDetail);
 
                 questionNumber++;
             }
-            HttpContext.Current.Session.Remove("questionModel");
-            Response.Redirect("Oftenusequestion.aspx");
+            Response.Redirect("Allquestionnaires.aspx");
         }
         public void repQuestions_ItemCommand(object source, RepeaterCommandEventArgs e)
         {

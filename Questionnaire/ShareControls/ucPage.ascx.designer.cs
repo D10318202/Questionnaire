@@ -11,7 +11,7 @@ namespace Questionnaire.ShareControls
 {
 
 
-    public partial class ucPager
+    public partial class ucPage
     {
 
         /// <summary>

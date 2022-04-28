@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="後台-問卷管理" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="Allquestionnaires.aspx.cs" Inherits="Questionnaire.Backadmin.Allquestionnaires" %>
 
-<%@ Register Src="~/ShareControls/ucPager.ascx" TagPrefix="uc1" TagName="ucPager" %>
+<%@ Register Src="~/ShareControls/ucPage.ascx" TagPrefix="uc1" TagName="ucPage" %>
+
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -36,7 +37,7 @@
                         <th>結束時間</th>
                         <th>觀看統計</th>
                     </tr>
-                    <asp:Repeater ID="repQuestionnaire" runat="server" OnItemCommand="repQuestionnaire_ItemCommand">
+                    <asp:Repeater ID="repQuestionnaire" runat="server">
                         <ItemTemplate>
                             <asp:HiddenField ID="hfquesID" runat="server" Value='<%#Eval("quesID") %>' />
                             <tr>
@@ -69,5 +70,5 @@
             </div>
         </div>
     </div>
-    <uc1:ucPager runat="server" id="ucPager" />
+    <uc1:ucPage runat="server" id="ucPage" />
 </asp:Content>

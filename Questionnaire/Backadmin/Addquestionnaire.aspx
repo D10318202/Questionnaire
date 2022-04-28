@@ -21,13 +21,13 @@
                     <asp:Panel ID="panQuestionnaire" runat="server" BorderStyle="Solid">
                         <asp:Label ID="ltlmistamsg" runat="server" ForeColor="Red"></asp:Label><br />
                         問卷名稱:
-                            <asp:TextBox ID="txtTitle" runat="server"></asp:TextBox><br />
+                            <asp:TextBox ID="txtTitle" runat="server"></asp:TextBox>*問卷名稱至少要有五個字*<br />
                         描述內容:
                             <asp:TextBox ID="txtBody" runat="server"></asp:TextBox><br />
                         開始時間:
-                            <asp:TextBox ID="txtStart" runat="server" TextMode="DateTimeLocal"></asp:TextBox><br />
+                            <asp:TextBox ID="txtStart" runat="server" TextMode="Date"></asp:TextBox>*開始時間不能早於今天*<br />
                         結束時間:
-                            <asp:TextBox ID="txtEnd" runat="server" TextMode="DateTimeLocal"></asp:TextBox><br />
+                            <asp:TextBox ID="txtEnd" runat="server" TextMode="Date"></asp:TextBox>*結束時間不能早於開始時間*<br />
                         已啟用<asp:CheckBox ID="checUse" runat="server" Checked="true" /><br />
 
                         <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" BackColor="Red" />
@@ -37,7 +37,7 @@
                     <asp:Panel ID="panQuestions" runat="server" Visible="false" BorderStyle="Solid">
                         <asp:Label ID="ltlquesmistMsg" runat="server" ForeColor="Red"></asp:Label><br />
                         種類:
-                           <asp:DropDownList ID="dropclass" runat="server" OnSelectedIndexChanged="dropclass_SelectedIndexChanged">
+                           <asp:DropDownList ID="dropclass" runat="server" OnSelectedIndexChanged="dropclass_SelectedIndexChanged" AutoPostBack="true">
                                <asp:ListItem Selected="True" Value="createquestion">自訂問題</asp:ListItem>
 
                            </asp:DropDownList>

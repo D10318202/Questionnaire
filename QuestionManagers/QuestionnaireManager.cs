@@ -10,13 +10,13 @@ namespace QuestionManagers
 {
     public class QuestionnaireManager
     {
-        public List<QuestionModel> GetIndexList(int pageSize, int pageIndex, List<QuestionModel> list)
+        public List<QuestionModel> GetIndexList(int PageIndex, int PageSize, List<QuestionModel> list)
         {
-            int skip = pageSize * (pageIndex - 1); //計算跳頁
+            int skip = PageSize * (PageIndex - 1); //計算跳頁
             if (skip < 0)
                 skip = 0;
 
-            return list.Skip(skip).Take(pageSize).ToList();
+            return list.Skip(skip).Take(PageSize).ToList();
         }
         #region /*問卷* 常用問題=0; 不是常用問題=1;/
         /// <summary>
@@ -265,6 +265,7 @@ namespace QuestionManagers
                         command.Parameters.AddWithValue("@quesID", quesID);
                         conn.Open();
                         SqlDataReader reader = command.ExecuteReader();
+
                         List<QuestionDetailModel> questionDetail = new List<QuestionDetailModel>();
                         while (reader.Read())
                         {
@@ -384,6 +385,52 @@ namespace QuestionManagers
         }
 
         /// <summary>
+        /// 列出問卷內容資訊(搜尋功能後台)
+        /// </summary>
+        /// <returns></returns>
+        public List<QuestionModel> GetQuestionnaireBackadminList(string keyword)
+        {
+            string connStr = ConfigHelper.GetConnectionString();
+            string commandText =
+                $@"  SELECT *
+                     FROM [MainQues]
+                     WHERE quesTitle LIKE '%'+ @keyword+ '%' AND IsOftenUse = 1
+                     ORDER BY CreateTime DESC ";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand command = new SqlCommand(commandText, conn))
+                    {
+                        conn.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+                        List<QuestionModel> Questionnairelist = new List<QuestionModel>();
+                        while (reader.Read())
+                        {
+                            QuestionModel question = new QuestionModel()
+                            {
+                                quesID = (Guid)reader["quesID"],
+                                quesTitle = reader["quesTitle"] as string,
+                                quesBody = reader["quesBody"] as string,
+                                quesstart = (DateTime)reader["quesstart"],
+                                quesend = (DateTime)reader["quesend"],
+                                CreateTime = (DateTime)reader["CreateTime"]
+                            };
+                            question.stateType = (question.quesend < DateTime.Now) ? StateType.關閉 : StateType.已啟用;
+                            Questionnairelist.Add(question);
+                        }
+                        return Questionnairelist;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("QuestionnaireManager.GetQuestionnaireBackadminList", ex);
+                throw;
+            }
+        }
+
+        /// <summary>
         /// 列出問卷內容資訊(搜尋功能)
         /// </summary>
         /// <param name="keyword"></param>
@@ -394,7 +441,7 @@ namespace QuestionManagers
             string commandText =
                 $@"  SELECT *
                      FROM [MainQues]
-                     WHERE quesTitle LIKE '%'+ @keyword+ '%' AND quesstates = 1
+                     WHERE quesTitle LIKE '%'+ @keyword+ '%' AND quesstates = 1 AND IsOftenUse = 1
                      ORDER BY CreateTime DESC ";
             try
             {

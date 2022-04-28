@@ -8,13 +8,12 @@ using System.Web.UI.WebControls;
 
 namespace Questionnaire.ShareControls
 {
-    public partial class ucPager : System.Web.UI.UserControl
+    public partial class ucPage : System.Web.UI.UserControl
     {
         public int PageIndex { get; set; } = 1;
         public int PageSize { get; set; } = 5;
         public int TotalRows { get; set; } = 0;
-        public string _url = null;
-
+        private string _url = null;
         public string Url
         {
             get
@@ -32,14 +31,16 @@ namespace Questionnaire.ShareControls
         public void Bind()
         {
             NameValueCollection collection = new NameValueCollection();
-            this.Bind(collection);
+            Bind(collection);
         }
-
-        public void Bind(string paramkey, string paramValue)
+        public void Bind(string[] paramKey, string[] paramValues)
         {
             NameValueCollection collection = new NameValueCollection();
-            collection.Add(paramkey, paramValue);
-            this.Bind(collection);
+            for (int i = 0; i < paramKey.Length; i++)
+            {
+                collection.Add(paramKey[i], paramValues[i]);
+            }
+            Bind(collection);
         }
 
         public void Bind(NameValueCollection collection)
@@ -50,20 +51,24 @@ namespace Questionnaire.ShareControls
 
             // LocalPath :   MapList.aspx
             string url = Request.Url.LocalPath;
-            string qsText = this.BuildQueryString(collection);
+            string paramKeyword = this.BuildQueryString(collection);
 
-            this.aLinkFirst.HRef = url + "?Page=1" + qsText;
+            this.aLinkFirst.HRef = url + "?Index=1" + paramKeyword;
 
-            this.aLinkPrev.HRef = url + "?Page=" + (PageIndex - 1) + qsText;
+            this.aLinkPrev.HRef = url + "?Index=" + (PageIndex - 1) + paramKeyword;
+            if (PageIndex <= 1)
+                this.aLinkPrev.Visible = false;
 
-            this.aLinkNext.HRef = url + "?Page=" + (PageIndex + 1) + qsText;
+            this.aLinkNext.HRef = url + "?Index=" + (PageIndex + 1) + paramKeyword;
+            if (PageIndex + 1 > pageCount)
+                this.aLinkNext.Visible = false;
 
-         
-            this.aLinkPage1.HRef = url + "?Page=" + (PageIndex - 2) + qsText;
+            this.aLinkPage1.HRef = url + "?Index=" + (PageIndex - 2) + paramKeyword;
+            this.aLinkPage1.InnerText = (PageIndex - 2).ToString();
             if (PageIndex <= 2)
                 this.aLinkPage1.Visible = false;
 
-            this.aLinkPage2.HRef = url + "?Page=" + (PageIndex - 1) + qsText;
+            this.aLinkPage2.HRef = url + "?Index=" + (PageIndex - 1) + paramKeyword;
             this.aLinkPage2.InnerText = (PageIndex - 1).ToString();
             if (PageIndex <= 1)
                 this.aLinkPage2.Visible = false;
@@ -71,31 +76,26 @@ namespace Questionnaire.ShareControls
             this.aLinkPage3.HRef = "";
             this.aLinkPage3.InnerText = PageIndex.ToString();
 
-            this.aLinkPage4.HRef = url + "?Page=" + (PageIndex + 1) + qsText;
+            this.aLinkPage4.HRef = url + "?Index=" + (PageIndex + 1) + paramKeyword;
             this.aLinkPage4.InnerText = (PageIndex + 1).ToString();
-            if ((PageIndex + 1) > pageCount)
+            if (PageIndex + 1 > pageCount)
                 this.aLinkPage4.Visible = false;
 
-            this.aLinkPage5.HRef = url + "?Page=" + (PageIndex + 2) + qsText; 
+            this.aLinkPage5.HRef = url + "?Index=" + (PageIndex + 2) + paramKeyword;
             this.aLinkPage5.InnerText = (PageIndex + 2).ToString();
-            if ((PageIndex + 2) > pageCount)
+            if (PageIndex + 2 > pageCount)
                 this.aLinkPage5.Visible = false;
-            
-            this.aLinkLast.HRef = url + "?Page=" + pageCount;
-        }
 
-        /// <summary> 組合 QueryString </summary>
-        /// <param name="collection"></param>
-        /// <returns></returns>
+            this.aLinkLast.HRef = url + "?Page=" + pageCount + paramKeyword;
+
+        }
         private string BuildQueryString(NameValueCollection collection)
         {
             List<string> paramList = new List<string>();
-            //&key=Value
             foreach (string key in collection.AllKeys)
             {
                 if (collection.GetValues(key) == null)
                     continue;
-
                 foreach (string val in collection.GetValues(key))
                 {
                     paramList.Add($"&{key}={val}");

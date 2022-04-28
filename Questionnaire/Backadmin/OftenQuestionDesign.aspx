@@ -24,7 +24,7 @@
                 必填<asp:CheckBox ID="checMust" runat="server" Checked="true" />
                 <br />
                 回答:
-                    <asp:TextBox ID="txtAnswer" runat="server"></asp:TextBox>(多個答案以,分隔)
+                    <asp:TextBox ID="txtAnswer" runat="server"></asp:TextBox>(多個答案以;分隔)
                     <asp:Button ID="BtnAdd" runat="server" Text="加入" OnClick="BtnAdd_Click" BackColor="LimeGreen"/>
                 <br />
                 <asp:Button ID="btnDelete" runat="server" Text="刪除" OnClick="btnDelete_Click" BackColor="Red"/>

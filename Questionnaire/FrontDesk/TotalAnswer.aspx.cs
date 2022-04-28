@@ -16,8 +16,8 @@ namespace Questionnaire.FrontDesk
         public static Guid _questionnaireID;
         protected void Page_Load(object sender, EventArgs e)
         {
-            string quesID = Request.QueryString["quesID"];
-            if(Guid.TryParse(quesID, out _questionnaireID))
+            string QusetionnaireID = Request.QueryString["quesID"];
+            if(Guid.TryParse(QusetionnaireID, out _questionnaireID))
             {
                 QuestionModel question = _quesMgr.GetQuestionnaire(_questionnaireID);
                 this.ltlTitle.Text = question.quesTitle;
