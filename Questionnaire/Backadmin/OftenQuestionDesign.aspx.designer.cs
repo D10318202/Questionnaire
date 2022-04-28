@@ -11,7 +11,7 @@ namespace Questionnaire.Backadmin
 {
 
 
-    public partial class OftenQuestionDesign
+    public partial class OftenUseQuestionDesign
     {
 
         /// <summary>

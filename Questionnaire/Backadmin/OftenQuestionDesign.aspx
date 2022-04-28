@@ -1,11 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="OftenQuestionDesign.aspx.cs" Inherits="Questionnaire.Backadmin.OftenQuestionDesign" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Backadmin/Backadmin.Master" AutoEventWireup="true" CodeBehind="OftenQuestionDesign.aspx.cs" Inherits="Questionnaire.Backadmin.OftenUseQuestionDesign" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../JS/bootstrap.min.js"></script>
     <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-   <div class="container">
+    <div class="container">
         <div class="row">
             <h2>常用問題新增</h2>
         </div>
@@ -25,9 +25,9 @@
                 <br />
                 回答:
                     <asp:TextBox ID="txtAnswer" runat="server"></asp:TextBox>(多個答案以;分隔)
-                    <asp:Button ID="BtnAdd" runat="server" Text="加入" OnClick="BtnAdd_Click" BackColor="LimeGreen"/>
+                    <asp:Button ID="BtnAdd" runat="server" Text="加入" OnClick="BtnAdd_Click" BackColor="LimeGreen" />
                 <br />
-                <asp:Button ID="btnDelete" runat="server" Text="刪除" OnClick="btnDelete_Click" BackColor="Red"/>
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" OnClick="btnDelete_Click" BackColor="Red" />
                 <table class="table table-info">
                     <tr>
                         <th></th>
@@ -63,9 +63,10 @@
                         </ItemTemplate>
                     </asp:Repeater>
                 </table>
-                <asp:Button ID="btnquescancle" runat="server" Text="取消" Onclick="btnquescancle_Click" BackColor="Red"/>
-                <asp:Button ID="btnquessave" runat="server" Text="送出" OnClick="btnquessave_Click" BackColor="Menu"/>
+                <asp:Button ID="btnquescancle" runat="server" Text="取消" OnClick="btnquescancle_Click" BackColor="Red" />
+                <asp:Button ID="btnquessave" runat="server" Text="送出" OnClick="btnquessave_Click" BackColor="Menu" />
             </div>
         </div>
     </div>
 </asp:Content>
+

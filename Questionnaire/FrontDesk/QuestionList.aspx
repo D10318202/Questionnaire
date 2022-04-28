@@ -17,17 +17,24 @@
                     <asp:Literal ID="ltlContent" runat="server"></asp:Literal></h3>
                 <br />
                 <p>有標示(*)為必填欄位</p>
-                *姓名:
-            <asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名"></asp:TextBox><br />
-                <br />
-                *年齡:
-            <asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡"></asp:TextBox><br />
-                <br />
-                *手機號碼:
-            <asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼"></asp:TextBox><br />
-                <br />
-                *E-mail:
-            <asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱"></asp:TextBox><br />
+                <table>
+                    <tr>
+                        <td>*姓名:</td>
+                        <td><asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名"></asp:TextBox></td>
+                    </tr>
+                    <tr>
+                        <td>*年齡:</td>
+                        <td><asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡"></asp:TextBox></td>
+                    </tr>
+                    <tr>
+                        <td>*手機號碼:</td>
+                        <td><asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼"></asp:TextBox></td>
+                    </tr>
+                    <tr>
+                        <td>*E-mail:</td>
+                        <td><asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱"></asp:TextBox></td>
+                    </tr>
+                </table>
                 <br />
                 <br />
                 <asp:PlaceHolder ID="plcquestion" runat="server"></asp:PlaceHolder>
@@ -37,16 +44,16 @@
         <br />
         <br />
         <%--<button id="btnSubmit">送出</button>--%>
-        <input type="button" id="btnSubmit" value="送出"/>
-<%--        <asp:Button ID="Save" runat="server" Text="送出"  />--%>
+        <input type="button" id="btnSubmit" value="送出" />
+        <%--        <asp:Button ID="Save" runat="server" Text="送出"  />--%>
         <asp:Button ID="btncancle" runat="server" Text="取消" OnClick="btncancle_Click" /><br />
-        
+
     </div>
     <script>
         $(document).ready(function () {
             $("input[id=btnSubmit]").click(function () {
                 var answer = "";
-                var profile = `${$("#txtname").val()};${$("#txtphone").val()};${$("#txtemail").val()};${$("#txtage").val()}`
+                var profile = `${$("#txtname").val()};${$("#txtphone").val()};${$("#txtemail").val()};${$("#txtage").val()}`;
                 var QuesDea = $("input[id*=Q]").get();
                 console.log(QuesDea);
                 for (var ans of QuesDea) {

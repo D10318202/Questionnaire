@@ -9,15 +9,15 @@ using System.Web.UI.WebControls;
 
 namespace Questionnaire.Backadmin
 {
-    public partial class OftenQuestionDesign : System.Web.UI.Page
+    public partial class OftenUseQuestionDesign : System.Web.UI.Page
     {
         private static Guid _questionID;
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
-        private static List<QuestionDetailModel> _questionDetail = new List<QuestionDetailModel>();
-        private QuestionDetailModel questionDetail = new QuestionDetailModel();
+        private static List<QuestionDetailModel> _question = new List<QuestionDetailModel>();
+        private static QuestionDetailModel questionDetail = new QuestionDetailModel();
         protected void Page_Load(object sender, EventArgs e)
         {
-            _questionDetail = HttpContext.Current.Session["questionModel"] as List<QuestionDetailModel>;
+            _question = HttpContext.Current.Session["questionDetail"] as List<QuestionDetailModel>;
             if (!IsPostBack)
             {
                 string QuesID = Request.QueryString["quesID"];
@@ -26,7 +26,7 @@ namespace Questionnaire.Backadmin
                     List<QuestionDetailModel> questionList = _quesMgr.GetQuestionModel(_questionID);
                     this.txtTitle.Text = _quesMgr.GetOftenUse(_questionID).quesTitle;
                     InitQues(questionList);
-                    HttpContext.Current.Session["qusetionModel"] = questionList;
+                    HttpContext.Current.Session["questionDetail"] = questionList;
                 }
                 else
                     Response.Redirect("Oftenusequestion.aspx");
@@ -48,9 +48,9 @@ namespace Questionnaire.Backadmin
                 quesDetailType = (QuestionType)Convert.ToInt32(this.droptype.SelectedValue),
                 quesDetailMustKeyIn = this.checMust.Checked,
             };
-            _questionDetail.Add(questionDetail);
-            HttpContext.Current.Session["qusetionModel"] = _questionDetail;
-            InitQues(_questionDetail);
+            _question.Add(questionDetail);
+            HttpContext.Current.Session["questionDetail"] = _question;
+            InitQues(_question);
             InitTextbox();
         }
         private bool ErrorMsgQuestion(out string mistake)
@@ -106,12 +106,12 @@ namespace Questionnaire.Backadmin
                 CheckBox ckbDel = repeaterItem.FindControl("ckbDel") as CheckBox;
                 if (!ckbDel.Checked && Guid.TryParse(hfquesDetailID.Value, out Guid QuesDetailID))
                 {
-                    QuestionDetailModel questionDetail = _questionDetail.Find(x => x.quesDetailID == QuesDetailID);
+                    QuestionDetailModel questionDetail = _question.Find(x => x.quesDetailID == QuesDetailID);
                     detailModels.Add(questionDetail);
                 }
             }
             InitQues(detailModels);
-            HttpContext.Current.Session["questionModel"] = detailModels;
+            HttpContext.Current.Session["questionDetail"] = detailModels;
         }
         protected void btnquescancle_Click(object sender, EventArgs e)
         {
@@ -133,7 +133,7 @@ namespace Questionnaire.Backadmin
             else
                 this.ltlquesmistMsg.Visible = false;
 
-            if (_questionDetail.Count == 0)
+            if (_question.Count == 0)
             {
                 this.ltlquesmistMsg.Visible = true;
                 this.ltlquesmistMsg.Text = "*只少要輸入一個常用問題*";
@@ -142,7 +142,7 @@ namespace Questionnaire.Backadmin
             #endregion
 
             int questionNumber = 1;
-            foreach (QuestionDetailModel questionDetail in _questionDetail)
+            foreach (QuestionDetailModel questionDetail in _question)
             {
                 questionDetail.quesDetailID = Guid.NewGuid();
                 questionDetail.quesID = _questionID;
@@ -159,7 +159,7 @@ namespace Questionnaire.Backadmin
             {
                 if (e.CommandName == "LinkEdit" && Guid.TryParse(e.CommandArgument.ToString(), out Guid QuesDetailID))
                 {
-                    QuestionDetailModel questionDetail = _questionDetail.Find(x => x.quesDetailID == QuesDetailID);
+                    QuestionDetailModel questionDetail = _question.Find(x => x.quesDetailID == QuesDetailID);
                     this.txtTitle1.Text = questionDetail.quesDetailTitle;
                     this.txtAnswer.Text = questionDetail.quesDetailBody;
                     this.droptype.SelectedIndex = (int)questionDetail.quesDetailType;
