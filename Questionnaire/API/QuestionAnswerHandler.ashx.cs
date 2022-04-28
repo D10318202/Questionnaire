@@ -22,14 +22,22 @@ namespace Questionnaire.API
                 //string phone = context.Request.Form["Phone"];
                 //string email = context.Request.Form["Email"];
                 //string age = context.Request.Form["Age"];
+                string accountarr = context.Request.Form["Profile"];
+                string[] accountArr = accountarr.Split(';');
+                if(!accountArr[3].Contains("@") || !(accountArr[1].Length < 10))
+                {
+                    context.Response.ContentType = "text/plain";
+                    context.Response.Write("errorinput");
+                    return;
+                }
 
                 AccountInfoModel accountInfoModel = new AccountInfoModel()
                 {
                     AccountID = Guid.NewGuid(),
-                    Name = context.Request.Form["Name"],
-                    Phone = context.Request.Form["Phone"],
-                    Age = context.Request.Form["Age"],
-                    Email = context.Request.Form["Email"],
+                    Name = accountArr[0],
+                    Phone = accountArr[1],
+                    Age = accountArr[2],
+                    Email = accountArr[3],
                     quesID = QuesID
                 };
                 HttpContext.Current.Session["questionanswer"] = accountInfoModel;
