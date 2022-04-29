@@ -43,17 +43,18 @@
                            </asp:DropDownList>
                         <br />
                         問題:
-                            <asp:TextBox ID="txtTitle1" runat="server"></asp:TextBox>&nbsp;
+                            <asp:TextBox ID="txtTitle1" runat="server"></asp:TextBox>&nbsp;                     
                             <asp:DropDownList ID="droptype" runat="server">
                                 <asp:ListItem Value="0">單選方塊</asp:ListItem>
                                 <asp:ListItem Value="1">複選方塊</asp:ListItem>
                                 <asp:ListItem Value="2">文字方塊</asp:ListItem>
                             </asp:DropDownList>
-                        必填<asp:CheckBox ID="checMust" runat="server" Checked="true" />
-                        <br />
+                        *問題至少要有三個字*<br />                       
                         回答:
-                          <asp:TextBox ID="txtAnswer" runat="server"></asp:TextBox>(多個答案以;分隔)
-                          <asp:Button ID="BtnAdd" runat="server" Text="加入" OnClick="BtnAdd_Click" BackColor="LimeGreen"/>
+                          <asp:TextBox ID="txtAnswer" runat="server"></asp:TextBox>*多個答案以;分隔*
+                          <asp:Button ID="BtnAdd" runat="server" Text="加入" OnClick="BtnAdd_Click" BackColor="LimeGreen"/><br />
+                        必填項目: <asp:CheckBox ID="checMust" runat="server" Checked="true" />
+                        <br />
                         <br />
                         <asp:Button ID="btnDelete" runat="server" Text="刪除" OnClick="btnDelete_Click" BackColor="Red"/>
                         <table class="table table-striped">
@@ -125,8 +126,7 @@
                         </table>
                     </asp:Panel>
 
-                    <asp:Panel ID="panTotal" runat="server" Visible="false" BorderStyle="Solid" OnLoad="panTotal_Load">
-                    </asp:Panel>
+                    <asp:PlaceHolder ID="plcTotal" runat="server" Visible="false" OnLoad="plcTotal_Load"></asp:PlaceHolder>
                 </div>
             </div>
         </div>

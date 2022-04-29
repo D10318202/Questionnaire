@@ -117,9 +117,9 @@ namespace QuestionManagers
                 {
                     using (SqlCommand command = new SqlCommand(commandText, conn))
                     {
+                        conn.Open();                        
                         DeleteQuestion(quesID);
                         DeleteAnswer(quesID);
-                        conn.Open();
                         command.Parameters.AddWithValue("@quesID", quesID);
                         command.ExecuteNonQuery();
                     }
@@ -957,7 +957,6 @@ namespace QuestionManagers
 
         public List<QuestionTotalModel> GetTotalAnswerList(Guid quesID)
         {
-
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
                 $@"  SELECT quesNumber, Answer, COUNT(quesID) AS AnsCount
@@ -980,7 +979,7 @@ namespace QuestionManagers
                         {
                             QuestionTotalModel total = new QuestionTotalModel()
                             {
-                                quesNumber = Convert.ToInt32(reader["[quesNumber"]),
+                                quesNumber = (int)reader["quesNumber"],
                                 Answer = reader["Answer"] as string,
                                 AnsCount = (int)reader["AnsCount"]
                             };

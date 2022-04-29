@@ -14,14 +14,22 @@ namespace Questionnaire.FrontDesk
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private static Guid _questionID;
         private static List<QuestionAnswerModel> _personanswer = new List<QuestionAnswerModel>();
-        private static bool _isEditMode;
+        private QuestionAnswerModel personAnswer = new QuestionAnswerModel();
         protected void Page_Load(object sender, EventArgs e)
         {
-            string quesID = Request.QueryString["quesID"];
-            if(Guid.TryParse(quesID, out Guid _questionID))
+            string Ques = Request.QueryString["quesID"];
+            if (Guid.TryParse(Ques, out Guid _questionID))
             {
                 _personanswer = HttpContext.Current.Session["personAnswer"] as List<QuestionAnswerModel>;
-                _isEditMode = _personanswer == null ? false : true;
+                //_isEditMode = _personanswer == null ? false : true;
+                //if (_isEditMode)
+                //{
+                //    AccountInfoModel accountInfoModel = HttpContext.Current.Session["personInfo"] as AccountInfoModel;
+                //    this.txtname.Text = accountInfoModel.Name;
+                //    this.txtphone.Text = accountInfoModel.Phone;
+                //    this.txtemail.Text = accountInfoModel.Email;
+                //    this.txtage.Text = accountInfoModel.Age;
+                //}
 
                 QuestionModel questionModel = _quesMgr.GetQuestionnaire(_questionID);
                 this.hfID.Value = _questionID.ToString();
@@ -37,44 +45,19 @@ namespace Questionnaire.FrontDesk
                     Literal ltlquestionDetail = new Literal();
                     ltlquestionDetail.Text = ques + "<br/>";
                     this.plcquestion.Controls.Add(ltlquestionDetail);
-                    if (_isEditMode)
+
+                    switch (question.quesDetailType)
                     {
-                        switch (question.quesDetailType)
-                        {
-                            case QuestionType.單選方塊:
-                                EditRadio(question);
-                                break;
-                            case QuestionType.複選方塊:
-                                EditCheck(question);
-                                break;
-                            case QuestionType.文字方塊:
-                                EditText(question);
-                                break;
-                        }
+                        case QuestionType.單選方塊:
+                            CreateRadio(question);
+                            break;
+                        case QuestionType.複選方塊:
+                            CreateCheck(question);
+                            break;
+                        case QuestionType.文字方塊:
+                            CreateText(question);
+                            break;
                     }
-                    else
-                    {
-                        switch (question.quesDetailType)
-                        {
-                            case QuestionType.單選方塊:
-                                CreateRadio(question);
-                                break;
-                            case QuestionType.複選方塊:
-                                CreateCheck(question);
-                                break;
-                            case QuestionType.文字方塊:
-                                CreateText(question);
-                                break;
-                        }
-                    }
-                }
-                if (_isEditMode)
-                {
-                    AccountInfoModel accountInfoModel = HttpContext.Current.Session["personInfo"] as AccountInfoModel;
-                    this.txtname.Text = accountInfoModel.Name;
-                    this.txtphone.Text = accountInfoModel.Phone;
-                    this.txtemail.Text = accountInfoModel.Email;
-                    this.txtage.Text = accountInfoModel.Age;
                 }
             }
             else
@@ -109,45 +92,6 @@ namespace Questionnaire.FrontDesk
         {
             TextBox textBox = new TextBox();
             textBox.ID = "Q" + question.quesNumber;
-            this.plcquestion.Controls.Add(textBox);
-        }
-
-        private void EditRadio(QuestionDetailModel question)
-        {
-            QuestionAnswerModel qamrad = _personanswer.Find(x => x.quesNumber == question.quesNumber);
-            RadioButtonList radioButtonList = new RadioButtonList();
-            radioButtonList.ID = "Q" + question.quesNumber;
-            this.plcquestion.Controls.Add(radioButtonList);
-            string[] arrQue = question.quesDetailBody.Split(';');
-            for (int i = 0; i < arrQue.Length; i++)
-            {
-                ListItem item = new ListItem(arrQue[i], i.ToString());
-                if (Convert.ToInt32(qamrad.Answer) == i)
-                    item.Selected = true;
-                radioButtonList.Items.Add(item);
-            }
-        }
-        private void EditCheck(QuestionDetailModel question)
-        {
-            List<QuestionAnswerModel> qamrad = _personanswer.FindAll(x => x.quesNumber == question.quesNumber);
-            CheckBoxList checkBoxList = new CheckBoxList();
-            checkBoxList.ID = "Q" + question.quesNumber;
-            this.plcquestion.Controls.Add(checkBoxList);
-            string[] arrQue = question.quesDetailBody.Split(';');
-            for (int i = 0; i < arrQue.Length; i++)
-            {
-                ListItem item = new ListItem(arrQue[i], i.ToString());
-                if (qamrad.Find(x => x.Answer == i.ToString()) != null)
-                    item.Selected = true;
-                checkBoxList.Items.Add(item);
-            }
-        }
-        private void EditText(QuestionDetailModel question)
-        {
-            QuestionAnswerModel qamrad = _personanswer.Find(x => x.quesNumber == question.quesNumber);
-            TextBox textBox = new TextBox();
-            textBox.ID = "Q" + question.quesNumber;
-            textBox.Text = qamrad.Answer;
             this.plcquestion.Controls.Add(textBox);
         }
 

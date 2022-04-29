@@ -45,7 +45,7 @@
                         <asp:Label ID="lblquesend" runat="server" Text='<%#Eval("quesend") %>'></asp:Label>
                     </td>
                     <td>
-                        <a href="TotalAnswer.aspx?quesID=<%#Eval("quesID") %>">前往
+                        <a href="TotalAnswer.aspx?quesID=<%#Eval("quesID") %>">前往</a>
                     </td>
                 </tr>
             </ItemTemplate>

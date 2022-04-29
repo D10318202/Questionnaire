@@ -43,7 +43,7 @@
         </div>
         <br />
         <br />
-        <%--<button id="btnSubmit">送出</button>--%>
+        <%--<button runat="server" id="btnSubmit" type="button">送出</button>--%>
         <input type="button" id="btnSubmit" value="送出" />
         <%--        <asp:Button ID="Save" runat="server" Text="送出"  />--%>
         <asp:Button ID="btncancle" runat="server" Text="取消" OnClick="btncancle_Click" /><br />

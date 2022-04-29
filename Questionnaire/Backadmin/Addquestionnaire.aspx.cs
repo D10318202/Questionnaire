@@ -38,6 +38,11 @@ namespace Questionnaire.Backadmin
                 InitQues(questionList);
                 HttpContext.Current.Session["qusetionModel"] = questionList;
                 HttpContext.Current.Session["quesID"] = _questionID;
+
+                if (_quesMgr.GetPersonInfoList(_questionID).Count > 0)
+                {
+                    DisableInput();
+                }
             }
             else
                 Response.Redirect("Allquestionnaires.aspx");
@@ -75,7 +80,7 @@ namespace Questionnaire.Backadmin
             this.panQuestionnaire.Visible = (Status == PageStatus.Questionnaire);
             this.panQuestions.Visible = (Status == PageStatus.Questions);
             this.panFillQuestions.Visible = (Status == PageStatus.FillQuestions);
-            this.panTotal.Visible = (Status == PageStatus.Total);
+            this.plcTotal.Visible = (Status == PageStatus.Total);
         }
         private enum PageStatus
         {
@@ -202,8 +207,8 @@ namespace Questionnaire.Backadmin
             if (string.IsNullOrWhiteSpace(this.txtTitle1.Text.Trim()))
                 mistake += "※必須輸入標題※<br/>";
             else if (this.txtTitle1.Text.Length < 3)
-                mistake += "※標題必須至少要有5個字※<br/>";
-            
+                mistake += "※標題必須至少要有3個字※<br/>";
+
             if (questionDetail.quesDetailType != QuestionType.單選方塊 && this.txtAnswer.Text == null)
                 mistake += "※必須把問題和答案輸入完整※<br/>";
             else if (questionDetail.quesDetailType != QuestionType.複選方塊 && this.txtAnswer.Text == null)
@@ -324,6 +329,17 @@ namespace Questionnaire.Backadmin
             }
         }
 
+        public void DisableInput()
+        {
+            this.ltlmistamsg.Visible = true;
+            this.ltlmistamsg.Text = "※已經有人作答了，不能再更改題目了※";
+            this.txtTitle1.Enabled = false;
+            this.txtAnswer.Enabled = false;
+            this.droptype.Enabled = false;
+            this.dropclass.Enabled = false;
+            this.checMust.Enabled = false;
+            this.BtnAdd.Enabled = false;
+        }
         #endregion
 
         #region /*填寫資料FillQuestions*/
@@ -443,7 +459,7 @@ namespace Questionnaire.Backadmin
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void panTotal_Load(object sender, EventArgs e)
+        protected void plcTotal_Load(object sender, EventArgs e)
         {
             string QusetionnaireID = Request.QueryString["quesID"];
             if (Guid.TryParse(QusetionnaireID, out _questionID))
@@ -461,7 +477,7 @@ namespace Questionnaire.Backadmin
                         quesDetail += "(*必填)";
                     Literal ltlquestion = new Literal();
                     ltlquestion.Text = quesDetail + "<br/>";
-                    this.panTotal.Controls.Add(ltlquestion);
+                    this.plcTotal.Controls.Add(ltlquestion);
 
                     if (questionDetails.quesDetailType != QuestionType.文字方塊)
                     {
@@ -474,7 +490,7 @@ namespace Questionnaire.Backadmin
                         {
                             Literal ltlNoAnswer = new Literal();
                             ltlNoAnswer.Text = "尚無資料<br/>";
-                            this.panTotal.Controls.Add(ltlNoAnswer);
+                            this.plcTotal.Controls.Add(ltlNoAnswer);
                         }
                         else
                         {
@@ -487,29 +503,28 @@ namespace Questionnaire.Backadmin
                                     Anstotal += totalModel.AnsCount;
 
                                 Literal ltlAnswer = new Literal();
-                                ltlAnswer.Text = $"arrQues[i] : {Anstotal * 100 / total}% ({Anstotal})";
-                                this.panTotal.Controls.Add(ltlAnswer);
+                                ltlAnswer.Text = $"{arrQues[i]} : {Anstotal * 100 / total}% ({Anstotal})";
+                                this.plcTotal.Controls.Add(ltlAnswer);
 
                                 HtmlGenericControl outotaldiv = new HtmlGenericControl("div");
-                                outotaldiv.Style.Value = "width:100%;heigth:30px:border:2px solid blue";
-                                this.panTotal.Controls.Add(outotaldiv);
+                                outotaldiv.Style.Value = "width:100%;heigth:30px;border:2px solid black;";
+                                this.plcTotal.Controls.Add(outotaldiv);
 
                                 HtmlGenericControl intotalanswerdiv = new HtmlGenericControl("div");
-                                intotalanswerdiv.Style.Value = $"width:{Anstotal * 100 / total}%;heigth:30px;background-color:skyblue;color:white";
+                                intotalanswerdiv.Style.Value = $"width:{Anstotal * 100 / total}%;height:20px;background-color:gray;color:white;font-weight:bold;";
                                 outotaldiv.Controls.Add(intotalanswerdiv);
                             }
                         }
                     }
                     else
                     {
-                        Literal ltltext = new Literal();
-                        ltltext.Text += "-資料不統計-<br/>";
-                        this.panTotal.Controls.Add(ltltext);
+                        Literal ltlAnswer = new Literal();
+                        ltlAnswer.Text = "-資料不統計-<br/>";
+                        this.plcTotal.Controls.Add(ltlAnswer);
                     }
                 }
             }
         }
-
         #endregion
     }
 }

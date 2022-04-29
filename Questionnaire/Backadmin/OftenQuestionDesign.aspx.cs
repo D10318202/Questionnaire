@@ -59,7 +59,7 @@ namespace Questionnaire.Backadmin
             if (string.IsNullOrWhiteSpace(this.txtTitle1.Text.Trim()))
                 mistake += "※必須輸入標題※<br/>";
             else if (this.txtTitle1.Text.Length < 3)
-                mistake += "※標題必須至少要有5個字※<br/>";
+                mistake += "※標題必須至少要有3個字※<br/>";
 
             if (questionDetail.quesDetailType != QuestionType.單選方塊 && this.txtAnswer.Text == null)
                 mistake += "※必須把問題和答案輸入完整※<br/>";
