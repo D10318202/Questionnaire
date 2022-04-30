@@ -39,6 +39,16 @@ namespace Questionnaire.Backadmin
                 HttpContext.Current.Session["qusetionModel"] = questionList;
                 HttpContext.Current.Session["quesID"] = _questionID;
 
+                _accountInfo = _quesMgr.GetPersonInfoList(_questionID);
+                this.rptList.DataSource = _accountInfo;
+                this.rptList.DataBind();
+                int i = _accountInfo.Count;
+                foreach (RepeaterItem item in this.rptList.Items)
+                {
+                    Label lblNumber = item.FindControl("lblNumber") as Label;
+                    lblNumber.Text = i.ToString();
+                    i--;
+                }
                 if (_quesMgr.GetPersonInfoList(_questionID).Count > 0)
                 {
                     DisableInput();
@@ -343,11 +353,12 @@ namespace Questionnaire.Backadmin
         #endregion
 
         #region /*填寫資料FillQuestions*/
+
         /// <summary>
         /// 填寫資料FillQuestions
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>      
+        /// <param name="e"></param>
         protected void btnsavefile_Click(object sender, EventArgs e)
         {
             QuestionModel questionModel = _quesMgr.GetQuestionnaire(_questionID);
@@ -446,8 +457,7 @@ namespace Questionnaire.Backadmin
 
             }
             catch (Exception ex)
-            {
-                Response.Write("<script>alert('匯出失敗')</script>");
+            {                
             }
         }
         #endregion
@@ -526,5 +536,7 @@ namespace Questionnaire.Backadmin
             }
         }
         #endregion
+
+        
     }
 }

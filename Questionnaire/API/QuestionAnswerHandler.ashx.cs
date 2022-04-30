@@ -24,23 +24,17 @@ namespace Questionnaire.API
                 //string age = context.Request.Form["Age"];
                 string accountarr = context.Request.Form["Profile"];
                 string[] accountArr = accountarr.Split(';');
-                if(!accountArr[3].Contains("@") || !(accountArr[1].Length < 10))
-                {
-                    context.Response.ContentType = "text/plain";
-                    context.Response.Write("errorinput");
-                    return;
-                }
 
                 AccountInfoModel accountInfoModel = new AccountInfoModel()
                 {
                     AccountID = Guid.NewGuid(),
                     Name = accountArr[0],
-                    Phone = accountArr[1],
-                    Age = accountArr[2],
+                    Age = accountArr[1],
+                    Phone = accountArr[2],                    
                     Email = accountArr[3],
                     quesID = QuesID
                 };
-                HttpContext.Current.Session["questionanswer"] = accountInfoModel;
+                HttpContext.Current.Session["personInfo"] = accountInfoModel;
                 string quesans = context.Request.Form["Answer"];
                 if (string.IsNullOrWhiteSpace(quesans))
                 {
@@ -49,27 +43,25 @@ namespace Questionnaire.API
                     return;
                 }
 
-                string[] AnswerArr = quesans.Trim().Split(';');
+                string[] AnswerArr = quesans.Trim().Split(' ');
                 List<QuestionAnswerModel> questionAnswers = new List<QuestionAnswerModel>();
-                foreach (string ans in AnswerArr)
+                foreach (string item in AnswerArr)
                 {
-                    string[] answer = ans.Split('_');
+                    string[] answer = item.Split('_');
 
                     QuestionAnswerModel questionAnswerModel = new QuestionAnswerModel()
                     {
                         AccountID = accountInfoModel.AccountID,
                         quesID = QuesID,
                         quesNumber = Convert.ToInt32(answer[0].Replace('Q', '0')),
-                        Answer = answer[1],
+                        Answer = answer[1]
                     };
                     questionAnswers.Add(questionAnswerModel);
                 }
                 HttpContext.Current.Session["peopleAnswer"] = questionAnswers;
                 context.Response.ContentType = "text/plain";
                 context.Response.Write("success");
-                return;
             }
-
         }
 
         public bool IsReusable

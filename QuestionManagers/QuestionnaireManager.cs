@@ -751,9 +751,9 @@ namespace QuestionManagers
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
                 @"  INSERT INTO [AccountInfo] 
-                        (AccountID, Name, Phone, Email, Age,CreateTime,quesID)
+                        (AccountID, Name, Phone, Email, Age, quesID)
                     VALUES 
-                        (@AccountID, @Name, @Phone, @Email, @Age, @CreateTime, @quesID) ";
+                        (@AccountID, @Name, @Phone, @Email, @Age, @quesID) ";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
@@ -766,7 +766,7 @@ namespace QuestionManagers
                         command.Parameters.AddWithValue("@Phone", account.Phone);
                         command.Parameters.AddWithValue("@Email", account.Email);
                         command.Parameters.AddWithValue("@Age", account.Age);
-                        command.Parameters.AddWithValue("@CreateTime", account.CreateTime);
+                        //command.Parameters.AddWithValue("@CreateTime", account.CreateTime);
 
                         conn.Open();
                         command.ExecuteNonQuery();
@@ -788,17 +788,17 @@ namespace QuestionManagers
         {
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
-                @"  INSERT INTO [AccountInfo] 
-                        (AnswerID, quesID, AccountID, quesNumber, Answer)
+                @"  INSERT INTO [Answer] 
+                        (AnswerID, quesID, quesNumber, Answer, AccountID)
                     VALUES 
-                        (@AnswerID, @quesID, @AccountID, @quesNumber, @Answer) ";
+                        (@AnswerID, @quesID, @quesNumber, @Answer, @AccountID) ";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     using (SqlCommand command = new SqlCommand(commandText, conn))
                     {
-                        command.Parameters.AddWithValue("@AnswerID", answer.AnswerID);
+                        command.Parameters.AddWithValue("@AnswerID", Guid.NewGuid());
                         command.Parameters.AddWithValue("@quesID", answer.quesID);
                         command.Parameters.AddWithValue("@AccountID", answer.AccountID);
                         command.Parameters.AddWithValue("@quesNumber", answer.quesNumber);
@@ -877,7 +877,7 @@ namespace QuestionManagers
                 $@"  SELECT *
                      FROM [Answer]
                      WHERE AccountID = @AccountID 
-                     ORDER BY QuestionNo, Answer ";
+                     ORDER BY quesNumber, Answer ";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
@@ -894,7 +894,7 @@ namespace QuestionManagers
                         {
                             QuestionAnswerModel answer = new QuestionAnswerModel()
                             {
-                                quesNumber = Convert.ToInt32(reader["[quesNumber"]),
+                                quesNumber = (int)reader["quesNumber"],
                                 Answer = reader["Answer"] as string
                             };
                             answerList.Add(answer);

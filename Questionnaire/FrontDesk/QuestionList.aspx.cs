@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Questionnaire.FrontDesk
+namespace Questionnaire
 {
     public partial class QuestionList : System.Web.UI.Page
     {
@@ -18,9 +18,9 @@ namespace Questionnaire.FrontDesk
         protected void Page_Load(object sender, EventArgs e)
         {
             string Ques = Request.QueryString["quesID"];
-            if (Guid.TryParse(Ques, out Guid _questionID))
+            if (Guid.TryParse(Ques, out _questionID))
             {
-                _personanswer = HttpContext.Current.Session["personAnswer"] as List<QuestionAnswerModel>;
+                _personanswer = HttpContext.Current.Session["peopleAnswer"] as List<QuestionAnswerModel>;
                 //_isEditMode = _personanswer == null ? false : true;
                 //if (_isEditMode)
                 //{

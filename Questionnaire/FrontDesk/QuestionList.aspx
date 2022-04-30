@@ -1,70 +1,104 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/FrontDesk/FrontDesk.Master" AutoEventWireup="true" CodeBehind="QuestionList.aspx.cs" Inherits="Questionnaire.FrontDesk.QuestionList" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="QuestionList.aspx.cs" Inherits="Questionnaire.QuestionList" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
     <script src="../JS/jquery.min.js"></script>
     <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
     <script src="../JS/bootstrap.min.js"></script>
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10">
-                <asp:HiddenField ID="hfID" runat="server" />
-                <h1>
-                    <asp:Literal ID="ltltitle" runat="server"></asp:Literal></h1>
-                <br />
-                <h3>
-                    <asp:Literal ID="ltlContent" runat="server"></asp:Literal></h3>
-                <br />
-                <p>有標示(*)為必填欄位</p>
-                <table>
-                    <tr>
-                        <td>*姓名:</td>
-                        <td><asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名"></asp:TextBox></td>
-                    </tr>
-                    <tr>
-                        <td>*年齡:</td>
-                        <td><asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡"></asp:TextBox></td>
-                    </tr>
-                    <tr>
-                        <td>*手機號碼:</td>
-                        <td><asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼"></asp:TextBox></td>
-                    </tr>
-                    <tr>
-                        <td>*E-mail:</td>
-                        <td><asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱"></asp:TextBox></td>
-                    </tr>
-                </table>
-                <br />
-                <br />
-                <asp:PlaceHolder ID="plcquestion" runat="server"></asp:PlaceHolder>
-                <br />
-            </div>
-        </div>
-        <br />
-        <br />
-        <%--<button runat="server" id="btnSubmit" type="button">送出</button>--%>
-        <input type="button" id="btnSubmit" value="送出" />
-        <%--        <asp:Button ID="Save" runat="server" Text="送出"  />--%>
-        <asp:Button ID="btncancle" runat="server" Text="取消" OnClick="btncancle_Click" /><br />
+    <style>
+        .body {
+            background-color: aliceblue;
+        }
 
-    </div>
+        .auto-style1 {
+            width: 79px;
+            height: 73px;
+        }
+        .auto-style2 {
+            width: 79px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <table width="100%">
+            <tr>
+                <td class="auto-style2">
+                    <img src="../Pictures/75470.png" class="auto-style1" /></td>
+                <td>
+                    <a href="Index.aspx">首頁</a>|
+                    <a href="Allquestionnaire.aspx">問卷管理</a>|
+                </td>
+            </tr>
+        </table>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10">
+                    <asp:HiddenField ID="hfID" runat="server" />
+                    <h1>
+                        <asp:Literal ID="ltltitle" runat="server"></asp:Literal></h1>
+                    <br />
+                    <h3>
+                        <asp:Literal ID="ltlContent" runat="server"></asp:Literal></h3>
+                    <br />
+                    <p>有標示(*)為必填欄位</p>
+                    <table>
+                        <tr>
+                            <td>*姓名:</td>
+                            <td>
+                                <asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名" CssClass="txtname"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td>*年齡:</td>
+                            <td>
+                                <asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡" CssClass="txtage"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td>*手機號碼:</td>
+                            <td>
+                                <asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼" CssClass="txtphone"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td>*E-mail:</td>
+                            <td>
+                                <asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱" CssClass="txtemail"></asp:TextBox></td>
+                        </tr>
+                    </table>
+                    <br />
+                    <br />
+                    <asp:PlaceHolder ID="plcquestion" runat="server"></asp:PlaceHolder>
+                    <br />
+                </div>
+            </div>
+            <br />
+            <br />
+            <%--<button runat="server" id="btnSubmit" type="button">送出</button>--%>
+            <input type="button" id="btnSubmit" value="送出" />
+            <%--        <asp:Button ID="Save" runat="server" Text="送出"  />--%>
+            <asp:Button ID="btncancle" runat="server" Text="取消" OnClick="btncancle_Click" CssClass="btncancle" /><br />
+
+        </div>
+    </form>
     <script>
         $(document).ready(function () {
             $("input[id=btnSubmit]").click(function () {
                 var answer = "";
-                var profile = `${$("#txtname").val()};${$("#txtphone").val()};${$("#txtemail").val()};${$("#txtage").val()}`;
+                var profile = `${$(".txtname").val()};${$(".txtage").val()};${$(".txtphone").val()};${$(".txtemail").val()}`;
                 var QuesDea = $("input[id*=Q]").get();
                 console.log(QuesDea);
-                for (var ans of QuesDea) {
-                    if (ans.type == "radio" && ans.checked) {
-                        answer += ans.id + ";";
+                for (var item of QuesDea) {
+                    if (item.type == "radio" && item.checked) {
+                        answer += item.id + ";";
                     }
-                    if (ans.type == "checkbox" && ans.checked) {
-                        answer += ans.id + ";";
+                    if (item.type == "checkbox" && item.checked) {
+                        answer += item.id + ";";
                     }
-                    if (ans.type == "text") {
-                        answer += `${ans.id}_${ans.value}` + ";";
+                    if (item.type == "text") {
+                        answer += `${item.id}_${item.value}` + ";";
                     }
                 }
                 var postData = {
@@ -78,13 +112,10 @@
                     success: function (txtMsg) {
                         console.log(txtMsg);
                         if (txtMsg == "success") {
-                            window.location.href = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val();
+                            window.location = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val();
                         }
                         if (txtMsg == "noAnswer") {
                             alert("問題還沒完成");
-                        }
-                        if (txtMsg == "errorinput") {
-                            alert("個人資訊有錯誤，請檢查")
                         }
                     },
                     error: function (msg) {
@@ -95,4 +126,5 @@
             });
         })
     </script>
-</asp:Content>
+</body>
+</html>

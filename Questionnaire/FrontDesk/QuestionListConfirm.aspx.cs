@@ -7,21 +7,19 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Questionnaire.FrontDesk
+namespace Questionnaire
 {
     public partial class QuestionListConfirm : System.Web.UI.Page
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private static Guid _questionID;
         private static List<QuestionAnswerModel> _personanswer = new List<QuestionAnswerModel>();
-        private static Guid _personID;
-        private static AccountInfoModel _person;
+        private static AccountInfoModel _person = new AccountInfoModel();
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            _personanswer = HttpContext.Current.Session["personAnswer"] as List<QuestionAnswerModel>;
-            string quesID = Request.QueryString["quesID"];
-            if (Guid.TryParse(quesID, out Guid _questionID) && _personanswer != null)
+            _personanswer = HttpContext.Current.Session["peopleAnswer"] as List<QuestionAnswerModel>;    //peopleAnswer跟ashx設的session要一致
+            string Ques = Request.QueryString["quesID"];
+            if (Guid.TryParse(Ques, out _questionID) && _personanswer != null)
             {
                 QuestionModel questionModel = _quesMgr.GetQuestionnaire(_questionID);
                 this.hfID.Value = _questionID.ToString();
@@ -71,7 +69,7 @@ namespace Questionnaire.FrontDesk
             for (int i = 0; i < arrQue.Length; i++)
             {
                 ListItem item = new ListItem(arrQue[i], i.ToString());
-                if(qamrad != null && Convert.ToInt32(qamrad.Answer) == i)
+                if (qamrad != null && Convert.ToInt32(qamrad.Answer) == i)
                     item.Selected = true;
                 radioButtonList.Items.Add(item);
             }
@@ -87,7 +85,7 @@ namespace Questionnaire.FrontDesk
             for (int i = 0; i < arrQue.Length; i++)
             {
                 ListItem item = new ListItem(arrQue[i], i.ToString());
-                if(qamrad.Find(x => x.Answer == i.ToString()) != null)
+                if (qamrad.Find(x => x.Answer == i.ToString()) != null)
                     item.Selected = true;
                 checkBoxList.Items.Add(item);
             }
@@ -102,7 +100,7 @@ namespace Questionnaire.FrontDesk
             this.plcquestion.Controls.Add(textBox);
         }
 
-         protected void Cancle_Click(object sender, EventArgs e)
+        protected void Cancle_Click(object sender, EventArgs e)
         {
             Response.Redirect("QuestionList.aspx?quesID=" + _questionID);
         }
@@ -110,12 +108,12 @@ namespace Questionnaire.FrontDesk
         protected void Save_Click(object sender, EventArgs e)
         {
             _quesMgr.CreatePersonInfo(_person);
-            foreach(QuestionAnswerModel questionAnswer in _personanswer)
+            foreach (QuestionAnswerModel questionAnswer in _personanswer)
             {
                 _quesMgr.CreateAnswer(questionAnswer);
             }
             HttpContext.Current.Session.RemoveAll();
-            Response.Redirect("TotalAnswer.aspx?quesId=" + _questionID);
+            Response.Redirect("TotalAnswer.aspx?quesID=" + _questionID);
         }
     }
 }

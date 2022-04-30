@@ -12,7 +12,9 @@ namespace Questionnaire.Backadmin
     public partial class AnswerDetail : System.Web.UI.Page
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
-        private static List<QuestionAnswerModel> _personanswer;
+        private static List<QuestionAnswerModel> _personanswer = new List<QuestionAnswerModel>();
+        private static QuestionAnswerModel _answer;
+        private QuestionAnswerModel QuestionAnswer = new QuestionAnswerModel();
         private static Guid _personID;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -54,7 +56,7 @@ namespace Questionnaire.Backadmin
                 }
             }
             else
-                Response.Redirect("Allquestionnaire.aspx");
+                Response.Redirect("Allquestionnaires.aspx");
         }
         private void CreateRadio(QuestionDetailModel question)
         {
@@ -90,11 +92,11 @@ namespace Questionnaire.Backadmin
         }
         private void CreateText(QuestionDetailModel question)
         {
-            QuestionAnswerModel qamrad = _personanswer.Find(x => x.quesNumber == question.quesNumber);
+            QuestionAnswerModel questionAnswer = _personanswer.Find(x => x.quesNumber == question.quesNumber);
             TextBox textBox = new TextBox();
             textBox.ID = "Q" + question.quesNumber;
             textBox.Enabled = false;
-            textBox.Text = qamrad.Answer;
+            textBox.Text = questionAnswer.Answer;
             this.plcquestion.Controls.Add(textBox);
         }
     }
