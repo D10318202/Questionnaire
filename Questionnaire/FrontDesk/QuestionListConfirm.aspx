@@ -10,7 +10,7 @@
     <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
     <script src="../JS/bootstrap.min.js"></script>
     <style>
-        .body {
+        body {
             background-color: aliceblue;
         }
 

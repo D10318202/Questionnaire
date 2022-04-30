@@ -13,14 +13,14 @@ namespace Questionnaire
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private static Guid _questionID;
-        private static List<QuestionAnswerModel> _personanswer = new List<QuestionAnswerModel>();
+        private static List<QuestionAnswerModel> _questionAnswers = new List<QuestionAnswerModel>();
         private QuestionAnswerModel personAnswer = new QuestionAnswerModel();
         protected void Page_Load(object sender, EventArgs e)
         {
             string Ques = Request.QueryString["quesID"];
             if (Guid.TryParse(Ques, out _questionID))
             {
-                _personanswer = HttpContext.Current.Session["peopleAnswer"] as List<QuestionAnswerModel>;
+                _questionAnswers = HttpContext.Current.Session["peopleAnswer"] as List<QuestionAnswerModel>;
                 //_isEditMode = _personanswer == null ? false : true;
                 //if (_isEditMode)
                 //{
@@ -77,7 +77,7 @@ namespace Questionnaire
             }
         }
         private void CreateCheck(QuestionDetailModel question)
-        {
+       {
             CheckBoxList checkBoxList = new CheckBoxList();
             checkBoxList.ID = "Q" + question.quesNumber;
             this.plcquestion.Controls.Add(checkBoxList);

@@ -389,7 +389,7 @@ namespace Questionnaire.Backadmin
                         if (question.quesDetailMustKeyIn)
                             muststring += "(*必填)";
                     }
-                    sbcsvContent.Append($"姓名,年齡,手機號碼,E-mail,填寫時間{muststring}\t\n");
+                    sbcsvContent.Append($"姓名,年齡,手機號碼,E-mail,填寫時間{muststring}\r\n");
 
                     string tablestring = "";
                     foreach (AccountInfoModel accountInfos in _accountInfo)

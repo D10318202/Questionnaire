@@ -10,7 +10,7 @@
     <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
     <script src="../JS/bootstrap.min.js"></script>
     <style>
-        .body {
+        body {
             background-color: aliceblue;
         }
 
@@ -50,22 +50,22 @@
                         <tr>
                             <td>*姓名:</td>
                             <td>
-                                <asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名" CssClass="txtname"></asp:TextBox></td>
+                                <asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名"></asp:TextBox></td>
                         </tr>
                         <tr>
                             <td>*年齡:</td>
                             <td>
-                                <asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡" CssClass="txtage"></asp:TextBox></td>
+                                <asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡"></asp:TextBox></td>
                         </tr>
                         <tr>
                             <td>*手機號碼:</td>
                             <td>
-                                <asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼" CssClass="txtphone"></asp:TextBox></td>
+                                <asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼"></asp:TextBox></td>
                         </tr>
                         <tr>
                             <td>*E-mail:</td>
                             <td>
-                                <asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱" CssClass="txtemail"></asp:TextBox></td>
+                                <asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱"></asp:TextBox></td>
                         </tr>
                     </table>
                     <br />
@@ -76,9 +76,7 @@
             </div>
             <br />
             <br />
-            <%--<button runat="server" id="btnSubmit" type="button">送出</button>--%>
             <input type="button" id="btnSubmit" value="送出" />
-            <%--        <asp:Button ID="Save" runat="server" Text="送出"  />--%>
             <asp:Button ID="btncancle" runat="server" Text="取消" OnClick="btncancle_Click" CssClass="btncancle" /><br />
 
         </div>
@@ -87,7 +85,7 @@
         $(document).ready(function () {
             $("input[id=btnSubmit]").click(function () {
                 var answer = "";
-                var profile = `${$(".txtname").val()};${$(".txtage").val()};${$(".txtphone").val()};${$(".txtemail").val()}`;
+                var profile = `${$("#txtname").val()};${$("#txtage").val()};${$("#txtphone").val()};${$("#txtemail").val()}`;
                 var QuesDea = $("input[id*=Q]").get();
                 console.log(QuesDea);
                 for (var item of QuesDea) {

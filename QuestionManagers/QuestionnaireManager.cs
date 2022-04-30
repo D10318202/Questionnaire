@@ -117,7 +117,7 @@ namespace QuestionManagers
                 {
                     using (SqlCommand command = new SqlCommand(commandText, conn))
                     {
-                        conn.Open();                        
+                        conn.Open();
                         DeleteQuestion(quesID);
                         DeleteAnswer(quesID);
                         command.Parameters.AddWithValue("@quesID", quesID);
@@ -559,7 +559,7 @@ namespace QuestionManagers
                     {
                         command.Parameters.AddWithValue("@quesID", quesID);
                         command.Parameters.AddWithValue("@quesTitle", quesTitle);
-                        command.Parameters.AddWithValue("@IsOftenUse", 0);  
+                        command.Parameters.AddWithValue("@IsOftenUse", 0);
 
                         conn.Open();
                         command.ExecuteNonQuery();
@@ -760,12 +760,12 @@ namespace QuestionManagers
                 {
                     using (SqlCommand command = new SqlCommand(commandText, conn))
                     {
-                        command.Parameters.AddWithValue("@quesID", account.quesID);
                         command.Parameters.AddWithValue("@AccountID", account.AccountID);
                         command.Parameters.AddWithValue("@Name", account.Name);
                         command.Parameters.AddWithValue("@Phone", account.Phone);
                         command.Parameters.AddWithValue("@Email", account.Email);
                         command.Parameters.AddWithValue("@Age", account.Age);
+                        command.Parameters.AddWithValue("@quesID", account.quesID);
                         //command.Parameters.AddWithValue("@CreateTime", account.CreateTime);
 
                         conn.Open();
@@ -789,9 +789,9 @@ namespace QuestionManagers
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
                 @"  INSERT INTO [Answer] 
-                        (AnswerID, quesID, quesNumber, Answer, AccountID)
+                        (AnswerID, quesID, AccountID, quesNumber, Answer)
                     VALUES 
-                        (@AnswerID, @quesID, @quesNumber, @Answer, @AccountID) ";
+                        (@AnswerID, @quesID, @AccountID, @quesNumber, @Answer) ";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
@@ -894,7 +894,7 @@ namespace QuestionManagers
                         {
                             QuestionAnswerModel answer = new QuestionAnswerModel()
                             {
-                                quesNumber = (int)reader["quesNumber"],
+                                quesNumber = Convert.ToInt32(reader["quesNumber"]),
                                 Answer = reader["Answer"] as string
                             };
                             answerList.Add(answer);

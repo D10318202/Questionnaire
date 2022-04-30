@@ -13,13 +13,13 @@ namespace Questionnaire
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private static Guid _questionID;
-        private static List<QuestionAnswerModel> _personanswer = new List<QuestionAnswerModel>();
+        private static List<QuestionAnswerModel> _questionAnswers = new List<QuestionAnswerModel>();
         private static AccountInfoModel _person = new AccountInfoModel();
         protected void Page_Load(object sender, EventArgs e)
         {
-            _personanswer = HttpContext.Current.Session["peopleAnswer"] as List<QuestionAnswerModel>;    //peopleAnswer跟ashx設的session要一致
+            _questionAnswers = HttpContext.Current.Session["peopleAnswer"] as List<QuestionAnswerModel>;    //["             "]跟ashx設的session要一致
             string Ques = Request.QueryString["quesID"];
-            if (Guid.TryParse(Ques, out _questionID) && _personanswer != null)
+            if (Guid.TryParse(Ques, out _questionID) && _questionAnswers != null)
             {
                 QuestionModel questionModel = _quesMgr.GetQuestionnaire(_questionID);
                 this.hfID.Value = _questionID.ToString();
@@ -60,7 +60,7 @@ namespace Questionnaire
         }
         private void CreateRadio(QuestionDetailModel question)
         {
-            QuestionAnswerModel qamrad = _personanswer.Find(x => x.quesNumber == question.quesNumber);
+            QuestionAnswerModel qamrad = _questionAnswers.Find(x => x.quesNumber == question.quesNumber);
             RadioButtonList radioButtonList = new RadioButtonList();
             radioButtonList.ID = "Q" + question.quesNumber;
             radioButtonList.Enabled = false;
@@ -76,7 +76,7 @@ namespace Questionnaire
         }
         private void CreateCheck(QuestionDetailModel question)
         {
-            List<QuestionAnswerModel> qamrad = _personanswer.FindAll(x => x.quesNumber == question.quesNumber);
+            List<QuestionAnswerModel> qamrad = _questionAnswers.FindAll(x => x.quesNumber == question.quesNumber);
             CheckBoxList checkBoxList = new CheckBoxList();
             checkBoxList.ID = "Q" + question.quesNumber;
             checkBoxList.Enabled = false;
@@ -92,12 +92,21 @@ namespace Questionnaire
         }
         private void CreateText(QuestionDetailModel question)
         {
-            QuestionAnswerModel qamrad = _personanswer.Find(x => x.quesNumber == question.quesNumber);
-            TextBox textBox = new TextBox();
-            textBox.ID = "Q" + question.quesNumber;
-            textBox.Enabled = false;
-            textBox.Text = qamrad.Answer;
-            this.plcquestion.Controls.Add(textBox);
+            if (question != null)
+            {
+                QuestionAnswerModel qamrad = _questionAnswers.Find(x => x.quesNumber == question.quesNumber);
+                TextBox textBox = new TextBox();
+                textBox.ID = "Q" + question.quesNumber;
+                textBox.Enabled = false;
+                textBox.Text = qamrad.Answer;
+                this.plcquestion.Controls.Add(textBox);
+            }
+            else
+            {
+                Literal litNoAnswer = new Literal();
+                litNoAnswer.Text = "*此題未做答*";
+                this.plcquestion.Controls.Add(litNoAnswer);
+            }
         }
 
         protected void Cancle_Click(object sender, EventArgs e)
@@ -108,7 +117,7 @@ namespace Questionnaire
         protected void Save_Click(object sender, EventArgs e)
         {
             _quesMgr.CreatePersonInfo(_person);
-            foreach (QuestionAnswerModel questionAnswer in _personanswer)
+            foreach (QuestionAnswerModel questionAnswer in _questionAnswers)
             {
                 _quesMgr.CreateAnswer(questionAnswer);
             }
