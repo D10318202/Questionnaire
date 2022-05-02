@@ -13,18 +13,19 @@ namespace Questionnaire.FrontDesk
     public partial class TotalAnswer : System.Web.UI.Page
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
+        private static Guid _questionID;
         protected void Page_Load(object sender, EventArgs e)
         {
             string QusetionnaireID = Request.QueryString["quesID"];
-            if (Guid.TryParse(QusetionnaireID, out Guid questionnaireID))
+            if (Guid.TryParse(QusetionnaireID, out _questionID))
             {
-                HttpContext.Current.Session["quesID"] = questionnaireID;
-                QuestionModel question = _quesMgr.GetQuestionnaire(questionnaireID);
+                //HttpContext.Current.Session["quesID"] = questionnaireID;
+                QuestionModel question = _quesMgr.GetQuestionnaire(_questionID);
                 this.ltlTitle.Text = question.quesTitle;
                 this.ltlBody.Text = question.quesBody;
 
-                List<QuestionDetailModel> questionDetailList = _quesMgr.GetQuestionModel(questionnaireID);
-                List<QuestionTotalModel> questionTotals = _quesMgr.GetTotalAnswerList(questionnaireID);
+                List<QuestionDetailModel> questionDetailList = _quesMgr.GetQuestionModel(_questionID);
+                List<QuestionTotalModel> questionTotals = _quesMgr.GetTotalAnswerList(_questionID);
                 foreach (QuestionDetailModel questionDetails in questionDetailList)
                 {
                     string quesDetail = $"<br/>{questionDetails.quesNumber}.{questionDetails.quesDetailTitle}";
@@ -41,6 +42,7 @@ namespace Questionnaire.FrontDesk
                         foreach (QuestionTotalModel questionTotal in NoquestionList)
                             total += questionTotal.AnsCount;
 
+                        
                         if (total == 0)
                         {
                             Literal ltlNoAnswer = new Literal();
@@ -73,9 +75,9 @@ namespace Questionnaire.FrontDesk
                     }
                     else
                     {
-                        Literal ltltext = new Literal();
-                        ltltext.Text = "-資料不統計-<br/>";
-                        this.plcTotal.Controls.Add(ltltext);
+                        Literal ltlAnswer = new Literal();
+                        ltlAnswer.Text = "-資料不統計-<br/>";
+                        this.plcTotal.Controls.Add(ltlAnswer);
                     }
                 }
             }

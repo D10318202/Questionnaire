@@ -13,7 +13,7 @@
                     <asp:Literal ID="ltlTitle" runat="server"></asp:Literal></h2>
                 <h4>
                     <asp:Literal ID="ltlBody" runat="server"></asp:Literal></h4>
-                <asp:PlaceHolder ID="plcTotal" runat="server" Visible="false"></asp:PlaceHolder>
+                <asp:PlaceHolder ID="plcTotal" runat="server"></asp:PlaceHolder>
             </div>
         </div>
     </div>

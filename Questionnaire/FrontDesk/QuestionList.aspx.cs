@@ -77,7 +77,7 @@ namespace Questionnaire
             }
         }
         private void CreateCheck(QuestionDetailModel question)
-       {
+        {
             CheckBoxList checkBoxList = new CheckBoxList();
             checkBoxList.ID = "Q" + question.quesNumber;
             this.plcquestion.Controls.Add(checkBoxList);

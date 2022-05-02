@@ -10,10 +10,6 @@
     <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
     <script src="../JS/bootstrap.min.js"></script>
     <style>
-        body {
-            background-color: aliceblue;
-        }
-
         .auto-style1 {
             width: 79px;
             height: 73px;
@@ -77,7 +73,7 @@
             <br />
             <br />
             <input type="button" id="btnSubmit" value="送出" />
-            <asp:Button ID="btncancle" runat="server" Text="取消" OnClick="btncancle_Click" CssClass="btncancle" /><br />
+            <asp:Button ID="btncancle" runat="server" Text="取消" OnClick="btncancle_Click" /><br />
 
         </div>
     </form>

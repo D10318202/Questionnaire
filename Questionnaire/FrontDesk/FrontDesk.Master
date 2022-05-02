@@ -7,10 +7,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <style>
-        .body {
-            background-color: aliceblue;
-        }
-
         .auto-style1 {
             width: 79px;
             height: 73px;

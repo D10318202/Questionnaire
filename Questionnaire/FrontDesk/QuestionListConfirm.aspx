@@ -10,10 +10,6 @@
     <link href="../CSS/bootstrap.min.css" rel="stylesheet" />
     <script src="../JS/bootstrap.min.js"></script>
     <style>
-        body {
-            background-color: aliceblue;
-        }
-
         .auto-style1 {
             width: 79px;
             height: 73px;
@@ -50,22 +46,22 @@
                         <tr>
                             <td>*姓名:</td>
                             <td>
-                                <asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名" CssClass="txtname"></asp:TextBox></td>
+                                <asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名" Enabled="false"></asp:TextBox></td>
                         </tr>
                         <tr>
                             <td>*年齡:</td>
                             <td>
-                                <asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡" CssClass="txtage"></asp:TextBox></td>
+                                <asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡" Enabled="false"></asp:TextBox></td>
                         </tr>
                         <tr>
                             <td>*手機號碼:</td>
                             <td>
-                                <asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼" CssClass="txtphone"></asp:TextBox></td>
+                                <asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼" Enabled="false"></asp:TextBox></td>
                         </tr>
                         <tr>
                             <td>*E-mail:</td>
                             <td>
-                                <asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱" CssClass="txtemail"></asp:TextBox></td>
+                                <asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱" Enabled="false"></asp:TextBox></td>
                         </tr>
                     </table>
                     <br />

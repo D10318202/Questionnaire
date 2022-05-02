@@ -61,18 +61,34 @@ namespace Questionnaire
         private void CreateRadio(QuestionDetailModel question)
         {
             QuestionAnswerModel qamrad = _questionAnswers.Find(x => x.quesNumber == question.quesNumber);
-            RadioButtonList radioButtonList = new RadioButtonList();
-            radioButtonList.ID = "Q" + question.quesNumber;
-            radioButtonList.Enabled = false;
-            this.plcquestion.Controls.Add(radioButtonList);
-            string[] arrQue = question.quesDetailBody.Split(';');
-            for (int i = 0; i < arrQue.Length; i++)
+            if (qamrad != null)
             {
-                ListItem item = new ListItem(arrQue[i], i.ToString());
-                if (qamrad != null && Convert.ToInt32(qamrad.Answer) == i)
-                    item.Selected = true;
-                radioButtonList.Items.Add(item);
+                RadioButtonList radioButtonList = new RadioButtonList();
+                radioButtonList.ID = "Q" + question.quesNumber;
+                radioButtonList.Enabled = false;
+                this.plcquestion.Controls.Add(radioButtonList);
+                string[] arrQue = question.quesDetailBody.Split(';');
+                //for (int i = 0; i < arrQue.Length; i++)
+                //{
+                //    if (qamrad != null && Convert.ToInt32(qamrad.Answer) == i)
+                //    {
+                //        ListItem item = new ListItem(arrQue[i], i.ToString());
+                //        item.Selected = true;
+                //        radioButtonList.Items.Add(item);
+                //    }
+                //}
+                for (int i = 0; i < arrQue.Length; i++)
+                {
+                    if (qamrad != null && qamrad.Answer == i.ToString())
+                    {
+                        ListItem item = new ListItem(arrQue[i], i.ToString());
+                        item.Selected = true;
+                        radioButtonList.Items.Add(item);
+                    }
+                }
             }
+
+
         }
         private void CreateCheck(QuestionDetailModel question)
         {
