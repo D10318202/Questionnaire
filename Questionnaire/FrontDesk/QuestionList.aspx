@@ -86,13 +86,13 @@
                 console.log(QuesDea);
                 for (var item of QuesDea) {
                     if (item.type == "radio" && item.checked) {
-                        answer += item.id + ";";
+                        answer += item.id + " ";
                     }
                     if (item.type == "checkbox" && item.checked) {
-                        answer += item.id + ";";
+                        answer += item.id + " ";
                     }
                     if (item.type == "text") {
-                        answer += `${item.id}_${item.value}` + ";";
+                        answer += `${item.id}_${item.value}` + " ";
                     }
                 }
                 var postData = {

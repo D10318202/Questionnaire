@@ -61,32 +61,20 @@ namespace Questionnaire
         private void CreateRadio(QuestionDetailModel question)
         {
             QuestionAnswerModel qamrad = _questionAnswers.Find(x => x.quesNumber == question.quesNumber);
-            if (qamrad != null)
+            RadioButtonList radioButtonList = new RadioButtonList();
+            radioButtonList.ID = "Q" + question.quesNumber;
+            radioButtonList.Enabled = false;
+            this.plcquestion.Controls.Add(radioButtonList);
+            string[] arrQue = question.quesDetailBody.Split(';');
+            for (int i = 0; i < arrQue.Length; i++)
             {
-                RadioButtonList radioButtonList = new RadioButtonList();
-                radioButtonList.ID = "Q" + question.quesNumber;
-                radioButtonList.Enabled = false;
-                this.plcquestion.Controls.Add(radioButtonList);
-                string[] arrQue = question.quesDetailBody.Split('\n');
-                //for (int i = 0; i < arrQue.Length; i++)
-                //{
-                //    if (qamrad != null && Convert.ToInt32(qamrad.Answer) == i)
-                //    {
-                //        ListItem item = new ListItem(arrQue[i], i.ToString());
-                //        item.Selected = true;
-                //        radioButtonList.Items.Add(item);
-                //    }
-                //}
-                for (int i = 0; i < arrQue.Length; i++)
+                if (qamrad != null && Convert.ToInt32(qamrad.Answer) == i)
                 {
                     ListItem item = new ListItem(arrQue[i], i.ToString());
-                    if (Convert.ToInt32(qamrad.Answer) == i)
-                        item.Selected = true;
+                    item.Selected = true;
                     radioButtonList.Items.Add(item);
                 }
             }
-
-
         }
         private void CreateCheck(QuestionDetailModel question)
         {
