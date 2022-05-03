@@ -19,7 +19,6 @@ namespace Questionnaire.FrontDesk
             string QusetionnaireID = Request.QueryString["quesID"];
             if (Guid.TryParse(QusetionnaireID, out _questionID))
             {
-                //HttpContext.Current.Session["quesID"] = questionnaireID;
                 QuestionModel question = _quesMgr.GetQuestionnaire(_questionID);
                 this.ltlTitle.Text = question.quesTitle;
                 this.ltlBody.Text = question.quesBody;

@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-lg-8">
                 <asp:PlaceHolder ID="plcsearch" runat="server">問卷標題:
-        <asp:TextBox ID="txtquestitle" runat="server"></asp:TextBox><br />
+        <asp:TextBox ID="txtquestitle" runat="server" placeholder="請輸入關鍵字"></asp:TextBox><br />
                     開始/結束:
         <asp:TextBox ID="txtstart" runat="server" TextMode="Date"></asp:TextBox>
                     <asp:TextBox ID="txtend" runat="server" TextMode="Date"></asp:TextBox>

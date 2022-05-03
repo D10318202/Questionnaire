@@ -67,7 +67,7 @@ namespace Questionnaire
                 radioButtonList.ID = "Q" + question.quesNumber;
                 radioButtonList.Enabled = false;
                 this.plcquestion.Controls.Add(radioButtonList);
-                string[] arrQue = question.quesDetailBody.Split(';');
+                string[] arrQue = question.quesDetailBody.Split('\n');
                 //for (int i = 0; i < arrQue.Length; i++)
                 //{
                 //    if (qamrad != null && Convert.ToInt32(qamrad.Answer) == i)
@@ -79,12 +79,10 @@ namespace Questionnaire
                 //}
                 for (int i = 0; i < arrQue.Length; i++)
                 {
-                    if (qamrad != null && qamrad.Answer == i.ToString())
-                    {
-                        ListItem item = new ListItem(arrQue[i], i.ToString());
+                    ListItem item = new ListItem(arrQue[i], i.ToString());
+                    if (Convert.ToInt32(qamrad.Answer) == i)
                         item.Selected = true;
-                        radioButtonList.Items.Add(item);
-                    }
+                    radioButtonList.Items.Add(item);
                 }
             }
 

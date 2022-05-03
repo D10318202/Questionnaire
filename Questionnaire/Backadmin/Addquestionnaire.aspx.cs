@@ -36,6 +36,10 @@ namespace Questionnaire.Backadmin
                 EditMode(_questionID);
                 List<QuestionDetailModel> questionList = _quesMgr.GetQuestionModel(_questionID);
                 InitQues(questionList);
+                if (!IsPostBack)
+                {                   
+                    InitExample();
+                }
                 HttpContext.Current.Session["qusetionModel"] = questionList;
                 HttpContext.Current.Session["quesID"] = _questionID;
 
@@ -248,6 +252,18 @@ namespace Questionnaire.Backadmin
             else
                 this.repQuestions.Visible = false;
         }
+
+        private void InitExample()
+        {
+            List<QuestionModel> questionModels = _quesMgr.GetQuestionList();
+            foreach (QuestionModel often in questionModels)
+            {
+                ListItem listExample = new ListItem();
+                listExample.Text = often.quesTitle;
+                listExample.Value = often.quesID.ToString();
+                this.dropclass.Items.Add(listExample);
+            }
+        }
         private void InitTextbox()
         {
             this.txtTitle1.Text = "";
@@ -330,7 +346,7 @@ namespace Questionnaire.Backadmin
             if (Guid.TryParse(this.dropclass.SelectedValue, out Guid oftenuseID))
             {
                 List<QuestionDetailModel> questionList = _quesMgr.GetQuestionModel(oftenuseID);
-                HttpContext.Current.Session["qusetionDetail"] = questionList;
+                HttpContext.Current.Session["qusetionModel"] = questionList;
                 InitQues(questionList);
             }
             else
@@ -457,7 +473,7 @@ namespace Questionnaire.Backadmin
 
             }
             catch (Exception ex)
-            {                
+            {
             }
         }
         #endregion
@@ -537,6 +553,6 @@ namespace Questionnaire.Backadmin
         }
         #endregion
 
-        
+
     }
 }

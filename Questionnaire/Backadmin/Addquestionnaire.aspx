@@ -38,7 +38,7 @@
                         <asp:Label ID="ltlquesmistMsg" runat="server" ForeColor="Red"></asp:Label><br />
                         種類:
                            <asp:DropDownList ID="dropclass" runat="server" OnSelectedIndexChanged="dropclass_SelectedIndexChanged" AutoPostBack="true">
-                               <asp:ListItem Selected="True" Value="createquestion">自訂問題</asp:ListItem>
+                               <asp:ListItem Selected="True" Value="0">自訂問題</asp:ListItem>
 
                            </asp:DropDownList>
                         <br />
