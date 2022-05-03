@@ -15,14 +15,14 @@ namespace Questionnaire.Backadmin
     public partial class Addquestionnaire : System.Web.UI.Page
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
-        private QuestionDetailModel questionDetail = new QuestionDetailModel();
         private QuestionModel question = new QuestionModel();
-        private static List<QuestionDetailModel> _questionDetail = new List<QuestionDetailModel>();
+        private static List<QuestionDetailModel> _questionDetail;
         private static List<AccountInfoModel> _accountInfo = new List<AccountInfoModel>();
         private static Guid _questionID;
         private bool isCreateMode;
         protected void Page_Load(object sender, EventArgs e)
         {
+            _questionDetail = HttpContext.Current.Session["qusetionModel"] as List<QuestionDetailModel>;
             string QusetionnaireID = Request.QueryString["quesID"];
             this.txtStart.Text = DateTime.Now.ToString("yyyy-MM-dd");
             if (string.IsNullOrWhiteSpace(QusetionnaireID))
@@ -217,17 +217,18 @@ namespace Questionnaire.Backadmin
         }
         private bool ErrorMsgQuestion(out string mistake)
         {
+            QuestionDetailModel question = new QuestionDetailModel();
             mistake = string.Empty;
             if (string.IsNullOrWhiteSpace(this.txtTitle1.Text.Trim()))
                 mistake += "※必須輸入標題※<br/>";
             else if (this.txtTitle1.Text.Length < 3)
                 mistake += "※標題必須至少要有3個字※<br/>";
 
-            if (questionDetail.quesDetailType != QuestionType.單選方塊 && this.txtAnswer.Text == null)
+            if (question.quesDetailType != QuestionType.單選方塊 && this.txtAnswer.Text == null)
                 mistake += "※必須把問題和答案輸入完整※<br/>";
-            else if (questionDetail.quesDetailType != QuestionType.複選方塊 && this.txtAnswer.Text == null)
+            else if (question.quesDetailType != QuestionType.複選方塊 && this.txtAnswer.Text == null)
                 mistake += "※必須把問題和答案輸入完整※<br/>";
-            else if (questionDetail.quesDetailType == QuestionType.文字方塊 && this.txtAnswer.Text != null)
+            else if (question.quesDetailType == QuestionType.文字方塊 && this.txtAnswer.Text != null)
                 mistake += "※選擇文字方塊不需要輸入回答欄位※<br/>";
 
             if (string.IsNullOrEmpty(mistake))
@@ -252,7 +253,6 @@ namespace Questionnaire.Backadmin
             else
                 this.repQuestions.Visible = false;
         }
-
         private void InitExample()
         {
             List<QuestionModel> questionModels = _quesMgr.GetQuestionList();
@@ -327,17 +327,17 @@ namespace Questionnaire.Backadmin
             }
             Response.Redirect("Allquestionnaires.aspx");
         }
-        public void repQuestions_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void repQuestions_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                if (e.CommandName == "LinkEdit" && Guid.TryParse(e.CommandArgument.ToString(), out Guid QuesDetailID))
+                if (e.CommandName == "LinkEdit" && Guid.TryParse(e.CommandArgument.ToString(), out Guid quesDetailID))
                 {
-                    QuestionDetailModel questionDetail = _questionDetail.Find(x => x.quesDetailID == QuesDetailID);
-                    this.txtTitle1.Text = questionDetail.quesDetailTitle;
-                    this.txtAnswer.Text = questionDetail.quesDetailBody;
-                    this.droptype.SelectedIndex = (int)questionDetail.quesDetailType;
-                    this.checMust.Checked = questionDetail.quesDetailMustKeyIn;
+                    QuestionDetailModel question = _questionDetail.Find(x => x.quesDetailID == quesDetailID);
+                    this.txtTitle1.Text = question.quesDetailTitle;
+                    this.txtAnswer.Text = question.quesDetailBody;
+                    this.droptype.SelectedIndex = (int)question.quesDetailType;
+                    this.checMust.Checked = question.quesDetailMustKeyIn;
                 }
             }
         }
@@ -354,7 +354,6 @@ namespace Questionnaire.Backadmin
                 InitQues(new List<QuestionDetailModel>());
             }
         }
-
         public void DisableInput()
         {
             this.ltlmistamsg.Visible = true;

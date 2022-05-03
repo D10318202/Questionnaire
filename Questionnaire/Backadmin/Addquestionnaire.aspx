@@ -86,7 +86,7 @@
                                             <asp:CheckBox ID="ckbListUse" runat="server" Checked='<%#Eval("quesDetailMustKeyIn") %>' Enabled="false" />
                                         </td>
                                         <td>
-                                            <asp:LinkButton ID="LinkEdit" runat="server" CommandArgument='<%#Eval("quesDetailID") %>' CommandName="lkbEdit">編輯</asp:LinkButton>
+                                            <asp:LinkButton ID="LinkEdit" runat="server" CommandArgument='<%#Eval("quesDetailID") %>' CommandName="LinkEdit">編輯</asp:LinkButton>
                                         </td>
                                     </tr>
                                 </ItemTemplate>
