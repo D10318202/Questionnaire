@@ -8,7 +8,7 @@ namespace QuestionHelpers
 {
     public class Logger
     {
-        private const string _savePath = "C:\\Users\\YUKI\\Desktop\\Questionnaire\\Log.txt";
+        private const string _savePath = "C:\\log\\log.log";
         public static void WriteLog(string modelName, Exception ex)
         {
             string content =

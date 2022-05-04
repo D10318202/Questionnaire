@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
@@ -378,7 +379,8 @@ namespace Questionnaire.Backadmin
         {
             QuestionModel questionModel = _quesMgr.GetQuestionnaire(_questionID);
             string FileName = questionModel.quesTitle + ".csv";
-            string DownFile = "C:\\Users\\YUKI\\Desktop\\Questionnaire\\Download";
+            string DownFile = "~/Download/CSV";
+            DownFile = HostingEnvironment.MapPath(DownFile);
             if (!Directory.Exists(DownFile))
             {
                 Directory.CreateDirectory(DownFile);
