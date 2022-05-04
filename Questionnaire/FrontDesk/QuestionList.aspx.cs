@@ -64,6 +64,10 @@ namespace Questionnaire
                 Response.Redirect("Allquestionnaire.aspx");
         }
 
+        /// <summary>
+        /// 單選方塊
+        /// </summary>
+        /// <param name="question"></param>
         private void CreateRadio(QuestionDetailModel question)
         {
             RadioButtonList radioButtonList = new RadioButtonList();
@@ -76,6 +80,11 @@ namespace Questionnaire
                 radioButtonList.Items.Add(item);
             }
         }
+
+        /// <summary>
+        /// 複選方塊
+        /// </summary>
+        /// <param name="question"></param>
         private void CreateCheck(QuestionDetailModel question)
         {
             CheckBoxList checkBoxList = new CheckBoxList();
@@ -88,6 +97,11 @@ namespace Questionnaire
                 checkBoxList.Items.Add(item);
             }
         }
+
+        /// <summary>
+        /// 文字方塊
+        /// </summary>
+        /// <param name="question"></param>
         private void CreateText(QuestionDetailModel question)
         {
             TextBox textBox = new TextBox();

@@ -58,6 +58,11 @@ namespace Questionnaire
             else
                 Response.Redirect("Allquestionnaire.aspx");
         }
+
+        /// <summary>
+        /// 單選方塊
+        /// </summary>
+        /// <param name="question"></param>
         private void CreateRadio(QuestionDetailModel question)
         {
             QuestionAnswerModel qamrad = _questionAnswers.Find(x => x.quesNumber == question.quesNumber);
@@ -76,6 +81,10 @@ namespace Questionnaire
                 }
             }
         }
+        /// <summary>
+        /// 複選方塊
+        /// </summary>
+        /// <param name="question"></param>
         private void CreateCheck(QuestionDetailModel question)
         {
             List<QuestionAnswerModel> qamrad = _questionAnswers.FindAll(x => x.quesNumber == question.quesNumber);
@@ -92,6 +101,10 @@ namespace Questionnaire
                 checkBoxList.Items.Add(item);
             }
         }
+        /// <summary>
+        /// 文字方塊
+        /// </summary>
+        /// <param name="question"></param>
         private void CreateText(QuestionDetailModel question)
         {
             if (question != null)

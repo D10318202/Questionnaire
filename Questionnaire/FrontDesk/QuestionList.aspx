@@ -109,7 +109,10 @@
                             window.location = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val();
                         }
                         if (txtMsg == "noAnswer") {
-                            alert("問題還沒完成");
+                            alert("未作答");
+                        }
+                        if (txtMsg == "errorinput") {
+                            alert("個人資訊有誤");
                         }
                     },
                     error: function (msg) {

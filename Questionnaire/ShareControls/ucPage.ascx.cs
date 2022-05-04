@@ -46,7 +46,7 @@ namespace Questionnaire.ShareControls
         public void Bind(NameValueCollection collection)
         {
             int pageCount = (TotalRows / PageSize);
-            if ((TotalRows % PageSize) > 0)
+            if (pageCount == 0 ||(TotalRows % PageSize) > 0)
                 pageCount += 1;
 
             // LocalPath :   MapList.aspx

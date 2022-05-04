@@ -24,7 +24,12 @@ namespace Questionnaire.API
                 //string age = context.Request.Form["Age"];
                 string accountarr = context.Request.Form["Profile"];
                 string[] accountArr = accountarr.Split(';');
-
+                if (accountArr.Length < 4 || !int.TryParse(accountArr[2], out int phone) || accountArr[2].Length < 10 || !int.TryParse(accountArr[1], out int age) || (age < 1 || age > 150) || !accountArr[3].Contains("@"))
+                {
+                    context.Response.ContentType = "text/plain";
+                    context.Response.Write("errorinput");
+                    return;
+                }
                 AccountInfoModel accountInfoModel = new AccountInfoModel()
                 {
                     AccountID = Guid.NewGuid(),
@@ -42,7 +47,6 @@ namespace Questionnaire.API
                     context.Response.Write("noAnswer");
                     return;
                 }
-
                 string[] AnswerArr = quesans.Trim().Split(' ');
                 List<QuestionAnswerModel> questionAnswers = new List<QuestionAnswerModel>();
                 foreach (string item in AnswerArr)
