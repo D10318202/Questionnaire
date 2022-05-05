@@ -46,22 +46,30 @@
                         <tr>
                             <td>*姓名:</td>
                             <td>
-                                <asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名" Enabled="false"></asp:TextBox></td>
+                                <asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名" Enabled="false"></asp:TextBox> 
+                                *請輸入中文姓名*
+                            </td>
                         </tr>
                         <tr>
                             <td>*年齡:</td>
                             <td>
-                                <asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡" Enabled="false"></asp:TextBox></td>
+                                <asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡" Enabled="false"></asp:TextBox>
+                                *請輸入介於1~150之間*
+                            </td>
                         </tr>
                         <tr>
                             <td>*手機號碼:</td>
                             <td>
-                                <asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼" Enabled="false"></asp:TextBox></td>
+                                <asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼" Enabled="false"></asp:TextBox>
+                                *請輸入10位數字的號碼*
+                            </td>
                         </tr>
                         <tr>
                             <td>*E-mail:</td>
                             <td>
-                                <asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱" Enabled="false"></asp:TextBox></td>
+                                <asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱" Enabled="false"></asp:TextBox>
+                                 *信箱應該包含@*
+                            </td>
                         </tr>
                     </table>
                     <br />

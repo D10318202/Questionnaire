@@ -14,6 +14,7 @@
             width: 79px;
             height: 73px;
         }
+
         .auto-style2 {
             width: 79px;
         }
@@ -46,22 +47,30 @@
                         <tr>
                             <td>*姓名:</td>
                             <td>
-                                <asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名"></asp:TextBox></td>
+                                <asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名" CssClass="Must"></asp:TextBox>
+                                *請輸入中文姓名*
+                            </td>
                         </tr>
                         <tr>
                             <td>*年齡:</td>
                             <td>
-                                <asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡"></asp:TextBox></td>
+                                <asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡" CssClass="Must"></asp:TextBox>
+                                *請輸入介於1~150之間*
+                            </td>
                         </tr>
                         <tr>
                             <td>*手機號碼:</td>
                             <td>
-                                <asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼"></asp:TextBox></td>
+                                <asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼" CssClass="Must"></asp:TextBox>
+                                *請輸入10位數字的號碼*
+                            </td>
                         </tr>
                         <tr>
                             <td>*E-mail:</td>
                             <td>
-                                <asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱"></asp:TextBox></td>
+                                <asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱" CssClass="Must"></asp:TextBox>
+                                *信箱應該包含@*
+                            </td>
                         </tr>
                     </table>
                     <br />
@@ -80,46 +89,78 @@
     <script>
         $(document).ready(function () {
             $("input[id=btnSubmit]").click(function () {
-                var answer = "";
-                var profile = `${$("#txtname").val()};${$("#txtage").val()};${$("#txtphone").val()};${$("#txtemail").val()}`;
-                var QuesDea = $("input[id*=Q]").get();
-                console.log(QuesDea);
-                for (var item of QuesDea) {
-                    if (item.type == "radio" && item.checked) {
-                        answer += item.id + " ";
+                var inputWrong = true;
+                var Mustlist = $(".Must").get();
+                for (var mustitem of Mustlist) {
+                    if (mustitem.tagName == 'INPUT ') {
+                        if (mustitem.value == "") {
+                            inputWrong = true;
+                            alert("尚未作答完畢");
+                            return;
+                        }
                     }
-                    if (item.type == "checkbox" && item.checked) {
-                        answer += item.id + " ";
-                    }
-                    if (item.type == "text") {
-                        answer += `${item.id}_${item.value}` + " ";
+                    if (mustitem.tagName == 'TABLE') {
+                        var profileTable = $(`#${mustitem.id}`);
+                        var mustlist = profileTable.find('input').get();
+                        var mustcheck = [];
+                        for (var selection of mustlist) {
+                            if (selection.checked) {
+                                mustcheck.push(selection);
+                            }
+                        }
+                        if (mustcheck.length == 0) {
+                            inputWrong = true;
+                            alert("尚未作答完畢");
+                            return;
+                        }
                     }
                 }
-                var postData = {
-                    "Answer": answer,
-                    "Profile": profile
-                };
-                $.ajax({
-                    url: "../API/QuestionAnswerHandler.ashx?quesID=" + $("#hfID").val(),
-                    method: "POST",
-                    data: postData,
-                    success: function (txtMsg) {
-                        console.log(txtMsg);
-                        if (txtMsg == "success") {
-                            window.location = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val();
+                inputWrong = false;
+
+                if (inputWrong == false) {
+                    var answer = "";
+                    var profile = `${$("#txtname").val()};${$("#txtage").val()};${$("#txtphone").val()};${$("#txtemail").val()}`;
+                    var QuesDea = $("input[id*=Q]").get();
+                    console.log(QuesDea);
+                    for (var item of QuesDea) {
+                        if (item.type == "radio" && item.checked) {
+                            answer += item.id + " ";
                         }
-                        if (txtMsg == "noAnswer") {
-                            alert("未作答");
+                        if (item.type == "checkbox" && item.checked) {
+                            answer += item.id + " ";
                         }
-                        if (txtMsg == "errorinput") {
-                            alert("個人資訊有誤");
+                        if (item.type == "text") {
+                            answer += `${item.id}_${item.value}` + " ";
                         }
-                    },
-                    error: function (msg) {
-                        console.log(msg);
-                        alert("通訊失敗，請聯絡管理員。");
                     }
-                });
+
+                    var postData = {
+                        "Answer": answer,
+                        "Profile": profile
+                    };
+                    $.ajax({
+                        url: "../API/QuestionAnswerHandler.ashx?quesID=" + $("#hfID").val(),
+                        method: "POST",
+                        data: postData,
+                        success: function (txtMsg) {
+                            console.log(txtMsg);
+                            if (txtMsg == "success") {
+                                window.location = "QuestionListConfirm.aspx?quesID=" + $("#hfID").val();
+                            }
+                            if (txtMsg == "noAnswer") {
+                                alert("未作答");
+                            }
+                            if (txtMsg == "errorinput") {
+                                alert("個人資訊有誤");
+                            }
+                        },
+                        error: function (msg) {
+                            console.log(msg);
+                            alert("通訊失敗，請聯絡管理員。");
+                        }
+                    });
+                }
+
             });
         })
     </script>

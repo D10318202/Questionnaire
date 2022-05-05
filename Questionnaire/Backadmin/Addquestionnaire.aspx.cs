@@ -17,7 +17,7 @@ namespace Questionnaire.Backadmin
     {
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private QuestionModel question = new QuestionModel();
-        private static List<QuestionDetailModel> _questionDetail;
+        private static List<QuestionDetailModel> _questionDetail = new List<QuestionDetailModel>();
         private static List<AccountInfoModel> _accountInfo = new List<AccountInfoModel>();
         private static Guid _questionID;
         private bool isCreateMode;
@@ -38,7 +38,7 @@ namespace Questionnaire.Backadmin
                 List<QuestionDetailModel> questionList = _quesMgr.GetQuestionModel(_questionID);
                 InitQues(questionList);
                 if (!IsPostBack)
-                {                   
+                {
                     InitExample();
                 }
                 HttpContext.Current.Session["qusetionModel"] = questionList;
@@ -151,10 +151,13 @@ namespace Questionnaire.Backadmin
                 question.quesID = _questionID;
                 _quesMgr.UpdateQuestionnaire(question);
             }
-            HttpContext.Current.Session["quesID"] = question.quesID;
-            Response.Redirect("Addquestionnaire.aspx?quesID=" + question.quesID);   //感覺有點奇怪，但可行
-                                                                                    //this.panQuestionnaire.Visible = false;
-                                                                                    //this.panQuestions.Visible = true;
+            HttpContext.Current.Session["quesID"] = question.quesID;            
+            this.LinkQuestionnaire.Visible = false;
+            this.panQuestionnaire.Visible = false;
+            this.panQuestions.Visible = true;
+            Response.Redirect("Addquestionnaire.aspx?quesID=" + question.quesID);
+
+
         }
         private void EditMode(Guid quesID)
         {

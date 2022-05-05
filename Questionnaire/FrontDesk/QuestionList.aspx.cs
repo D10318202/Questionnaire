@@ -72,6 +72,8 @@ namespace Questionnaire
         {
             RadioButtonList radioButtonList = new RadioButtonList();
             radioButtonList.ID = "Q" + question.quesNumber;
+            if (question.quesDetailMustKeyIn)
+                radioButtonList.CssClass = "Must";
             this.plcquestion.Controls.Add(radioButtonList);
             string[] arrQue = question.quesDetailBody.Split(';');
             for (int i = 0; i < arrQue.Length; i++)
@@ -89,6 +91,8 @@ namespace Questionnaire
         {
             CheckBoxList checkBoxList = new CheckBoxList();
             checkBoxList.ID = "Q" + question.quesNumber;
+            if (question.quesDetailMustKeyIn)
+                checkBoxList.CssClass = "Must";
             this.plcquestion.Controls.Add(checkBoxList);
             string[] arrQue = question.quesDetailBody.Split(';');
             for (int i = 0; i < arrQue.Length; i++)
@@ -106,6 +110,8 @@ namespace Questionnaire
         {
             TextBox textBox = new TextBox();
             textBox.ID = "Q" + question.quesNumber;
+            if (question.quesDetailMustKeyIn)
+                textBox.CssClass = "Must";
             this.plcquestion.Controls.Add(textBox);
         }
 

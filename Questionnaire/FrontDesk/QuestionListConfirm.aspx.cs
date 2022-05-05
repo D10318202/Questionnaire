@@ -14,6 +14,7 @@ namespace Questionnaire
         private static QuestionnaireManager _quesMgr = new QuestionnaireManager();
         private static Guid _questionID;
         private static List<QuestionAnswerModel> _questionAnswers = new List<QuestionAnswerModel>();
+        private static QuestionDetailModel questionDetail;
         private static AccountInfoModel _person = new AccountInfoModel();
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -134,6 +135,10 @@ namespace Questionnaire
             _quesMgr.CreatePersonInfo(_person);
             foreach (QuestionAnswerModel questionAnswer in _questionAnswers)
             {
+                if(questionDetail.quesDetailMustKeyIn)
+                {
+  
+                }
                 _quesMgr.CreateAnswer(questionAnswer);
             }
             HttpContext.Current.Session.RemoveAll();

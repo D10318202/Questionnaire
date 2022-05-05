@@ -24,7 +24,7 @@ namespace Questionnaire.API
                 //string age = context.Request.Form["Age"];
                 string accountarr = context.Request.Form["Profile"];
                 string[] accountArr = accountarr.Split(';');
-                if (accountArr.Length < 4 || !int.TryParse(accountArr[2], out int phone) || accountArr[2].Length < 10 || !int.TryParse(accountArr[1], out int age) || (age < 1 || age > 150) || !accountArr[3].Contains("@"))
+                if (accountArr.Length != 4 || !int.TryParse(accountArr[2], out int phone) || accountArr[2].Length < 10 || !int.TryParse(accountArr[1], out int age) || (age < 1 || age > 150) || !accountArr[3].Contains("@"))
                 {
                     context.Response.ContentType = "text/plain";
                     context.Response.Write("errorinput");
@@ -33,12 +33,13 @@ namespace Questionnaire.API
                 AccountInfoModel accountInfoModel = new AccountInfoModel()
                 {
                     AccountID = Guid.NewGuid(),
-                    Name = accountArr[0],
-                    Age = accountArr[1],
-                    Phone = accountArr[2],                    
-                    Email = accountArr[3],
+                    Name = accountArr[0].Trim(),
+                    Age = accountArr[1].Trim(),
+                    Phone = accountArr[2].Trim(),                    
+                    Email = accountArr[3].Trim(),
                     quesID = QuesID
                 };
+                
                 HttpContext.Current.Session["personInfo"] = accountInfoModel;
                 string quesans = context.Request.Form["Answer"];
                 if (string.IsNullOrWhiteSpace(quesans))

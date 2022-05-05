@@ -31,7 +31,7 @@
                         已啟用<asp:CheckBox ID="checUse" runat="server" Checked="true" /><br />
 
                         <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" BackColor="Red" />
-                        <asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" BackColor="LimeGreen"/>
+                        <asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" BackColor="LimeGreen" />
                     </asp:Panel>
 
                     <asp:Panel ID="panQuestions" runat="server" Visible="false" BorderStyle="Solid">
@@ -49,14 +49,15 @@
                                 <asp:ListItem Value="1">複選方塊</asp:ListItem>
                                 <asp:ListItem Value="2">文字方塊</asp:ListItem>
                             </asp:DropDownList>
-                        *問題至少要有三個字*<br />                       
+                        *問題至少要有三個字*<br />
                         回答:
                           <asp:TextBox ID="txtAnswer" runat="server"></asp:TextBox>*多個答案以;分隔*
-                          <asp:Button ID="BtnAdd" runat="server" Text="加入" OnClick="BtnAdd_Click" BackColor="LimeGreen"/><br />
-                        必填項目: <asp:CheckBox ID="checMust" runat="server" Checked="true" />
+                          <asp:Button ID="BtnAdd" runat="server" Text="加入" OnClick="BtnAdd_Click" BackColor="LimeGreen" /><br />
+                        必填項目:
+                        <asp:CheckBox ID="checMust" runat="server" Checked="true" />
                         <br />
                         <br />
-                        <asp:Button ID="btnDelete" runat="server" Text="刪除" OnClick="btnDelete_Click" BackColor="Red"/>
+                        <asp:Button ID="btnDelete" runat="server" Text="刪除" OnClick="btnDelete_Click" BackColor="Red" />
                         <table class="table table-striped">
                             <tr>
                                 <th></th>
@@ -92,8 +93,8 @@
                                 </ItemTemplate>
                             </asp:Repeater>
                         </table>
-                        <asp:Button ID="btnquescancle" runat="server" Text="取消" OnClick="btnquescancle_Click" BackColor="Red"/>
-                        <asp:Button ID="btnquessave" runat="server" Text="送出" OnClick="btnquessave_Click" BackColor="LimeGreen"/>
+                        <asp:Button ID="btnquescancle" runat="server" Text="取消" OnClick="btnquescancle_Click" BackColor="Red" />
+                        <asp:Button ID="btnquessave" runat="server" Text="送出" OnClick="btnquessave_Click" BackColor="LimeGreen" />
                     </asp:Panel>
 
                     <asp:Panel ID="panFillQuestions" runat="server" Visible="false" BorderStyle="Solid">
