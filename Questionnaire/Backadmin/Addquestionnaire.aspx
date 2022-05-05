@@ -19,7 +19,6 @@
                     <br />
 
                     <asp:Panel ID="panQuestionnaire" runat="server" BorderStyle="Solid">
-                        <asp:Label ID="ltlmistamsg" runat="server" ForeColor="Red"></asp:Label><br />
                         問卷名稱:
                             <asp:TextBox ID="txtTitle" runat="server"></asp:TextBox>*問卷名稱至少要有五個字*<br />
                         描述內容:
@@ -29,12 +28,14 @@
                         結束時間:
                             <asp:TextBox ID="txtEnd" runat="server" TextMode="Date"></asp:TextBox>*結束時間不能早於開始時間*<br />
                         已啟用<asp:CheckBox ID="checUse" runat="server" Checked="true" /><br />
+                        <asp:Label ID="ltlmistamsg" runat="server" ForeColor="Red"></asp:Label><br />
+                        <asp:Label ID="lblalert" runat="server" ForeColor="Red" Visible="false" /><br />
 
                         <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" BackColor="Red" />
-                        <asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" BackColor="LimeGreen" />
+                        <asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" BackColor="LimeGreen" /><br />
                     </asp:Panel>
 
-                    <asp:Panel ID="panQuestions" runat="server" Visible="false" BorderStyle="Solid">
+                    <asp:Panel ID="panQuestions" runat="server" Visible="False" BorderStyle="Solid">
                         <asp:Label ID="ltlquesmistMsg" runat="server" ForeColor="Red"></asp:Label><br />
                         種類:
                            <asp:DropDownList ID="dropclass" runat="server" OnSelectedIndexChanged="dropclass_SelectedIndexChanged" AutoPostBack="true">

@@ -41,6 +41,8 @@ namespace Questionnaire.Backadmin
                 {
                     InitExample();
                 }
+                this.lblalert.Visible = true;
+                this.lblalert.Text = "請按問題按鈕以新增問題";
                 HttpContext.Current.Session["qusetionModel"] = questionList;
                 HttpContext.Current.Session["quesID"] = _questionID;
 
@@ -151,12 +153,8 @@ namespace Questionnaire.Backadmin
                 question.quesID = _questionID;
                 _quesMgr.UpdateQuestionnaire(question);
             }
-            HttpContext.Current.Session["quesID"] = question.quesID;            
-            this.LinkQuestionnaire.Visible = false;
-            this.panQuestionnaire.Visible = false;
-            this.panQuestions.Visible = true;
+            HttpContext.Current.Session["quesID"] = question.quesID;
             Response.Redirect("Addquestionnaire.aspx?quesID=" + question.quesID);
-
 
         }
         private void EditMode(Guid quesID)
@@ -555,8 +553,7 @@ namespace Questionnaire.Backadmin
                 }
             }
         }
+
         #endregion
-
-
     }
 }

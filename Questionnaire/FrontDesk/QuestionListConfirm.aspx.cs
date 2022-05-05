@@ -135,10 +135,6 @@ namespace Questionnaire
             _quesMgr.CreatePersonInfo(_person);
             foreach (QuestionAnswerModel questionAnswer in _questionAnswers)
             {
-                if(questionDetail.quesDetailMustKeyIn)
-                {
-  
-                }
                 _quesMgr.CreateAnswer(questionAnswer);
             }
             HttpContext.Current.Session.RemoveAll();
