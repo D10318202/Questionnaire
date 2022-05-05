@@ -30,11 +30,11 @@
                             <asp:TextBox ID="txtEnd" runat="server" TextMode="Date"></asp:TextBox>*結束時間不能早於開始時間*<br />
                         已啟用<asp:CheckBox ID="checUse" runat="server" Checked="true" /><br />
 
-                        <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" BackColor="Red" />
-                        <asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" BackColor="LimeGreen" />
+                        <asp:Button ID="Cancle" runat="server" Text="取消" OnClick="Cancle_Click" BackColor="Red"/>
+                        <asp:Button ID="Save" runat="server" Text="送出" OnClick="Save_Click" BackColor="LimeGreen"/>
                     </asp:Panel>
 
-                    <asp:Panel ID="panQuestions" runat="server" Visible="false" BorderStyle="Solid">
+                    <asp:Panel ID="panQuestions" runat="server" Visible="False" BorderStyle="Solid">
                         <asp:Label ID="ltlquesmistMsg" runat="server" ForeColor="Red"></asp:Label><br />
                         種類:
                            <asp:DropDownList ID="dropclass" runat="server" OnSelectedIndexChanged="dropclass_SelectedIndexChanged" AutoPostBack="true">
@@ -43,7 +43,7 @@
                            </asp:DropDownList>
                         <br />
                         問題:
-                            <asp:TextBox ID="txtTitle1" runat="server"></asp:TextBox>&nbsp;                     
+                            <asp:TextBox ID="txtTitle1" runat="server" Visible="false"></asp:TextBox>&nbsp;                     
                             <asp:DropDownList ID="droptype" runat="server">
                                 <asp:ListItem Value="0">單選方塊</asp:ListItem>
                                 <asp:ListItem Value="1">複選方塊</asp:ListItem>
