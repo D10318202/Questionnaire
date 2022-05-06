@@ -44,7 +44,7 @@
                            </asp:DropDownList>
                         <br />
                         問題:
-                            <asp:TextBox ID="txtTitle1" runat="server" Visible="false"></asp:TextBox>&nbsp;                     
+                            <asp:TextBox ID="txtTitle1" runat="server"></asp:TextBox>&nbsp;                     
                             <asp:DropDownList ID="droptype" runat="server">
                                 <asp:ListItem Value="0">單選方塊</asp:ListItem>
                                 <asp:ListItem Value="1">複選方塊</asp:ListItem>
