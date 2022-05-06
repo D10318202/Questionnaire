@@ -479,6 +479,7 @@ namespace Questionnaire.Backadmin
             }
             catch (Exception ex)
             {
+                Response.Redirect("Allquestionnaires.aspx");
             }
         }
         #endregion
