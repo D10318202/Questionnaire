@@ -19,14 +19,15 @@
                     <br />
 
                     <asp:Panel ID="panQuestionnaire" runat="server" BorderStyle="Solid">
+                        <p>有標示(*)為必填欄位</p>
                          *問卷名稱:
-                            <asp:TextBox ID="txtTitle" runat="server"></asp:TextBox>*問卷名稱至少要有五個字*<br />
+                            <asp:TextBox ID="txtTitle" runat="server"></asp:TextBox>*問卷名稱至少要有五個字*<br /> <br />
                          描述內容:
-                            <asp:TextBox ID="txtBody" runat="server"></asp:TextBox><br />
+                            <asp:TextBox ID="txtBody" runat="server"></asp:TextBox><br /><br />
                          *開始時間:
-                            <asp:TextBox ID="txtStart" runat="server" TextMode="Date"></asp:TextBox>*開始時間不能早於今天*<br />
+                            <asp:TextBox ID="txtStart" runat="server" TextMode="Date"></asp:TextBox>*開始時間不能早於今天*<br /><br />
                          *結束時間:
-                            <asp:TextBox ID="txtEnd" runat="server" TextMode="Date"></asp:TextBox>*結束時間不能早於開始時間*<br />
+                            <asp:TextBox ID="txtEnd" runat="server" TextMode="Date"></asp:TextBox>*結束時間不能早於開始時間*<br /><br />
                          *已啟用<asp:CheckBox ID="checUse" runat="server" Checked="true" /><br />
                         <asp:Label ID="ltlmistamsg" runat="server" ForeColor="Red"></asp:Label><br />
                         <asp:Label ID="lblalert" runat="server" ForeColor="Red" Visible="false" /><br />
@@ -42,7 +43,7 @@
                                <asp:ListItem Selected="True" Value="0">自訂問題</asp:ListItem>
 
                            </asp:DropDownList>
-                        <br />
+                        <br /><br />
                         問題:
                             <asp:TextBox ID="txtTitle1" runat="server"></asp:TextBox>&nbsp;                     
                             <asp:DropDownList ID="droptype" runat="server">
@@ -50,14 +51,14 @@
                                 <asp:ListItem Value="1">複選方塊</asp:ListItem>
                                 <asp:ListItem Value="2">文字方塊</asp:ListItem>
                             </asp:DropDownList>
-                        *問題至少要有三個字*<br />
+                        *問題至少要有三個字*<br /><br />
                         回答:
                           <asp:TextBox ID="txtAnswer" runat="server"></asp:TextBox>*多個答案以;分隔*
-                          <asp:Button ID="BtnAdd" runat="server" Text="加入" OnClick="BtnAdd_Click" BackColor="LimeGreen" /><br />
+                          <asp:Button ID="BtnAdd" runat="server" Text="加入" OnClick="BtnAdd_Click" BackColor="LimeGreen" />
+                        <br /><br />
                         必填項目:
                         <asp:CheckBox ID="checMust" runat="server" Checked="true" />
-                        <br />
-                        <br />
+                        <br /><br />
                         <asp:Button ID="btnDelete" runat="server" Text="刪除" OnClick="btnDelete_Click" BackColor="Red" />
                         <table class="table table-striped">
                             <tr>
@@ -99,7 +100,7 @@
                     </asp:Panel>
 
                     <asp:Panel ID="panFillQuestions" runat="server" Visible="false" BorderStyle="Solid">
-                        <asp:Button ID="btnsavefile" runat="server" Text="匯出(.csv)" OnClick="btnsavefile_Click" CssClass="alert-light" /><br />
+                        <asp:Button ID="btnsavefile" runat="server" Text="匯出(.csv)" OnClick="btnsavefile_Click" CssClass="alert-light" /> <br /><br />
                         <table class="table table-success">
                             <tr>
                                 <th>#</th>
