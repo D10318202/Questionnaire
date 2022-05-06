@@ -40,6 +40,7 @@ namespace Questionnaire.Backadmin
                 if (!IsPostBack)
                 {
                     InitExample();
+                    Response.Write("<script>alert('請按問題按鈕以新增問題')</script>");
                 }
                 this.lblalert.Visible = true;
                 this.lblalert.Text = "請按問題按鈕以新增問題";
@@ -60,6 +61,7 @@ namespace Questionnaire.Backadmin
                 {
                     DisableInput();
                 }
+                
             }
             else
                 Response.Redirect("Allquestionnaires.aspx");
