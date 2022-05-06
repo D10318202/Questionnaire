@@ -85,6 +85,7 @@ namespace Questionnaire.Backadmin
             }
             List<QuestionModel> questionnaireList = _quesMgr.GetQuestionList();
             InitQuesOften(questionnaireList);
+            Response.Redirect("Oftenusequestion.aspx");
         }
     }
 }

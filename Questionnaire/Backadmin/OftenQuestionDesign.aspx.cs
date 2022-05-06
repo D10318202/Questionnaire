@@ -151,7 +151,7 @@ namespace Questionnaire.Backadmin
 
                 questionNumber++;
             }
-            Response.Redirect("Allquestionnaires.aspx");
+            Response.Redirect("Oftenusequestion.aspx");
         }
         public void repQuestions_ItemCommand(object source, RepeaterCommandEventArgs e)
         {

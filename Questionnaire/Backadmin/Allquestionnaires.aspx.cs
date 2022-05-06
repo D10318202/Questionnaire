@@ -100,6 +100,7 @@ namespace Questionnaire.Backadmin
             }
             List<QuestionModel> questionnaireList = _quesMgr.GetQuestionnaireBackadminList();
             InitQuestionnaire(questionnaireList);
+            Response.Redirect("Allquestionnaires.aspx");
         }
 
         protected void repQuestionnaire_ItemCommand(object source, RepeaterCommandEventArgs e)
