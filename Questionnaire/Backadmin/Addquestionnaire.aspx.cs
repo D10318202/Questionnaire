@@ -40,9 +40,9 @@ namespace Questionnaire.Backadmin
                 if (!IsPostBack)
                 {
                     InitExample();
-                }
-                this.lblalert.Visible = true;
-                this.lblalert.Text = "請按問題按鈕以新增問題";
+                    this.lblalert.Visible = true;
+                    this.lblalert.Text = "請按問題按鈕以新增問題";
+                }          
                 HttpContext.Current.Session["qusetionModel"] = questionList;
                 HttpContext.Current.Session["quesID"] = _questionID;
 
@@ -60,7 +60,6 @@ namespace Questionnaire.Backadmin
                 {
                     DisableInput();
                 }
-                
             }
             else
                 Response.Redirect("Allquestionnaires.aspx");
@@ -367,6 +366,7 @@ namespace Questionnaire.Backadmin
             this.dropclass.Enabled = false;
             this.checMust.Enabled = false;
             this.BtnAdd.Enabled = false;
+            this.lblalert.Visible = false;
         }
         #endregion
 
