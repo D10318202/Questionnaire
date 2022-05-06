@@ -19,15 +19,15 @@
                     <br />
 
                     <asp:Panel ID="panQuestionnaire" runat="server" BorderStyle="Solid">
-                        問卷名稱:
+                         *問卷名稱:
                             <asp:TextBox ID="txtTitle" runat="server"></asp:TextBox>*問卷名稱至少要有五個字*<br />
-                        描述內容:
+                         描述內容:
                             <asp:TextBox ID="txtBody" runat="server"></asp:TextBox><br />
-                        開始時間:
+                         *開始時間:
                             <asp:TextBox ID="txtStart" runat="server" TextMode="Date"></asp:TextBox>*開始時間不能早於今天*<br />
-                        結束時間:
+                         *結束時間:
                             <asp:TextBox ID="txtEnd" runat="server" TextMode="Date"></asp:TextBox>*結束時間不能早於開始時間*<br />
-                        已啟用<asp:CheckBox ID="checUse" runat="server" Checked="true" /><br />
+                         *已啟用<asp:CheckBox ID="checUse" runat="server" Checked="true" /><br />
                         <asp:Label ID="ltlmistamsg" runat="server" ForeColor="Red"></asp:Label><br />
                         <asp:Label ID="lblalert" runat="server" ForeColor="Red" Visible="false" /><br />
 

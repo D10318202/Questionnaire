@@ -40,9 +40,9 @@ namespace Questionnaire.Backadmin
                 if (!IsPostBack)
                 {
                     InitExample();
-                }
-                this.lblalert.Visible = true;
-                this.lblalert.Text = "請按問題按鈕以新增問題";
+                    this.lblalert.Visible = true;
+                    this.lblalert.Text = "請按問題按鈕以新增問題";
+                }          
                 HttpContext.Current.Session["qusetionModel"] = questionList;
                 HttpContext.Current.Session["quesID"] = _questionID;
 
@@ -60,7 +60,6 @@ namespace Questionnaire.Backadmin
                 {
                     DisableInput();
                 }
-                
             }
             else
                 Response.Redirect("Allquestionnaires.aspx");
@@ -185,6 +184,8 @@ namespace Questionnaire.Backadmin
                 mistake += "※起始日期不可早於今天※<br/>";
             if (string.IsNullOrWhiteSpace(this.txtEnd.Text))
                 mistake += "※必須輸入結束日期※<br/>";
+            else if(Convert.ToDateTime(this.txtEnd.Text) < Convert.ToDateTime(this.txtStart.Text) )
+                mistake += "※結束日期不可早於起始日期※<br/>";
             if (string.IsNullOrEmpty(mistake))
                 return false;
             return true;
@@ -367,6 +368,7 @@ namespace Questionnaire.Backadmin
             this.dropclass.Enabled = false;
             this.checMust.Enabled = false;
             this.BtnAdd.Enabled = false;
+            this.lblalert.Visible = false;
         }
         #endregion
 
