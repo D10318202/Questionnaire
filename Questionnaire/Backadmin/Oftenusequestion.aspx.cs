@@ -17,11 +17,6 @@ namespace Questionnaire.Backadmin
         private static int _TotalRows;
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (!this.IsPostBack)
-            //{
-            //    List<QuestionModel> questionnaireList = _quesMgr.GetQuestionList();
-            //    InitQuesOften(questionnaireList);
-            //}
             HttpContext.Current.Session.RemoveAll();
             string pageIndexText = this.Request.QueryString["Index"];
             _PageIndex =
@@ -31,11 +26,18 @@ namespace Questionnaire.Backadmin
 
             if (!this.IsPostBack)
             {
+                GetSearchList();
+            }
+        }
+        private void GetSearchList()
+        {
+            try
+            {
                 string keyword = this.Request.QueryString["keyword"];
                 List<QuestionModel> questionmodata =
                                              string.IsNullOrWhiteSpace(keyword)
                                              ? _quesMgr.GetQuestionList()
-                                             : _quesMgr.GetQuestionList(keyword);              
+                                             : _quesMgr.GetQuestionList(keyword);
                 List<QuestionModel> quesresultList = _quesMgr.GetIndexList(_PageIndex, _PageSize, questionmodata);
                 this.txtkeyword.Text = keyword;
                 _TotalRows = quesresultList.Count;
@@ -45,8 +47,15 @@ namespace Questionnaire.Backadmin
                 string[] paramValues = { keyword };
                 this.ucPage.Bind(paramKey, paramValues);
                 InitQuesOften(quesresultList);
+
             }
+            catch (Exception ex)
+            {
+                Response.Redirect("Oftenusequestion.aspx");
+            }
+
         }
+
         private void InitQuesOften(List<QuestionModel> questionnaireList)
         {
             this.rptQuestionOften.DataSource = questionnaireList;
@@ -60,9 +69,9 @@ namespace Questionnaire.Backadmin
             }
         }
         protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            string redirectUrl = this.Request.Url.LocalPath + "?Index=1";
-            if (!string.IsNullOrWhiteSpace(this.txtkeyword.Text.Trim()))
+        {   
+            string redirectUrl = this.Request.Url.LocalPath + "?Index=1";         
+            else if (!string.IsNullOrWhiteSpace(this.txtkeyword.Text.Trim()))
                 redirectUrl += "&keyword=" + this.txtkeyword.Text.Trim();
             Response.Redirect(redirectUrl);
         }

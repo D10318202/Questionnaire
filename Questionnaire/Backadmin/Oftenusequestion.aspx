@@ -20,7 +20,7 @@
                             <asp:TextBox ID="txtkeyword" runat="server" placeholder="請輸入搜尋文字"></asp:TextBox>
                         </td>
                         <td>
-                            <asp:Button ID="btnSearch" runat="server" Text="搜尋" />
+                            <asp:Button ID="btnSearch" runat="server" Text="搜尋" onclick="btnSearch_Click"/>
                         </td>
                     </tr>
                     <tr>
@@ -35,6 +35,7 @@
                 </table>
 
                 <table class="table table-striped">
+                    <asp:Label ID="lblnoresult" runat="server" Color="Red" Visible="false"></asp:Label>
                     <tr>
                         <th></th>
                         <th>#</th>
