@@ -71,7 +71,7 @@ namespace Questionnaire.Backadmin
         protected void btnSearch_Click(object sender, EventArgs e)
         {   
             string redirectUrl = this.Request.Url.LocalPath + "?Index=1";         
-            else if (!string.IsNullOrWhiteSpace(this.txtkeyword.Text.Trim()))
+            if (!string.IsNullOrWhiteSpace(this.txtkeyword.Text.Trim()))
                 redirectUrl += "&keyword=" + this.txtkeyword.Text.Trim();
             Response.Redirect(redirectUrl);
         }
