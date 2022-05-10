@@ -27,13 +27,14 @@
         </tr>
         <asp:Repeater ID="repQuestionnaire" runat="server">
             <ItemTemplate>
+                <asp:HiddenField ID="hfquesID" runat="server" Value='<%#Eval("quesID") %>' />
                 <tr>
                     <td>
                         <asp:Label ID="lblNumber" runat="server"></asp:Label>
                     </td>
                     <td>
-                        <a href="QuestionList.aspx?quesID=<%# Eval("quesID") %>">
-                            <asp:Label ID="lblquesTitle" runat="server" Text='<%#Eval("quesTitle") %>'></asp:Label></a>
+                        <a href="#" id="QuesLink" runat="server">
+                            <%#Eval("quesTitle") %></a>
                     </td>
                     <td>
                         <asp:Label ID="lblquesstates" runat="server" Text='<%#Eval("stateType")%>'></asp:Label>

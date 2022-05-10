@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace Questionnaire
@@ -78,6 +79,14 @@ namespace Questionnaire
                 Label lblNumber = repeaterItem.FindControl("lblNumber") as Label;
                 lblNumber.Text = i.ToString();
                 i--;
+                //讓url變成單純的文字
+                HiddenField hfquesID = repeaterItem.FindControl("hfquesID") as HiddenField;
+                HtmlAnchor QuesLink = repeaterItem.FindControl("QuesLink") as HtmlAnchor;
+                Label lblquesstates = repeaterItem.FindControl("lblquesstates") as Label;
+                if (lblquesstates.Text != "已啟用")
+                    QuesLink.HRef = "";
+                else
+                    QuesLink.HRef = "Allquestionnaire.aspx" + "?quesID=" + hfquesID.Value;
             }
         }
 
