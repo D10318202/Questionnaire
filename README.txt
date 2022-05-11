@@ -1,4 +1,11 @@
 # Questionnaire
+
+※※※5/11更正部分※※※
+1.AnswerDetail個人資訊部分改成Enabled
+2.Addquestionnaire匯出部分修正
+3.Allquestionnaire問卷標題改成有url模式和沒有的
+4.Oftenusequestion搜尋功能修復
+
 網站基本功能
 1.前台可搜尋問卷、作答、觀看問題的統計數據
 2.後台可設計、刪除問卷、觀看問題的統計數據
