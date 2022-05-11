@@ -393,6 +393,7 @@ namespace Questionnaire.Backadmin
             {
                 Response.Clear();
                 Response.Buffer = true;
+                Response.Charset = "";
 
                 #region 匯出csv                
                 HttpContext.Current.Response.ContentType = "application/x-msexcel";
@@ -415,7 +416,7 @@ namespace Questionnaire.Backadmin
                     string tablestring = "";
                     foreach (AccountInfoModel accountInfos in _accountInfo)
                     {
-                        tablestring += $"{accountInfos.Name},{accountInfos.Email},{accountInfos.Phone},{accountInfos.Age},{accountInfos.CreateTime}";
+                        tablestring += $"{accountInfos.Name},{accountInfos.Age},{accountInfos.Phone},{accountInfos.Email},{accountInfos.CreateTime}";
                         List<QuestionAnswerModel> questionAnswers = _quesMgr.GetAnswerList(accountInfos.AccountID);
                         foreach (QuestionDetailModel questionDetail in questionDetails)
                         {
@@ -426,7 +427,7 @@ namespace Questionnaire.Backadmin
                                     QuestionAnswerModel radio = questionAnswers.Find(x => x.quesNumber == questionDetail.quesNumber);
                                     if (radio != null)
                                     {
-                                        string[] arrtitle = questionDetail.quesDetailTitle.Split(';');
+                                        string[] arrtitle = questionDetail.quesDetailBody.Split(';');
 
                                         string title = arrtitle[Convert.ToInt32(radio.Answer)];
 
@@ -439,7 +440,7 @@ namespace Questionnaire.Backadmin
                                     List<QuestionAnswerModel> check = questionAnswers.FindAll(x => x.quesNumber == questionDetail.quesNumber);
                                     if (check != null)
                                     {
-                                        string[] arrtitle = questionDetail.quesDetailTitle.Split(';');
+                                        string[] arrtitle = questionDetail.quesDetailBody.Split(';');
 
                                         for (int i = 0; i < check.Count; i++)
                                         {
@@ -475,9 +476,8 @@ namespace Questionnaire.Backadmin
 
                 }
                 #endregion
-
             }
-            catch (Exception ex)
+            catch
             {
                 Response.Redirect("Allquestionnaires.aspx");
             }

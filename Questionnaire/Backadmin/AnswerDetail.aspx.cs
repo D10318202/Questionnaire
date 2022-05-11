@@ -96,7 +96,8 @@ namespace Questionnaire.Backadmin
             TextBox textBox = new TextBox();
             textBox.ID = "Q" + question.quesNumber;
             textBox.Enabled = false;
-            textBox.Text = questionAnswer.Answer;
+            if(questionAnswer != null)
+                textBox.Text = questionAnswer.Answer;
             this.plcquestion.Controls.Add(textBox);
         }
     }

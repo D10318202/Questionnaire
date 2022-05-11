@@ -11,16 +11,16 @@
         <br />
         <p>有標示(*)為必填欄位</p>
         *姓名:
-            <asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名"></asp:TextBox><br />
+            <asp:TextBox ID="txtname" runat="server" placeholder="輸入姓名" Enabled="false"></asp:TextBox><br />
         <br />
         *年齡:
-            <asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡"></asp:TextBox><br />
+            <asp:TextBox ID="txtage" runat="server" placeholder="輸入年齡" Enabled="false"></asp:TextBox><br />
         <br />
         *手機號碼:
-            <asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼"></asp:TextBox><br />
+            <asp:TextBox ID="txtphone" runat="server" TextMode="Phone" placeholder="輸入手機號碼" Enabled="false"></asp:TextBox><br />
         <br />
         *E-mail:
-            <asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱"></asp:TextBox><br />
+            <asp:TextBox ID="txtemail" runat="server" TextMode="Email" placeholder="輸入信箱" Enabled="false"></asp:TextBox><br />
         <br />
         <asp:PlaceHolder ID="plcquestion" runat="server"></asp:PlaceHolder>
     </div>
