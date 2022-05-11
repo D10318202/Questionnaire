@@ -86,7 +86,7 @@ namespace Questionnaire
                 if (lblquesstates.Text != "已啟用")
                     QuesLink.HRef = "";
                 else
-                    QuesLink.HRef = "Allquestionnaire.aspx" + "?quesID=" + hfquesID.Value;
+                    QuesLink.HRef = "QuestionList.aspx" + "?quesID=" + hfquesID.Value;
             }
         }
 
