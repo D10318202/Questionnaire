@@ -20,7 +20,7 @@
         <tr>
             <th>#</th>
             <th>問卷標題</th>
-            <th>狀態</th>
+            <th>投票狀態</th>
             <th>開始時間</th>
             <th>結束時間</th>
             <th>觀看統計</th>
@@ -37,8 +37,8 @@
                             <%#Eval("quesTitle") %></a>
                     </td>
                     <td>
-                        <asp:Label ID="lblquesstates" runat="server" Text='<%#Eval("stateType")%>'></asp:Label>
-                    </td>
+                        <asp:Label ID="lblquesanswer" runat="server" Text='<%#Eval("answerType")%>'></asp:Label>
+                    </td>                    
                     <td>
                         <asp:Label ID="lblquesstart" runat="server" Text='<%#Eval("quesstart") %>'></asp:Label>
                     </td>

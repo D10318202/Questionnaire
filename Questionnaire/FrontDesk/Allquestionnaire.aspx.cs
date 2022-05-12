@@ -82,8 +82,8 @@ namespace Questionnaire
                 //讓url變成單純的文字
                 HiddenField hfquesID = repeaterItem.FindControl("hfquesID") as HiddenField;
                 HtmlAnchor QuesLink = repeaterItem.FindControl("QuesLink") as HtmlAnchor;
-                Label lblquesstates = repeaterItem.FindControl("lblquesstates") as Label;
-                if (lblquesstates.Text != "已啟用")
+                Label lblquesanswer = repeaterItem.FindControl("lblquesanswer") as Label;
+                if (lblquesanswer.Text != "投票中")
                     QuesLink.HRef = "";
                 else
                     QuesLink.HRef = "QuestionList.aspx" + "?quesID=" + hfquesID.Value;

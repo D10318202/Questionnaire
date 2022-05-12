@@ -324,8 +324,9 @@ namespace QuestionManagers
                                 quesstart = (DateTime)reader["quesstart"],
                                 quesend = (DateTime)reader["quesend"],
                                 CreateTime = (DateTime)reader["CreateTime"],
-                                stateType = (bool)reader["quesstates"] ? StateType.關閉 : StateType.已啟用,
+                                stateType = (bool)reader["quesstates"] ? StateType.已啟用 : StateType.關閉,
                             };
+                            AnswerType(question);
                             Questionnairelist.Add(question);
                         }
                         return Questionnairelist;
@@ -370,8 +371,9 @@ namespace QuestionManagers
                                 quesstart = (DateTime)reader["quesstart"],
                                 quesend = (DateTime)reader["quesend"],
                                 CreateTime = (DateTime)reader["CreateTime"],
-                                stateType = (bool)reader["quesstates"] ? StateType.關閉 : StateType.已啟用
+                                stateType = (bool)reader["quesstates"] ? StateType.已啟用 : StateType.關閉,
                             };
+                            AnswerType(question);
                             Questionnairelist.Add(question);
                         }
                         return Questionnairelist;
@@ -384,6 +386,8 @@ namespace QuestionManagers
                 throw;
             }
         }
+
+
 
         /// <summary>
         /// 列出問卷內容資訊(搜尋功能後台)
@@ -419,8 +423,9 @@ namespace QuestionManagers
                                 quesstart = (DateTime)reader["quesstart"],
                                 quesend = (DateTime)reader["quesend"],
                                 CreateTime = (DateTime)reader["CreateTime"],
-                                stateType = (bool)reader["quesstates"] ? StateType.關閉 : StateType.已啟用,
+                                stateType = (bool)reader["quesstates"] ? StateType.已啟用 :StateType.關閉,
                             };
+                            AnswerType(question);
                             Questionnairelist.Add(question);
                         }
                         return Questionnairelist;
@@ -468,8 +473,9 @@ namespace QuestionManagers
                                 quesBody = reader["quesBody"] as string,
                                 quesstart = (DateTime)reader["quesstart"],
                                 quesend = (DateTime)reader["quesend"],
-                                stateType = (bool)reader["quesstates"] ? StateType.關閉 : StateType.已啟用,
+                                stateType = (bool)reader["quesstates"] ? StateType.已啟用 : StateType.關閉,
                             };
+                            AnswerType(questionmo);
                             question.Add(questionmo);
                         }
                         return question;
@@ -481,6 +487,20 @@ namespace QuestionManagers
                 Logger.WriteLog(" QuestionnaireManager.GetQuestionnaireList", ex);
                 throw;
             }
+        }        
+        
+        /// <summary>
+        /// 問卷回答狀態
+        /// </summary>
+        /// <param name="question"></param>
+        private static void AnswerType(QuestionModel question)
+        {
+            if (question.quesstart > DateTime.Now)
+                question.answerType = QuestionModels.AnswerType.尚未投票;
+            else if (question.quesend < DateTime.Now)
+                question.answerType = QuestionModels.AnswerType.已結束;
+            else
+                question.answerType = QuestionModels.AnswerType.投票中;
         }
 
         #endregion        
