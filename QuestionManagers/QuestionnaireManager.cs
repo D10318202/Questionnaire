@@ -29,7 +29,7 @@ namespace QuestionManagers
         {
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
-                @"  INSERT INTO [MainQues] 
+                $@"  INSERT INTO [MainQues] 
                         (quesID, quesTitle, quesBody, quesstart, quesend, quesstates, IsOftenUse)
                     VALUES 
                         (@quesID, @quesTitle, @quesBody, @quesstart, @quesend, @quesstates, @IsOftenUse) ";
@@ -67,13 +67,13 @@ namespace QuestionManagers
         {
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
-                @"  UPDATE [MainQues]
-                    SET quesTitle = @quesTitle, 
-                        quesBody = @quesBody
-                        quesstart = @quesstart 
-                        quesend = @quesend
+                $@"  UPDATE [MainQues]
+                     SET quesTitle = @quesTitle, 
+                        quesBody = @quesBody,
+                        quesstart = @quesstart, 
+                        quesend = @quesend,
                         quesstates = @quesstates
-                    WHERE quesID = @quesID ";
+                     WHERE quesID = @quesID ";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
@@ -109,7 +109,7 @@ namespace QuestionManagers
 
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
-                @" DELETE FROM MainQues 
+                $@" DELETE FROM MainQues 
                    WHERE quesID = @quesID";
             try
             {
@@ -143,7 +143,7 @@ namespace QuestionManagers
 
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
-                @" DELETE FROM QuestionDetail 
+                $@" DELETE FROM QuestionDetail 
                    WHERE quesID = @quesID";
             try
             {
@@ -175,7 +175,7 @@ namespace QuestionManagers
 
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
-                @" DELETE FROM Answer 
+                $@" DELETE FROM Answer 
                    WHERE quesID = @quesID";
             try
             {
@@ -253,7 +253,7 @@ namespace QuestionManagers
         {
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
-                @"  SELECT *
+                $@"  SELECT *
                     FROM QuestionsDetail
                     WHERE quesID = @quesID
                     ORDER BY quesNumber";
@@ -323,9 +323,9 @@ namespace QuestionManagers
                                 quesBody = reader["quesBody"] as string,
                                 quesstart = (DateTime)reader["quesstart"],
                                 quesend = (DateTime)reader["quesend"],
-                                CreateTime = (DateTime)reader["CreateTime"]
+                                CreateTime = (DateTime)reader["CreateTime"],
+                                stateType = (bool)reader["quesstates"] ? StateType.關閉 : StateType.已啟用,
                             };
-                            question.stateType = (question.quesend < DateTime.Now) ? StateType.關閉 : StateType.已啟用;
                             Questionnairelist.Add(question);
                         }
                         return Questionnairelist;
@@ -369,9 +369,9 @@ namespace QuestionManagers
                                 quesBody = reader["quesBody"] as string,
                                 quesstart = (DateTime)reader["quesstart"],
                                 quesend = (DateTime)reader["quesend"],
-                                CreateTime = (DateTime)reader["CreateTime"]
+                                CreateTime = (DateTime)reader["CreateTime"],
+                                stateType = (bool)reader["quesstates"] ? StateType.關閉 : StateType.已啟用
                             };
-                            question.stateType = (question.quesend < DateTime.Now) ? StateType.關閉 : StateType.已啟用;
                             Questionnairelist.Add(question);
                         }
                         return Questionnairelist;
@@ -418,9 +418,9 @@ namespace QuestionManagers
                                 quesBody = reader["quesBody"] as string,
                                 quesstart = (DateTime)reader["quesstart"],
                                 quesend = (DateTime)reader["quesend"],
-                                CreateTime = (DateTime)reader["CreateTime"]
+                                CreateTime = (DateTime)reader["CreateTime"],
+                                stateType = (bool)reader["quesstates"] ? StateType.關閉 : StateType.已啟用,
                             };
-                            question.stateType = (question.quesend < DateTime.Now) ? StateType.關閉 : StateType.已啟用;
                             Questionnairelist.Add(question);
                         }
                         return Questionnairelist;
@@ -467,9 +467,9 @@ namespace QuestionManagers
                                 quesTitle = reader["quesTitle"] as string,
                                 quesBody = reader["quesBody"] as string,
                                 quesstart = (DateTime)reader["quesstart"],
-                                quesend = (DateTime)reader["quesend"]
+                                quesend = (DateTime)reader["quesend"],
+                                stateType = (bool)reader["quesstates"] ? StateType.關閉 : StateType.已啟用,
                             };
-                            questionmo.stateType = (questionmo.quesend < DateTime.Now) ? StateType.關閉 : StateType.已啟用;
                             question.Add(questionmo);
                         }
                         return question;
@@ -494,7 +494,7 @@ namespace QuestionManagers
         {
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
-                @"  INSERT INTO [QuestionsDetail] 
+                $@"  INSERT INTO [QuestionsDetail] 
                         (quesID, quesDetailID, quesDetailTitle, quesDetailBody, quesDetailType, quesDetailMustKeyIn, quesNumber)
                     VALUES 
                         (@quesID, @quesDetailID, @quesDetailTitle, @quesDetailBody, @quesDetailType, @quesDetailMustKeyIn, @quesNumber) ";
@@ -547,7 +547,7 @@ namespace QuestionManagers
         {
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
-                @"  INSERT INTO [MainQues] 
+                $@"  INSERT INTO [MainQues] 
                         (quesID, quesTitle, IsOftenUse)
                     VALUES 
                         (@quesID, @quesTitle, @IsOftenUse) ";
@@ -582,7 +582,7 @@ namespace QuestionManagers
         {
             string connStr = ConfigHelper.GetConnectionString();
             string commandText =
-                @"  UPDATE[MainQues] 
+                $@"  UPDATE[MainQues] 
                     SET  quesTitle = @quesTitle, 
                     WHERE  quesID = @quesID";
             try
